@@ -1,7 +1,7 @@
-# `marky`
-`
 > `marky` is Markdown preprocessor for embedding python code into 
 > Markdown documents using `pandoc` as a renderer for `pdf` and `html`.
+
+# `marky`
 
 `marky` markup is compatible with standard Markdown and 
 can be read  as-is.
@@ -35,34 +35,32 @@ rendered into `html` and `pdf` using `pandoc`.
 
 **Hidden Code, Executed**
 
-```!
+```python
+	```!
 	import math
 	print("Hello Console!")
+	```
 ```
 
 **Displayed Code, Executed**
 
-```?
+```python
+	```?
 	def list_and(l):
 		return ", ".join(str(i) for i in l[:-1]) + " and " + str(l[-1])
 
 	x = 2
 	y = math.sqrt(x)
-```
-
-**Displayed Code, Not Executed**
-
-```python
-	x = 3
+	```
 ```
 
 **Inline Formatted Output**
 
-The square root of $x=`?x`$ is `?y:.3f`.
+The square root of $x=`` `?x` ``$ is `` `?y:.3f` ``.
 
 **Inline Expression**
 
-The first ten numbers are `!list_and(range(10))`.
+The first ten numbers are `` `!list_and(range(10))` ``.
 
 **Format Links**
 
@@ -71,22 +69,20 @@ The first ten numbers are `!list_and(range(10))`.
 ```
 
 will be proprocessed into the following text:
-* for `html`: `[Link to document](file.html)`
-* for `pdf`: `[Link to document](file.pdf)`
-
-[Link to this document](example.???)
+* when rendering `html`: `[Link to document](file.html)`
+* when rendering `pdf`: `[Link to document](file.pdf)`
 
 **Format Codes**
 
-```?
+```python
+	```?
 	def FMTCODE_html(): return "H<sup>T</sup><sub>M</sub>L"
 	def FMTCODE_pdf(): return "\LaTeX"
+	```
 ```
 
-This is a `.???` document and the format code returns: `?FMTCODE()`.
+The format code is called using `` `?FMTCODE()` ``.
 
-
----
 
 # Install and Render Documentation and Examples
 
@@ -173,10 +169,8 @@ and `pdf`). The resulting `html` and `pdf` documents are placed inside
 
 The `marky` Makefile coordinates the three steps of the `marky`
 document pipeline preprocessing, linking and rendering.
-The `marky` Makefile supports several options for displaying help
-or rendering all, multiple or single files.
-
-*Makefile Targets*
+The `marky` Makefile supports several targets for displaying help
+or rendering all, multiple or specific documents.
 
 1. `make help`: display help message on the console
 2. `make cheat`: display the `marky` markup Cheat Sheet
