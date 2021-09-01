@@ -13,16 +13,12 @@ In order to understand the examples and see the complete
 * [`marky` Example](https://lehmann7.github.io/example.html)
 * [`marky` Documentation](https://lehmann7.github.io/marky.html)
 
----
-
 # Version
 
 This is an early implementation of `marky`. So far, it is only tested on
 a linux bash shell. However, `marky` only uses standard tools `make`,
 `python` and `pandoc` and it is likely that it will run on a MacOS shell
 too. When testing `marky` in another setup, please report issues.
-
----
 
 # `marky` Markup for Embedding and Execution of Python Code
 
@@ -57,10 +53,12 @@ rendered into `html` and `pdf` using `pandoc`.
 **Inline Formatted Output**
 
 The square root of $x=`` `?x` ``$ is `` `?y:.3f` ``.
+The square root of $x=2$ is 1.414.
 
 **Inline Expression**
 
-The first ten numbers are `` `!list_and(range(10))` ``.
+The first five numbers are `` `!list_and(range(5))` ``.
+The first five numbers are 0, 1, 2, 3 and 4.
 
 **Format Links**
 
@@ -81,8 +79,15 @@ will be proprocessed into the following text:
 	```
 ```
 
-The format code is called using `` `?FMTCODE()` ``.
+The format code returns `` `?FMTCODE()` ``.
 
+*Output When Rendering `pdf`*
+
+The format code returns \LaTeX.
+
+*Output When Rendering `html`*
+
+The format code returns H<sup>T</sup><sub>M</sub>L
 
 # Install and Render Documentation and Examples
 
