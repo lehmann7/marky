@@ -81,12 +81,7 @@ please report issues.
 
 # TODO
 
-* proper escape of `marky` markup
-	* escape code block hidden: `` ```\!! ``, and
-	* escape code block shown: `` ```\! ``, and
-	* escape inline code: `` `\!...` ``
-	* escape format code: `` `\?...` ``
-	* escape include: `\!!!`
+* reimplement parsing of markup
 * better display of traceback for code errors
 * implement quite output mode
 * implement output mode for showing code output only
@@ -196,6 +191,21 @@ Please refer to the `marky` documentation for explanation.
 	---
 	MARKDOWN
 ```
+
+**Escape Markup**
+
+The `marky` markup can be escaped. When markup is escaped
+`marky` removes the escape sequence and prints out the
+unescaped statement.
+
+Markup           |Escape Sequence
+-----------------|---------------
+code block hidden|`` ```\!! ``
+code block shown |`` ```\! ``
+inline code      |`` `\!...` ``
+format code      |`` `\?...` ``
+include statement|`\!!!`
+format link      |`.\???`
 
 # Install and Run `marky`
 
