@@ -207,7 +207,7 @@ format code      |`` `\?...` ``
 include statement|`\!!!`
 format link      |`.\???`
 
-# Install and Run `marky`
+# Download and Run `marky`
 
 > For the full documentation of the `marky` usage, please refer to the
 > documentation or quickstart, as stated above.
