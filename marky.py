@@ -1746,11 +1746,11 @@ pack_files = [
 	"./Makefile",
 	"./md/marky.md",
 	"./md/marky.mdi",
-	"./md/markysource.md",
+	"./md/marky-src.md",
 	"./md/quickstart.md",
-	"./md/quicksource.md",
+	"./md/quick-src.md",
 	"./md/example.md",
-	"./md/examplesource.md",
+	"./md/example-src.md",
 	"./data/marky.bib",
 ]
 

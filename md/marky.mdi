@@ -1,0 +1,14 @@
+---
+included: 1
+---
+# Included Section
+```!
+	print("Hello Console!")
+	_("Hello Markdown!")
+	x = 123
+	y = 4.567
+```
+
+First|Second
+-----|------
+`?x:05d`|`?y:.4f`

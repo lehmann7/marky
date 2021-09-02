@@ -18,9 +18,9 @@ syntax please refer to the following documents.
 * [`marky` Example](https://lehmann7.github.io/example.html)
 * [`marky` Documentation](https://lehmann7.github.io/marky.html)
 2. *Read the Source Code with `marky` Markup*
-* [`marky` Example Source](https://lehmann7.github.io/examplesource.html)
-* [`marky` Quickstart Source](https://lehmann7.github.io/quicksource.html)
-* [`marky` Documentation Source](https://lehmann7.github.io/markysource.html)
+* [`marky` Example Source](https://lehmann7.github.io/example-src.html)
+* [`marky` Quickstart Source](https://lehmann7.github.io/quick-src.html)
+* [`marky` Documentation Source](https://lehmann7.github.io/marky-src.html)
 
 # Features
 
@@ -269,11 +269,11 @@ cd marky
 ./marky.py --init
 WRITE ./md/marky.md
 WRITE ./md/marky.mdi
-WRITE ./md/markysource.md
+WRITE ./md/marky-src.md
 WRITE ./md/quickstart.md
-WRITE ./md/quicksource.md
+WRITE ./md/quick-src.md
 WRITE ./md/example.md
-WRITE ./md/examplesource.md
+WRITE ./md/example-src.md
 WRITE ./data/marky.bib
 USAGE
 1. `make help`
