@@ -282,8 +282,8 @@ USAGE
 ```
 
 During initialization `marky` creates two directories `md/` and `data/`.
-`md/` is the diretory which contains the Markdown text to be rendered
-into `html` and `pdf`. `data/` is the resource diretory which contains
+`md/` is the directory which contains the Markdown text to be rendered
+into `html` and `pdf`. `data/` is the resource directory which contains
 bibliography, images, videos and other assets.
 
 **Render Documentation and Examples**
