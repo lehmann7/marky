@@ -1,26 +1,33 @@
-> `marky` is Markdown preprocessor for embedding python code into
-> Markdown documents using `pandoc` as a renderer for `pdf` and `html`.
+> `marky` is Markdown preprocessor allowing to execute embedded python
+> code in Markdown documents. After preprocessing, a regular Markdown
+> file is present, which is rendered into `html` and `pdf` using
+> `pandoc`. `marky` handles all this steps using a Makefile.
 
 # `marky`
 
-`marky` markup is compatible with standard Markdown and
-can be read  as-is.
-In order to understand the examples and see the complete
-`marky` syntax please refer to the following documents:
+`marky` markup is compatible with standard Markdown. `marky` introduces
+a simple markup syntax for executing python code embedded in
+Markdown text. In order to understand the examples and see the complete
+`marky` syntax please refer to the following documents.
 
+1. Read the Rendered Documents
 * [`marky` Quickstart](https://lehmann7.github.io/quickstart.html)
-* [`marky` Quickstart Source](https://lehmann7.github.io/quicksource.html)
 * [`marky` Example](https://lehmann7.github.io/example.html)
 * [`marky` Documentation](https://lehmann7.github.io/marky.html)
+2. Read the Source Code with `marky` markup
+* [`marky` Example Source](https://lehmann7.github.io/examplesource.html)
+* [`marky` Quickstart Source](https://lehmann7.github.io/quicksource.html)
+* [`marky` Documentation Source](https://lehmann7.github.io/markysource.html)
 
-# Version
+# Early Implementation
 
-This is an early implementation of `marky`. So far, it is only tested on
+This is an early implementation of `marky`. It is only tested on
 a linux bash shell. However, `marky` only uses standard tools `make`,
 `python` and `pandoc` and it is likely that it will run on a MacOS shell
 too. When testing `marky` in another setup, please report issues.
 
-**TODO**
+# TODO
+
 * proper Escaping, right now:
 	* escape code block hidden: `` ```\!! ``, and
 	* escape code block shown: `` ```\! ``, and
@@ -30,25 +37,19 @@ too. When testing `marky` in another setup, please report issues.
 * implement output mode for showing code output only
 * accumulate meta data for `field`, `field--pdf`, `field--html`
 
-# `marky` Markup for Embedding and Execution of Python Code
+# `marky` Markup for Execution of Embedded Python Code
 
 > For the full documentation of the `marky` markup, please refer to the
-> documentation or quickstart above.
+> documentation or quickstart, as stated above.
 
 `marky` preprocesses Markdown files and executes embedded python code.
-After preprocessing, a regular Markdown file is present, which can be
-rendered into `html` and `pdf` using `pandoc`.
-
-**Hidden Code, Executed**
-
-```python
-	```!!
-	import math
-	print("Hello Console!")
-	```
-```
+For embedding python code `marky` introduces a simple syntax, which is
+compatible with regular Markdown.
 
 **Displayed Code, Executed**
+
+The code fenced by `` ```! `` and `` ``` ``, is executed and displayed
+in the document.
 
 ```python
 	```!
@@ -60,16 +61,31 @@ rendered into `html` and `pdf` using `pandoc`.
 	```
 ```
 
+**Hidden Code, Executed**
+
+The code fenced by `` ```!! `` and `` ``` ``, is executed but **not**
+displayed in the document.
+
+```python
+	```!!
+	import math
+	print("Hello Console!")
+	```
+```
+
 **Inline Formatted Output**
+
+`marky` can output formatted results of expressions and variables inline
+using the following statements.
 
 The square root of x=`` `!x` ``, is `` `!y:.3f` ``.
 
+*Output:*
 The square root of x=2, is 1.414.
-
-**Inline Expression**
 
 The first five numbers are `` `!list_and(range(5))` ``.
 
+*Output:*
 The first five numbers are 0, 1, 2, 3 and 4.
 
 **Format Links**
@@ -93,19 +109,23 @@ will be proprocessed into the following text:
 
 The format code returns `` `?FMTCODE()` ``.
 
-*Output When Rendering `pdf`*:
+*Output for `pdf`*:
 The format code returns \LaTeX.
 
-*Output When Rendering `html`*:
+*Output for `html`*:
 The format code returns H<sup>T</sup><sub>M</sub>L
 
-# Install and Render Documentation and Examples
+# Install and Run `marky`
 
 > For the full documentation of the `marky` usage, please refer to the
-> documentation or quickstart above.
+> documentation or quickstart, as stated above.
 
-`marky` is a single-file stand alone script which depends on
-`python` (>=3.6), `pandoc` (>=2.11), `pyyaml` and `pandoc-xnos`.
+`marky` is Markdown preprocessor allowing to execute embedded python
+code in Markdown documents. After preprocessing, a regular Markdown
+file is present, which is rendered into `html` and `pdf` using
+`pandoc`. `marky` handles all this steps using a Makefile.
+`marky` is a single-file script which depends on `python` (>=3.6),
+`pandoc` (>=2.11), `pyyaml` and `pandoc-xnos`.
 
 **Installing Dependencies**
 
@@ -134,11 +154,21 @@ git clone https://github.com/lehmann7/marky.git
 cd marky
 ```
 
+Alternatively, marky can be obtained diretly without `git`:
+
+```bash
+cd $HOME
+mkdir marky
+wget https://raw.githubusercontent.com/lehmann7/marky/main/marky.py
+chmod +x marky.py
+```
+
 **Initialize `marky` Environment**
 
-The `marky` environment is initialized using the following commands.
+The `marky` environment consists of the Makefile and the documentation.
 The `marky` Makefile, documentation and quickstart are unpacked from
-the `marky` script file into the current working directory.
+the `marky.py` script file into the current working directory.
+The `marky` environment is initialized using the following commands.
 
 ```bash
 cd $HOME
@@ -146,9 +176,11 @@ cd marky
 ./marky.py --init
 WRITE ./md/marky.md
 WRITE ./md/marky.mdi
+WRITE ./md/markysource.md
 WRITE ./md/quickstart.md
 WRITE ./md/quicksource.md
 WRITE ./md/example.md
+WRITE ./md/examplesource.md
 WRITE ./data/marky.bib
 USAGE
 1. `make help`
@@ -159,31 +191,34 @@ USAGE
 During initialization `marky` creates two directories `md/` and `data/`.
 `md/` is the diretory which contains the Markdown text to be rendered
 into `html` and `pdf`. `data/` is the resource diretory which contains
-scripts, images, videos and other assets.
+bibliography, images, videos and other assets.
 
 **Render Documentation and Examples**
 
 If all dependencies have been installed accordingly and the `marky`
 environment is initialized, `marky` can be used to render a local
-copy of the documentation and the quickstart.
+copy of the documentation, the quickstart and the example.
 
 The following commands render the Markdown text of the documentation.
 
 ```bash
 cd $HOME
 cd marky
-make all
+make all-pdf
+make all-html
 ```
 
 During `make` a new directory `build/` is created, which contains
 temporary files (preprocessed Markdown text, linked text for `html`
 and `pdf`). The resulting `html` and `pdf` documents are placed inside
-`html/` and `pdf/`.
+`html/` and `pdf/`. For rendering the `html` documents, `pandoc`
+requires internet access, because java scripts and style sheets are
+fetched from content delivery networks.
 
 **`marky` Makefile**
 
 The `marky` Makefile coordinates the three steps of the `marky`
-document pipeline preprocessing, linking and rendering.
+document processing pipeline: preprocessing, linking and rendering.
 The `marky` Makefile supports several targets for displaying help
 or rendering all, multiple or specific documents.
 
