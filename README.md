@@ -321,8 +321,8 @@ Target         |Description
 `make cheat`   |display the `marky` markup Cheat Sheet
 `make scan`    |scan for new documents `md/*.md` and update Makefile
 `make all`     |render all documents `md/*.md` into `html` and `pdf`
-`make all-pdf` |render all documents `md/*.md` into `pdf`
-`make all-html`|render all documents `md/*.md` into `html`
+`make all-pdf` |render all documents `md/*.md` into `pdf/*.pdf`
+`make all-html`|render all documents `md/*.md` into `html/*.html`
 `make httpd`   |start python webserver in `html/`
 `make clean`   |remove all files: `build/*`, `pdf/*`, `html/*`
 
