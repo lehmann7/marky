@@ -833,7 +833,7 @@ LS0tCmluY2x1ZGVkOiAxCi0tLQojIEluY2x1ZGVkIFNlY3Rpb24KYGBgIQoJcHJpbnQoIkhl
 bGxvIENvbnNvbGUhIikKCV8oIkhlbGxvIE1hcmtkb3duISIpCgl4ID0gMTIzCgl5ID0gNC41
 NjcKYGBgCgpGaXJzdHxTZWNvbmQKLS0tLS18LS0tLS0tCmA/eDowNWRgfGA/eTouNGZgCg==
 '''
-pack_marky-src_md = '''
+pack_marky_src_md = '''
 LS0tCnRpdGxlOiAiYG1hcmt5YCBRdWlja3N0YXJ0IFNvdXJjZSIKaGVhZGVyLWluY2x1ZGVz
 LS1wZGY6ID4KICAgXGh5cGVyc2V0dXB7Y29sb3JsaW5rcz1mYWxzZSwKICAgYWxsYm9yZGVy
 Y29sb3JzPXswIDAgMH0sCiAgIHBkZmJvcmRlcnN0eWxlPXsvUy9VL1cgMX19CmhlYWRlci1p
@@ -1237,7 +1237,7 @@ YGAgYFw/Li4uYCBgYAppbmNsdWRlIHN0YXRlbWVudHxgXFwhISFgICAgICAgICB8YFwhISFg
 CmZvcm1hdCBsaW5rICAgICAgfGAuXFw/Pz9gICAgICAgIHxgLlw/Pz9gCgotLS0KCipUaGFu
 a3MgZm9yIHJlYWRpbmcsIHBsZWFzZSB0cnkgYG1hcmt5YC4qCg==
 '''
-pack_quick-src_md = '''
+pack_quick_src_md = '''
 LS0tCnRpdGxlOiAiYG1hcmt5YCBRdWlja3N0YXJ0IFNvdXJjZSIKaGVhZGVyLWluY2x1ZGVz
 LS1wZGY6ID4KICAgXGh5cGVyc2V0dXB7Y29sb3JsaW5rcz1mYWxzZSwKICAgYWxsYm9yZGVy
 Y29sb3JzPXswIDAgMH0sCiAgIHBkZmJvcmRlcnN0eWxlPXsvUy9VL1cgMX19CmhlYWRlci1p
@@ -1294,7 +1294,7 @@ biAiXExhVGVYIgpgYGAKClRoaXMgaXMgYSBgLj8/P2AgZG9jdW1lbnQgYW5kIHRoZSBmb3Jt
 YXQgY29kZSByZXR1cm5zOiBgP0ZNVENPREUoKWAuCgotLS0KCipUaGFua3MgZm9yIHJlYWRp
 bmcsIHBsZWFzZSB0cnkgYG1hcmt5YC4qCgotLS0KCiMgUmVmZXJlbmNlcyB7LX0K
 '''
-pack_example-src_md = '''
+pack_example_src_md = '''
 LS0tCnRpdGxlOiAiYG1hcmt5YCBRdWlja3N0YXJ0IFNvdXJjZSIKaGVhZGVyLWluY2x1ZGVz
 LS1wZGY6ID4KICAgXGh5cGVyc2V0dXB7Y29sb3JsaW5rcz1mYWxzZSwKICAgYWxsYm9yZGVy
 Y29sb3JzPXswIDAgMH0sCiAgIHBkZmJvcmRlcnN0eWxlPXsvUy9VL1cgMX19CmhlYWRlci1p
@@ -1760,7 +1760,7 @@ elif args.help:
 	exit(0)
 elif args.init:
 	for i in pack_files:
-		write_file(i, b64dec(eval("pack_" + i.split("/")[-1].replace(".", "_"))), overwrite=args.force)
+		write_file(i, b64dec(eval("pack_" + i.split("/")[-1].replace(".", "_").replace("-", "_"))), overwrite=args.force)
 	print("# USAGE")
 	print("# 1. `make help`")
 	print("# 2. `make all-html httpd`")
@@ -1772,7 +1772,7 @@ elif args.pack:
 	src = "\n"
 	for i in pack_files:
 		btext = b64enc(read_file(i))
-		src += "pack_%s = '''\n%s\n'''\n" % (i.split("/")[-1].replace(".", "_"), btext)
+		src += "pack_%s = '''\n%s\n'''\n" % (i.split("/")[-1].replace(".", "_").replace("-", "_"), btext)
 	marky_text = "\n###!!!:::marky_pack_data:::!!!###\n".join([head, src, tail])
 	write_file(sys.argv[0] + ".pack", marky_text, overwrite=True)
 	if args.force:
