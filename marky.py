@@ -1210,8 +1210,8 @@ CmBgYAoKKipEaXNwbGF5ZWQgQ29kZSwgRXhlY3V0ZWQqKgoKYGBgPwoJZGVmIGxpc3RfYW5k
 KGwpOgoJCXJldHVybiAiLCAiLmpvaW4oc3RyKGkpIGZvciBpIGluIGxbOi0xXSkgKyAiIGFu
 ZCAiICsgc3RyKGxbLTFdKQoKCXggPSAyCgl5ID0gbWF0aC5zcXJ0KHgpCmBgYAoKKipEaXNw
 bGF5ZWQgQ29kZSwgTm90IEV4ZWN1dGVkKioKCmBgYHB5dGhvbgoJeCA9IDMKYGBgCgoqKklu
-bGluZSBGb3JtYXR0ZWQgT3V0cHV0KioKClRoZSBzcXVhcmUgcm9vdCBvZiAkeD1gP3hgJCBp
-cyBgP3k6LjNmYC4KCioqSW5saW5lIEV4cHJlc3Npb24qKgoKVGhlIGZpcnN0IHRlbiBudW1i
+bGluZSBGb3JtYXR0ZWQgT3V0cHV0KioKClRoZSBzcXVhcmUgcm9vdCBvZiAkeD1gIXhgJCBp
+cyBgIXk6LjNmYC4KCioqSW5saW5lIEV4cHJlc3Npb24qKgoKVGhlIGZpcnN0IHRlbiBudW1i
 ZXJzIGFyZSBgIWxpc3RfYW5kKHJhbmdlKDEwKSlgLgoKKipGb3JtYXQgTGlua3MqKgoKYGBg
 bWQKW0xpbmsgdG8gZG9jdW1lbnRdKGZpbGUuXD8/PykKYGBgCgp3aWxsIGJlIHByb3Byb2Nl
 c3NlZCBpbnRvIHRoZSBmb2xsb3dpbmcgdGV4dDoKKiBmb3IgYGh0bWxgOiBgW0xpbmsgdG8g
@@ -1220,7 +1220,10 @@ KGZpbGUucGRmKWAKCltMaW5rIHRvIHRoaXMgZG9jdW1lbnRdKGV4YW1wbGUuPz8/KQoKKipG
 b3JtYXQgQ29kZXMqKgoKYGBgPwoJZGVmIEZNVENPREVfaHRtbCgpOiByZXR1cm4gIkg8c3Vw
 PlQ8L3N1cD48c3ViPk08L3N1Yj5MIgoJZGVmIEZNVENPREVfcGRmKCk6IHJldHVybiAiXExh
 VGVYIgpgYGAKClRoaXMgaXMgYSBgLj8/P2AgZG9jdW1lbnQgYW5kIHRoZSBmb3JtYXQgY29k
-ZSByZXR1cm5zOiBgP0ZNVENPREUoKWAuCgojIFJlZmVyZW5jZXMgey19Cg==
+ZSByZXR1cm5zOiBgP0ZNVENPREUoKWAuCgojIFJlZmVyZW5jZXMgey19CgogYGBgIQogCVJV
+TiBBTkQgU0hPVwogYGBgCgogYGBgISEKIAlSVU4gQU5EIEhJREUKIGBgYAoKIGAhRVhQUkVT
+U0lPTjpGT1JNQVRgCgogYD9GT1JNQVRDT0RFKClgCgogYGBgP3BkZgogCUNPREUKIGBgYAoK
+IGBgYD9odG1sCiAJQ09ERQogYGBgCg==
 '''
 pack_marky_bib = '''
 QGFydGljbGV7TXVsbGVyMTk5MywKICAgIGF1dGhvciAgPSB7UGV0ZXIgTXVsbGVyfSwKICAg
@@ -1582,7 +1585,7 @@ def run_shortcode(fpath, n, ii, expr):
 def run_inline(fpath, n, i, text):
 	print("# `!`", fpath, "%d:%d" % (n, i), text)
 	try:
-		value = str(eval(text, exec_dict, None))
+		value = str(eval('f"""{%s}"""' % text, exec_dict, None))
 	except Exception as ex:
 		print("ERROR", type(ex), str(ex))
 		exit(1)
