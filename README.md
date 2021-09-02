@@ -1,9 +1,9 @@
-> `marky` is Markdown preprocessor for embedding python code into 
+> `marky` is Markdown preprocessor for embedding python code into
 > Markdown documents using `pandoc` as a renderer for `pdf` and `html`.
 
 # `marky`
 
-`marky` markup is compatible with standard Markdown and 
+`marky` markup is compatible with standard Markdown and
 can be read  as-is.
 In order to understand the examples and see the complete
 `marky` syntax please refer to the following documents:
@@ -32,7 +32,7 @@ rendered into `html` and `pdf` using `pandoc`.
 **Hidden Code, Executed**
 
 ```python
-	```!
+	```!!
 	import math
 	print("Hello Console!")
 	```
@@ -41,7 +41,7 @@ rendered into `html` and `pdf` using `pandoc`.
 **Displayed Code, Executed**
 
 ```python
-	```?
+	```!
 	def list_and(l):
 		return ", ".join(str(i) for i in l[:-1]) + " and " + str(l[-1])
 
@@ -52,8 +52,8 @@ rendered into `html` and `pdf` using `pandoc`.
 
 **Inline Formatted Output**
 
-The square root of $x=`` `?x` ``$ is `` `?y:.3f` ``.
-The square root of $x=2$ is 1.414.
+The square root of x=`` `!x` ``, is `` `!y:.3f` ``.
+The square root of x=2, is 1.414.
 
 **Inline Expression**
 
@@ -73,7 +73,7 @@ will be proprocessed into the following text:
 **Format Codes**
 
 ```python
-	```?
+	```!
 	def FMTCODE_html(): return "H<sup>T</sup><sub>M</sub>L"
 	def FMTCODE_pdf(): return "\LaTeX"
 	```
@@ -81,12 +81,10 @@ will be proprocessed into the following text:
 
 The format code returns `` `?FMTCODE()` ``.
 
-*Output When Rendering `pdf`*
-
+*Output When Rendering `pdf`*:
 The format code returns \LaTeX.
 
-*Output When Rendering `html`*
-
+*Output When Rendering `html`*:
 The format code returns H<sup>T</sup><sub>M</sub>L
 
 # Install and Render Documentation and Examples
@@ -185,4 +183,3 @@ or rendering all, multiple or specific documents.
 6. `make all-html`: render all documents `md/*.md` into `html`
 7. `make httpd`: start python webserver in `html/`
 8. `make clean`: remove all files: `build/*`, `pdf/*`, `html/*`
-
