@@ -20,6 +20,15 @@ a linux bash shell. However, `marky` only uses standard tools `make`,
 `python` and `pandoc` and it is likely that it will run on a MacOS shell
 too. When testing `marky` in another setup, please report issues.
 
+**TODO**
+* proper Escaping, right now:
+	* escape code block hidden: `` ```\!! ``, and
+	* escape code block shown: `` ```\! ``, and
+	* escape inline code: `\!...`, and `\?...`
+* better display of traceback for code errors
+* implement quite output mode
+* implement output mode for showing code output only
+
 # `marky` Markup for Embedding and Execution of Python Code
 
 > For the full documentation of the `marky` markup, please refer to the
