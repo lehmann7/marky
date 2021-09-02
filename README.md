@@ -194,3 +194,7 @@ or rendering all, multiple or specific documents.
 6. `make all-html`: render all documents `md/*.md` into `html`
 7. `make httpd`: start python webserver in `html/`
 8. `make clean`: remove all files: `build/*`, `pdf/*`, `html/*`
+
+---
+
+*Thanks for reading, please try `marky`.*
