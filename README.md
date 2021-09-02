@@ -7,8 +7,11 @@
 
 `marky` markup is compatible with standard Markdown. `marky` introduces
 a simple markup syntax for executing python code embedded in
-Markdown text. In order to understand the examples and see the complete
-`marky` syntax please refer to the following documents.
+Markdown text.
+
+In the following a short introduction of `marky` is presented.
+In order to understand the complete `marky` features and
+syntax please refer to the following documents.
 
 1. *Read the Rendered Documents*
 * [`marky` Quickstart](https://lehmann7.github.io/quickstart.html)
@@ -30,7 +33,7 @@ executed and results are inserted into the Markdown text.
 
 `marky` is implemented according to the
 [KISS principle](https://en.wikipedia.org/wiki/KISS_principle) and
-introduces N main features.
+introduces the following main features.
 
 1. Code Blocks for embedding python code. Python code is executed
 and displayed `!` or executed only `!!`.
@@ -45,21 +48,21 @@ and displayed `!` or executed only `!!`.
 ```
 
 2. Inline Code for embedding results of python expressions and
-variables into Markdown text using `!EXPRESSION:FORMAT` and.
-`!VARIABLE:FORMAT`
+variables into Markdown text using `` `!EXPRESSION:FORMAT` `` and
+`` `!VARIABLE:FORMAT` ``.
 
 3. Format dependent insertion of raw `html` and *tex* for `pdf`
-using `?FORMATCODE()` and format dependent links using
+using `` `?FORMATCODE()` `` and format dependent links using
 `[Link description](file.???)`.
 
-4. Include statement for Markdown text with keeping track of
-Make dependencies using `!!!`.
+4. Include statement for Markdown text using `!!!`. `marky` keeps
+track of Make dependencies.
 ```md
 	!!! file.mdi
 ```
 
 5. Document meta data in Markdown front matter. This feature is
-not explained in the quickstart. Please refer to the `marky`
+not explained in the short introduction. Please refer to the `marky`
 documentation for explanation.
 ```md
 	---
@@ -78,14 +81,16 @@ please report issues.
 
 # TODO
 
-* proper Escaping, right now:
+* proper escape of `marky` markup
 	* escape code block hidden: `` ```\!! ``, and
 	* escape code block shown: `` ```\! ``, and
-	* escape inline code: `` `\!...` ``, and `` `\?...` ``
+	* escape inline code: `` `\!...` ``
+	* escape format code: `` `\?...` ``
+	* escape include: `\!!!`
 * better display of traceback for code errors
 * implement quite output mode
 * implement output mode for showing code output only
-* accumulate meta data for `field`, `field--pdf`, `field--html`
+* merge meta data for `field`, `field--pdf` and `field--html`
 
 # `marky` Markup for Execution of Embedded Python Code
 
@@ -138,6 +143,9 @@ The first five numbers are `` `!list_and(range(5))` ``.
 *Output:*
 The first five numbers are 0, 1, 2, 3 and 4.
 
+The `list_and(l)` function is implemented in the python code block
+above. The variables `x` and `y` are defined there as well.
+
 **Format Links**
 
 ```md
@@ -174,6 +182,19 @@ included files and creates Makefile rules for dependent make.
 
 ```md
 	!!! file.mdi
+```
+
+**Meta Data**
+
+Document meta data can be included in the Markdown front matter.
+This feature is not explained in the short introduction.
+Please refer to the `marky` documentation for explanation.
+
+```md
+	---
+	META_DATA
+	---
+	MARKDOWN
 ```
 
 # Install and Run `marky`
@@ -220,6 +241,7 @@ Alternatively, marky can be obtained diretly without `git`:
 ```bash
 cd $HOME
 mkdir marky
+cd marky
 wget https://raw.githubusercontent.com/lehmann7/marky/main/marky.py
 chmod +x marky.py
 ```
@@ -283,14 +305,16 @@ document processing pipeline: preprocessing, linking and rendering.
 The `marky` Makefile supports several targets for displaying help
 or rendering all, multiple or specific documents.
 
-1. `make help`: display help message on the console
-2. `make cheat`: display the `marky` markup Cheat Sheet
-3. `make scan`: scan for new documents `md/*.md` and update Makefile
-4. `make all`: render all documents `md/*.md` into `html` and `pdf`
-5. `make all-pdf`: render all documents `md/*.md` into `pdf`
-6. `make all-html`: render all documents `md/*.md` into `html`
-7. `make httpd`: start python webserver in `html/`
-8. `make clean`: remove all files: `build/*`, `pdf/*`, `html/*`
+Target         |Description
+---------------|----------------------------------------------------
+`make help`    |display help message on the console
+`make cheat`   |display the `marky` markup Cheat Sheet
+`make scan`    |scan for new documents `md/*.md` and update Makefile
+`make all`     |render all documents `md/*.md` into `html` and `pdf`
+`make all-pdf` |render all documents `md/*.md` into `pdf`
+`make all-html`|render all documents `md/*.md` into `html`
+`make httpd`   |start python webserver in `html/`
+`make clean`   |remove all files: `build/*`, `pdf/*`, `html/*`
 
 ---
 
