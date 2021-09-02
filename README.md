@@ -32,7 +32,43 @@ executed and results are inserted into the Markdown text.
 [KISS principle](https://en.wikipedia.org/wiki/KISS_principle) and
 introduces N main features.
 
-# Early Implementation
+1. Code Blocks for embedding python code. Python code is executed
+and displayed `!` or executed only `!!`.
+```md
+	```!
+	PYTHON_CODE
+	```
+
+	```!!
+	PYTHON_CODE
+	```
+```
+
+2. Inline Code for embedding results of python expressions and
+variables into Markdown text using `!EXPRESSION:FORMAT` and.
+`!VARIABLE:FORMAT`
+
+3. Format dependent insertion of raw `html` and *tex* for `pdf`
+using `?FORMATCODE()` and format dependent links using
+`[Link description](file.???)`.
+
+4. Include statement for Markdown text with keeping track of
+Make dependencies using `!!!`.
+```md
+	!!! file.mdi
+```
+
+5. Document meta data in Markdown front matter. This feature is
+not explained in the quickstart. Please refer to the `marky`
+documentation for explanation.
+```md
+	---
+	META_DATA
+	---
+	MARKDOWN
+```
+
+# Implementation
 
 This is an early implementation of `marky`. It is tested on
 a linux bash shell. However, `marky` only uses standard tools `make`,
