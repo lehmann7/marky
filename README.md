@@ -24,7 +24,7 @@ too. When testing `marky` in another setup, please report issues.
 * proper Escaping, right now:
 	* escape code block hidden: `` ```\!! ``, and
 	* escape code block shown: `` ```\! ``, and
-	* escape inline code: `\!...`, and `\?...`
+	* escape inline code: `` `\!...` ``, and `` `\?...` ``
 * better display of traceback for code errors
 * implement quite output mode
 * implement output mode for showing code output only
