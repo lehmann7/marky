@@ -1729,6 +1729,11 @@ args.target = "-".join(s).replace(".", "-")
 args.pdf = "pdf/" + "/".join(s) + ".pdf"
 args.html = "html/" + "/".join(s) + ".html"
 
+if args.md.endswith(".md"):
+	link_file = args.md[0:-2] + args.link + ".md"
+else:
+	link_file = args.md + args.link + ".md"
+
 inc_path = "/".join(args.marky.split("/")[0:-1])
 inc_path = "." if inc_path == "" else inc_path
 
@@ -1784,11 +1789,7 @@ if len(args.link) > 0:
 		else:
 			p = md_text.find("<<??", p + 4)
 	newtext += md_text[c:]
-	if args.md.endswith(".md"):
-		outfile = args.md[0:-2] + args.link + ".md"
-	else:
-		outfile = args.md + args.link + ".md"
-	write_file(outfile, "---\n%s\n---\n%s" % (md_yaml, newtext), overwrite=True)
+	write_file(link_file, "---\n%s\n---\n%s" % (md_yaml, newtext), overwrite=True)
 
 elif args.mkdep:
 
@@ -1799,15 +1800,31 @@ elif args.mkdep:
 	try:
 		with open(args.md + ".mk", "w") as fh:
 			if len(mkdep) == 0:
-				fh.write(args.md + ": \n\n")
+				fh.write(args.md + ": \n")
 			else:
-				fh.write(args.md + ": \\\n" + " \\\n".join(mkdep) + "\n\n")
+				fh.write(args.md + ": \\\n" + " \\\n".join(mkdep) + "\n")
 			if len(args.target) > 0:
 				fh.write(
 """
 .PHONY: md-%s
 md-%s: %s
 """ % (args.target, args.target, args.md))
+				if args.md.endswith(".md"):
+					link_html = args.md[0:-3] + ".html.md"
+					link_pdf = args.md[0:-3] + ".pdf.md"
+				else:
+					link_html = args.md + ".html.md"
+					link_pdf = args.md + ".pdf.md"
+				fh.write(
+"""
+.PHONY: lhtml-%s
+lhtml-%s: %s
+""" % (args.target, args.target, link_html))
+				fh.write(
+"""
+.PHONY: lpdf-%s
+lpdf-%s: %s
+""" % (args.target, args.target, link_pdf))
 				if len(args.html) > 0:
 					fh.write(
 """

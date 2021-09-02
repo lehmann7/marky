@@ -28,6 +28,7 @@ too. When testing `marky` in another setup, please report issues.
 * better display of traceback for code errors
 * implement quite output mode
 * implement output mode for showing code output only
+* accumulate meta data for `field`, `field--pdf`, `field--html`
 
 # `marky` Markup for Embedding and Execution of Python Code
 
