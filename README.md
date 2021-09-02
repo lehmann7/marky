@@ -10,21 +10,35 @@ a simple markup syntax for executing python code embedded in
 Markdown text. In order to understand the examples and see the complete
 `marky` syntax please refer to the following documents.
 
-1. Read the Rendered Documents
+1. *Read the Rendered Documents*
 * [`marky` Quickstart](https://lehmann7.github.io/quickstart.html)
 * [`marky` Example](https://lehmann7.github.io/example.html)
 * [`marky` Documentation](https://lehmann7.github.io/marky.html)
-2. Read the Source Code with `marky` markup
+2. *Read the Source Code with `marky` Markup*
 * [`marky` Example Source](https://lehmann7.github.io/examplesource.html)
 * [`marky` Quickstart Source](https://lehmann7.github.io/quicksource.html)
 * [`marky` Documentation Source](https://lehmann7.github.io/markysource.html)
 
+# Features
+
+`marky` introduces a small set of new markup for executing embedded
+python code in Markdown documents, which is still compatible with
+regular Markdown. Rendering `marky` documents with regular Markdown
+results in a formatted document with code snippets included.
+When preprocessing the document with `marky` the code snippets are
+executed and results are inserted into the Markdown text.
+
+`marky` is implemented according to the
+[KISS principle](https://en.wikipedia.org/wiki/KISS_principle) and
+introduces N main features.
+
 # Early Implementation
 
-This is an early implementation of `marky`. It is only tested on
+This is an early implementation of `marky`. It is tested on
 a linux bash shell. However, `marky` only uses standard tools `make`,
-`python` and `pandoc` and it is likely that it will run on a MacOS shell
-too. When testing `marky` in another setup, please report issues.
+`python` and `pandoc` and it is likely that it will run on other shells
+with the same tools. When testing `marky` in another setup,
+please report issues.
 
 # TODO
 
@@ -114,6 +128,17 @@ The format code returns \LaTeX.
 
 *Output for `html`*:
 The format code returns H<sup>T</sup><sub>M</sub>L
+
+**Include Statement**
+
+`marky` allows to include other Markdown text using the `!!!` statement.
+Please refer to the `marky` documentation for complete description
+of the `!!!` statement. During rendering `marky` keeps track of
+included files and creates Makefile rules for dependent make.
+
+```md
+	!!! file.mdi
+```
 
 # Install and Run `marky`
 
