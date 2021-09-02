@@ -1351,7 +1351,7 @@ def parse_file(fpath, root_file=False, read_meta=True,
 							md_text.append(shift_str + k)
 						appendbuf = ""
 				if i == "```!" or i == "```!!":
-					show_code = i.endswith("!!")
+					show_code = i.endswith("`!")
 					code_text = []
 				elif i == "```" and not code_text is None:
 					if show_code:

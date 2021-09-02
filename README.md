@@ -53,11 +53,13 @@ rendered into `html` and `pdf` using `pandoc`.
 **Inline Formatted Output**
 
 The square root of x=`` `!x` ``, is `` `!y:.3f` ``.
+
 The square root of x=2, is 1.414.
 
 **Inline Expression**
 
 The first five numbers are `` `!list_and(range(5))` ``.
+
 The first five numbers are 0, 1, 2, 3 and 4.
 
 **Format Links**
