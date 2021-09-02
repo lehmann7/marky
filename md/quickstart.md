@@ -1,7 +1,5 @@
 ---
 title: "`marky` Quickstart"
-date: 1. August 2021
-author: Henry Lehmann
 header-includes--pdf:
    \usepackage{multicol}
    \hypersetup{colorlinks=false,

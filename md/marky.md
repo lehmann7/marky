@@ -1,7 +1,5 @@
 ---
 title: marky Documentation
-date: 1. August 2021
-author: Henry Lehmann
 link-citations: true
 bibliography: marky.bib
 header-includes--pdf: >
