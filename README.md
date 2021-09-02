@@ -198,14 +198,14 @@ The `marky` markup can be escaped. When markup is escaped
 `marky` removes the escape sequence and prints out the
 unescaped statement.
 
-Markup           |Escape Sequence
------------------|---------------
-code block hidden|`` ```\!! ``
-code block shown |`` ```\! ``
-inline code      |`` `\!...` ``
-format code      |`` `\?...` ``
-include statement|`\!!!`
-format link      |`.\???`
+Markup           |Escape Sequence|Unescaped Sequence
+-----------------|---------------|------------------
+code block hidden|`` ```\!! ``   |`` ```!! ``
+code block shown |`` ```\! ``    |`` ```! ``
+inline code      |`` `\!...` ``  |```` `!...` ````
+format code      |`` `\?...` ``  |```` `?...` ````
+include statement|`\!!!`         |`!!!`
+format link      |`.\???`        |`.???`
 
 # Download and Run `marky`
 
