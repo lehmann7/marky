@@ -5,6 +5,8 @@
 
 ![*Left*: Marky Markdown Text, *Middle*: Rendered PDF, *Right:* Rendered HTML](data/marky.png)
 
+> *Left*: Marky Markdown Text, *Middle*: Rendered PDF, *Right:* Rendered HTML
+
 # `marky`
 
 `marky` markup is compatible with standard Markdown. `marky` introduces
