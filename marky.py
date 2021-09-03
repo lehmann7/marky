@@ -1795,7 +1795,7 @@ if not os.path.exists("Makefile"):
 	exit(1)
 
 if len(args.marky) == 0 and len(args.md) == 0:
-	print("ERROR: set at least one --md/--md")
+	print("ERROR: set at least one --md/--marky")
 	exit(1)
 
 if len(args.marky) == 0:
