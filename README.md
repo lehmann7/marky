@@ -3,6 +3,8 @@
 > file is present, which is rendered into `html` and `pdf` using
 > `pandoc`. `marky` handles all this steps using a Makefile.
 
+![*Left*: Marky Markdown Text, *Middle*: Rendered PDF, *Right:* Rendered HTML](data/marky.png)
+
 # `marky`
 
 `marky` markup is compatible with standard Markdown. `marky` introduces
