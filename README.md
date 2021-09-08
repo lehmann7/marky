@@ -77,19 +77,23 @@ documentation for explanation.
 
 # Implementation
 
-This is an early implementation of `marky`. It is tested on
+This is a prototype implementation of `marky`. It is tested on
 a linux bash shell. However, `marky` only uses standard tools `make`,
-`python` and `pandoc` and it is likely that it will run on other shells
+`python` and `pandoc`. It is likely that it will run on other shells
 with the same tools. When testing `marky` in another setup,
 please report issues.
 
 # TODO
 
+* escape `` ` `` in inline statements
+* rethink flags of include statement
 * reimplement parsing of markup
 * better display of traceback for code errors
 * implement quite output mode
 * implement output mode for showing code output only
 * merge meta data for `field`, `field--pdf` and `field--html`
+* rename `md/` -> `src/`
+* escape `???` in format code
 
 # `marky` Markup for Execution of Embedded Python Code
 
