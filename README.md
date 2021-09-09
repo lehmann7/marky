@@ -5,7 +5,7 @@
 
 ![*Left*: Marky Markdown Text, *Middle*: Rendered PDF, *Right:* Rendered HTML](data/marky.png)
 
-> *Left*: Marky Markdown Text, *Middle*: Rendered PDF, *Right:* Rendered HTML
+> **`marky` Preprocessor**-- *Left*: `marky` Markdown Text, *Middle*: Rendered PDF, *Right:* Rendered HTML
 
 # `marky`
 
@@ -88,6 +88,10 @@ in the [`marky` documentation](marky.???).
 a format code, which produces interactive plots for `html`
 using [`flot`](https://www.flotcharts.org) and static plots
 for `pdf` using [`matplotlib`](https://www.matplotlib.org/).
+
+![*Left*: Marky Markdown Text, *Middle*: Rendered PDF, *Right:* Rendered HTML](data/fmtplot.png)
+
+> **`fmtplot` Extension**-- *Left*: `marky` Markdown Text, *Middle*: Rendered PDF, *Right:* Rendered HTML
 
 # Implementation
 
