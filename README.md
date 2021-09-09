@@ -56,8 +56,10 @@ variables into Markdown text using `` `!EXPRESSION:FORMAT` `` and
 `` `!VARIABLE:FORMAT` ``.
 
 3. Format dependent insertion of raw `html` and *tex* for `pdf`
-using `` `?FormatCode()` `` and format dependent links using
-`[Link description](file.???)`.
+using `` `?FormatCode()` `` and format dependent links using `.???`.
+```md
+	[Link description](file.???)
+```
 
 4. Include statement for Markdown text using `!!!`. `marky` keeps
 track of Make dependencies.
