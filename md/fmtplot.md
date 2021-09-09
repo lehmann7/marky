@@ -171,9 +171,9 @@ fignos-caption-name: Figure
 					if e == "B":
 						plt.bar(d[0], d[1], color=c, label=l, width=min(d[0][0:-1] - d[0][1:])*s[i+1])
 						l = None
-			# ~ plt.title(name)
-			# ~ plt.xlabel("Design Parameter")
-			# ~ plt.ylabel("%s $\mathdefault{%s}$ [%s]" % (name, symb, unit))
+			# ~ plt.title()
+			# ~ plt.xlabel()
+			# ~ plt.ylabel()
 			if self.legshow:
 				if self.rcParams["legend.loc"] == "best":
 					legend = plt.legend(bbox_to_anchor=(1.05, 0.5), ncol=self.legcols)
