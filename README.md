@@ -153,7 +153,7 @@ above. The variables `x` and `y` are defined there as well.
 **Format Links**
 
 ```md
-[Link to document](file.\???)
+[Link to document](file.???)
 ```
 
 will be proprocessed into the following text:
