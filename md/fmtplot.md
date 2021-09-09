@@ -345,7 +345,6 @@ which is supported by `flot`. `lines` and `bars` are specified using
 `^`        |points (triangle)|
 `x`        |points (cross   )|
 `+`        |points (plus    )|
-           |                 |
 `L`        |lines            |line width in `pt`
 `B`        |bars             |relative bar width
 
