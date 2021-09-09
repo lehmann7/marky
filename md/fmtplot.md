@@ -197,7 +197,8 @@ fignos-caption-name: Figure
 > using [`matplotlib`](https://www.matplotlib.org/).
 > Plots are generated using a `marky` format code with a class
 > `fmtplot` which implements plot and code generation for both
-> cases.
+> cases. The plots which are generated using `fmtplot` can be referenced
+> using `pandoc-fignos`.
 
 ---
 
