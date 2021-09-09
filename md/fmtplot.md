@@ -196,9 +196,9 @@ fignos-caption-name: Figure
 
 ---
 
-> **Abstract**-- `fmtplot` is a format code for marky, which produces
-> plots for `html` using [`flot`](https://www.flotcharts.org) and `pdf`
-> using [`matplotlib`](https://www.matplotlib.org/).
+> **Abstract**-- `fmtplot` is a format code, which produces interactive
+> plots for `html` using [`flot`](https://www.flotcharts.org) and static
+> plots for `pdf` using [`matplotlib`](https://www.matplotlib.org/).
 > Plots are generated using a `marky` format code with a class
 > `fmtplot` which implements plot and code generation for both
 > cases. The plots which are generated using `fmtplot` can be referenced

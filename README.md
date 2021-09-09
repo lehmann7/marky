@@ -84,9 +84,10 @@ extensions for the standard Markdown can be implemented.
 The include statement and format codes are explained in detail
 in the [`marky` documentation](marky.???).
 
-* [`fmtplot`](fmtplot.???): a format code, which produces
-plots for `html` using [`flot`](https://www.flotcharts.org) and `pdf`
-using [`matplotlib`](https://www.matplotlib.org/).
+* [`fmtplot`](https://lehmann7.github.io/fmtplot.html):
+a format code, which produces interactive plots for `html`
+using [`flot`](https://www.flotcharts.org) and static plots
+for `pdf` using [`matplotlib`](https://www.matplotlib.org/).
 
 # Implementation
 
