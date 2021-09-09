@@ -56,7 +56,7 @@ variables into Markdown text using `` `!EXPRESSION:FORMAT` `` and
 `` `!VARIABLE:FORMAT` ``.
 
 3. Format dependent insertion of raw `html` and *tex* for `pdf`
-using `` `?FORMATCODE()` `` and format dependent links using
+using `` `?FormatCode()` `` and format dependent links using
 `[Link description](file.???)`.
 
 4. Include statement for Markdown text using `!!!`. `marky` keeps
@@ -164,12 +164,12 @@ will be proprocessed into the following text:
 
 ```python
 	```!
-	def htmlFmtCode(): return "H<sup>T</sup><sub>M</sub>L"
-	def pdfFmtCode(): return "\LaTeX"
+	def htmlFormatCode(): return "H<sup>T</sup><sub>M</sub>L"
+	def pdfFormatCode(): return "\LaTeX"
 	```
 ```
 
-The format code returns `` `?FmtCode()` ``.
+The format code returns `` `?FormatCode()` ``.
 
 *Output for `pdf`*:
 The format code returns \LaTeX.
