@@ -91,7 +91,7 @@ for `pdf` using [`matplotlib`](https://www.matplotlib.org/).
 
 ![*Left*: Marky Markdown Text, *Middle*: Rendered PDF, *Right:* Rendered HTML](data/fmtplot.png)
 
-> **`fmtplot` Extension**-- *Left*: `marky` Markdown Text, *Middle*: Rendered PDF, *Right:* Rendered HTML
+> **`fmtplot` Extension**-- *Left*: `marky` Markdown Text, *Middle*: Rendered HTML, *Right:* Rendered PDF
 
 # Implementation
 
