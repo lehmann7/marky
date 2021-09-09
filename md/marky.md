@@ -1,5 +1,7 @@
 ---
 title: marky Documentation
+author: lehmann7
+date: 2021-09-09
 link-citations: true
 bibliography: data/marky.bib
 header-includes--pdf: >

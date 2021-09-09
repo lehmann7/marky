@@ -30,10 +30,8 @@ xnos-capitalise: true
 fignos-caption-name: Figure
 
 ---
-
 !!! ../data/fmtplot.css aux
 !!! ../data/fmtplot.js aux
-
 ```!!
 	import os
 	import json

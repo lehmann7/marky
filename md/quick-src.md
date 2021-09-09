@@ -1,5 +1,7 @@
 ---
 title: "`marky` Quickstart Source"
+author: lehmann7
+date: 2021-09-09
 header-includes--pdf: >
    \hypersetup{colorlinks=false,
    allbordercolors={0 0 0},

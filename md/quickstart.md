@@ -1,5 +1,7 @@
 ---
 title: "`marky` Quickstart"
+author: lehmann7
+date: 2021-09-09
 header-includes--pdf:
    \usepackage{multicol}
    \hypersetup{colorlinks=false,
