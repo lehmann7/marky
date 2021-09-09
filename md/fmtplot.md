@@ -158,27 +158,33 @@ fignos-caption-name: Figure
 			plt.rcParams.update(self.rcParams)
 			plt.figure()
 			plt.grid()
+			plotgrp = list()
 			for n, (d, s, l, c) in enumerate(zip(data, style, label, color)):
+				pgroup = list()
 				for i, e in enumerate(s[0]):
 					if e in self.markers:
-						plt.scatter(d[0], d[1], color=c, marker=e, label=l, s=s[i+1]**2)
+						pgroup.append(plt.scatter(d[0], d[1], color=c, marker=e, label=l, s=s[i+1]**2))
 						l = None
 					if e == "L":
-						plt.plot(d[0], d[1], color=c, label=l, lw=s[i+1])
+						pgroup.extend(plt.plot(d[0], d[1], color=c, label=l, lw=s[i+1]))
 						l = None
 					if e == "B":
-						plt.bar(d[0], d[1], color=c, label=l, width=min(d[0][0:-1] - d[0][1:])*s[i+1])
+						pgroup.append(plt.bar(d[0], d[1], color=c, label=l, width=min(d[0][0:-1] - d[0][1:])*s[i+1]))
 						l = None
-			# ~ plt.title()
-			# ~ plt.xlabel()
-			# ~ plt.ylabel()
+				plotgrp.append(tuple(pgroup))
+			print(plotgrp, label)
+			from matplotlib.legend_handler import HandlerTuple
 			if self.legshow:
 				if self.rcParams["legend.loc"] == "best":
-					legend = plt.legend(bbox_to_anchor=(1.05, 0.5), ncol=self.legcols)
+					legend = plt.legend(plotgrp, label, numpoints=1,
+						handler_map={tuple: HandlerTuple(ndivide=None)},
+						bbox_to_anchor=(1.05, 0.5), ncol=self.legcols)
 					self.export_legend(legend, "./build/" + self.figdir + "/" + figid + "-legend.png")
 					legend.remove()
 				else:
-					plt.legend(ncol=self.legcols)
+					plt.legend(plotgrp, label, numpoints=1,
+						handler_map={tuple: HandlerTuple(ndivide=None)},
+						ncol=self.legcols)
 			plt.tight_layout()
 			plt.savefig("./build/" + self.figdir + "/" + figid + ".png", dpi=self.figdpi)
 			plt.close("all")

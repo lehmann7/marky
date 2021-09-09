@@ -77,6 +77,17 @@ documentation for explanation.
 	MARKDOWN
 ```
 
+# Extension
+
+Using the `marky` include statement and format codes, typesetting
+extensions for the standard Markdown can be implemented.
+The include statement and format codes are explained in detail
+in the [`marky` documentation](marky.???).
+
+* [`fmtplot`](fmtplot.???): a format code, which produces
+plots for `html` using [`flot`](https://www.flotcharts.org) and `pdf`
+using [`matplotlib`](https://www.matplotlib.org/).
+
 # Implementation
 
 This is a prototype implementation of `marky`. It is tested on
