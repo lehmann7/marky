@@ -164,12 +164,12 @@ will be proprocessed into the following text:
 
 ```python
 	```!
-	def FMTCODE_html(): return "H<sup>T</sup><sub>M</sub>L"
-	def FMTCODE_pdf(): return "\LaTeX"
+	def htmlFmtCode(): return "H<sup>T</sup><sub>M</sub>L"
+	def pdfFmtCode(): return "\LaTeX"
 	```
 ```
 
-The format code returns `` `?FMTCODE()` ``.
+The format code returns `` `?FmtCode()` ``.
 
 *Output for `pdf`*:
 The format code returns \LaTeX.
