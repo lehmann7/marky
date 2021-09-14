@@ -1,8 +1,8 @@
 #!/bin/bash
 
 cd $(dirname $0)
-mkdir -p flotjs
-cd flotjs && \
+mkdir -p fmtplotjs
+cd fmtplotjs && \
 for i in                                                            \
 https://www.flotcharts.org/flot/lib/jquery.event.drag.js            \
 https://www.flotcharts.org/flot/lib/jquery.mousewheel.js            \
