@@ -103,6 +103,9 @@ please report issues.
 
 # TODO
 
+* meta data import no overwrite
+* remake code include
+* cache python blocks
 * inline statements multiple backticks
 * escape `` ` `` in inline statements
 * rethink flags of include statement

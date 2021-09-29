@@ -37,13 +37,22 @@ fignos-caption-name: Figure
 	import json
 	import matplotlib.pyplot as plt
 
-	class fmtplot:
-		def plot(self, figid, data, style=None, label=None, color=None): pass
-		def legend(self, figid): pass
+	class fmtplot_base:
+		def plot(self, figid, data=None, style=None, label=None, color=None): pass
+		def show(self, figid, caption=None): pass
+		def legend(self, figid, caption=None): pass
 		def choice(self, figid): pass
 		def script(self): pass
+		def fix(self, data, style, label, color):
+			if data is None and style is None and label is None and color is None:
+				return self.data, self.style, self.label, self.color
+			data = [([0,1],[0, 1])]*len(label) if data is None else data
+			style = [("o", 1.)]*len(data) if style is None else style
+			label = [None]*len(data) if label is None else label
+			color = ["#ff0000"]*len(data) if color is None else color
+			return data, style, label, color
 
-	class fmtplot_flot(fmtplot):
+	class fmtplot_flot(fmtplot_base):
 		markers = {"o":"circle", "s":"square", "D":"diamond", "^":"triangle", "x":"cross", "+":"plus"}
 		def __init__(self, aspect=(16, 9), legpos=None, legcols=1):
 			self.aspect = str(aspect[0]) + "-" + str(aspect[1])
@@ -62,10 +71,8 @@ fignos-caption-name: Figure
 		def jsid(self, htmlid):
 			return "flot-" + htmlid.replace("-", "_")
 
-		def plot(self, htmlid, data, style=None, label=None, color=None, caption=""):
-			style = [None]*len(data) if style is None else style
-			label = [None]*len(data) if label is None else label
-			color = [None]*len(data) if color is None else color
+		def plot(self, htmlid, data=None, style=None, label=None, color=None):
+			data, style, label, color = self.fix(data, style, label, color)
 			jsid = self.jsid(htmlid)
 			jsdat = ""
 			jscho = ""
@@ -73,9 +80,20 @@ fignos-caption-name: Figure
 				jsdat += "{data:[%s]," % ",".join(["[%e,%e]" % (a, b) for a, b in zip(d[0], d[1])])
 				if not s is None: jsdat += self.style(s)
 				if not l is None: jsdat += "label:'%s'," % l
+				if l is None: jsdat += "label:null,"
 				if not c is None: jsdat += "color:'%s'," % c
 				jsdat += "},"
+			legpos = "null" if self.legpos is None else "'%s'" % self.legpos
+			self.script_html += f'flot_init("{jsid}", [{jsdat}], {legpos}, {self.legcols});'
+			__(f'''
+				<div class="flot-plot" id="{jsid}-dummy">
+				</div>
+			''')
+
+		def show(self, htmlid, caption=None):
+			caption = "" if caption is None else caption
 			colon = ":" if caption != "" else ""
+			jsid = self.jsid(htmlid)
 			__(f'''
 				<div id="fig:{htmlid}" class="fignos">
 				<figure>
@@ -89,10 +107,9 @@ fignos-caption-name: Figure
 				</figure>
 				</div>
 			''')
-			legpos = "null" if self.legpos is None else "'%s'" % self.legpos
-			self.script_html += f'flot_init("{jsid}", [{jsdat}], {legpos}, {self.legcols});'
 
-		def legend(self, htmlid, caption=""):
+		def legend(self, htmlid, caption=None):
+			caption = "" if caption is None else caption
 			colon = ":" if caption != "" else ""
 			__(f'''
 				<div id="fig:{htmlid}-legend" class="fignos">
@@ -109,9 +126,9 @@ fignos-caption-name: Figure
 			_(f'<div class="flot-choice" id="{self.jsid(htmlid)}-choice"></div>')
 
 		def script(self):
-			_("<script>" + self.script_html + "</script>")
+			_("\n<script>" + self.script_html + "\n</script>")
 
-	class fmtplot_mplt(fmtplot):
+	class fmtplot_mplt(fmtplot_base):
 		markers = "osD^x+"
 		def __init__(self, figdir=".", figsize=(16, 9), figdpi=200, fontsize="11pt", legpos=None, legcols=1):
 			self.figdir = figdir
@@ -150,29 +167,26 @@ fignos-caption-name: Figure
 			bbox = bbox.transformed(fig.dpi_scale_trans.inverted())
 			fig.savefig(filename, dpi=self.figdpi, bbox_inches=bbox)
 
-		def plot(self, figid, data, style=None, label=None, color=None, caption=""):
-			style = [None]*len(data) if style is None else style
-			label = [None]*len(data) if label is None else label
-			color = [None]*len(data) if color is None else color
+		def plot(self, figid, data=None, style=None, label=None, color=None, caption=""):
+			data, style, label, color = self.fix(data, style, label, color)
 			marker = "dx*sov^"
 			plt.rcParams.update(self.rcParams)
 			plt.figure()
 			plt.grid()
 			plotgrp = list()
+			plotlbl = list()
 			for n, (d, s, l, c) in enumerate(zip(data, style, label, color)):
 				pgroup = list()
 				for i, e in enumerate(s[0]):
 					if e in self.markers:
-						pgroup.append(plt.scatter(d[0], d[1], color=c, marker=e, label=l, s=s[i+1]**2))
-						l = None
+						pgroup.append(plt.scatter(d[0], d[1], color=c, marker=e, s=s[i+1]**2))
 					if e == "L":
-						pgroup.extend(plt.plot(d[0], d[1], color=c, label=l, lw=s[i+1]))
-						l = None
+						pgroup.extend(plt.plot(d[0], d[1], color=c, lw=s[i+1]))
 					if e == "B":
-						pgroup.append(plt.bar(d[0], d[1], color=c, label=l, width=min(d[0][0:-1] - d[0][1:])*s[i+1]))
-						l = None
-				plotgrp.append(tuple(pgroup))
-			print(plotgrp, label)
+						pgroup.append(plt.bar(d[0], d[1], color=c, width=min(d[0][0:-1] - d[0][1:])*s[i+1]))
+				if not l is None:
+					plotgrp.append(tuple(pgroup))
+					plotlbl.append(l)
 			from matplotlib.legend_handler import HandlerTuple
 			if self.legshow:
 				if self.rcParams["legend.loc"] == "best":
@@ -188,10 +202,37 @@ fignos-caption-name: Figure
 			plt.tight_layout()
 			plt.savefig("./build/" + self.figdir + "/" + figid + ".png", dpi=self.figdpi)
 			plt.close("all")
+
+		def show(self, figid, caption=None):
+			caption = "" if caption is None else caption
 			_(f'![{caption}]({self.figdir + "/" + figid + ".png"})' + "{#fig:" + figid + "}")
 
-		def legend(self, figid, caption=""):
+		def legend(self, figid, caption=None):
+			caption = "" if caption is None else caption
 			_(f'![{caption}]({self.figdir + "/" + figid + "-legend.png"})' + "{#fig:" + figid + "-legend}")
+	class fmtplot(fmtplot_base):
+		def __init__(self, pdf, html):
+			self.pdf = pdf
+			self.html = html
+			self.reset()
+		def label(self, v):
+			self.llabel.append(v)
+		def color(self, v):
+			self.lcolor.append(v)
+		def style(self, v):
+			self.lstyle.append(v)
+		def reset(self):
+			self.ldata = []
+			self.lstyle = []
+			self.llabel = []
+			self.lcolor = []
+		def plot_pdf(self, figid):
+			self.pdf.plot(figid, data=self.ldata, style=self.lstyle,
+				label=self.llabel, color=self.lcolor)
+		def plot_html(self, figid):
+			self.html.plot(figid, data=self.ldata, style=self.lstyle,
+				label=self.llabel, color=self.lcolor)
+
 ```
 
 ---
@@ -248,8 +289,7 @@ for the classes `fmtplot_flot` for `html` and `fmtplot_mplt` for `pdf`.
 The format code has the following arguments.
 
 ```python
-	fmtplot.plot(figid, data, label=None, style=None,
-		color=None, caption="")
+	fmtplot.plot(figid, data=None, label=None, style=None, color=None)
 ```
 
 ```!
@@ -263,18 +303,18 @@ for `pdf` output `figdir` specifies the directory for figure output
 `build/<figdir>/`, `fisize` is the size of the figure in `cm` and
 `figdpi` and `fontsize` specify DPI number and the font size in `pt`.
 
-In order to place @fig:plot1 in the document, the format code
-`` `\?_pltdat.plot(figid, data, label, style, color, caption)` ``
-is called using with the corresponding arguments.
+In order to init @fig:plot1 for output, the format code
+`` `\?_pltdat.plot(figid, data, label, style, color)` ``
+is called with the corresponding arguments.
 ```md
-	`\?_pltdat.plot("plot1", data, label=label,
-		style=style, color=color, caption="...")`
+	`\?_pltdat.plot("plot1", data=data, label=label,
+		style=style, color=color)`
 ```
 
 The format code is translated into two function calls for
 `pdf` and `html` output.
-1. `pdf_pltdat.plot(figid, data, label, style, color, caption)`
-2. `html_pltdat.plot(figid, data, label, style, color, caption)`
+1. `pdf_pltdat.plot(figid, data, label, style, color)`
+2. `html_pltdat.plot(figid, data, label, style, color)`
 
 **Figure Identifier**
 
@@ -296,7 +336,7 @@ of point coordinates.
 	y2 = 30*np.array(range(10)) + 5
 	y3 = 20*np.array(range(10)) + 6
 	y4 = 10*np.array(range(10)) + 7
-	data = [
+	data=[
 		(x1, y1), (x2, y2),
 		(x3, y3), (x4, y4)
 	]
@@ -310,7 +350,7 @@ in the `html` choices.
 ```!
 	label=[
 		"Label for (x1, y1)", "Label for (x2, y2)",
-		"Label for (x3, y3)", "Label for (x4, y4)",
+		"Label for (x3, y3)", None
 	]
 ```
 
@@ -373,14 +413,14 @@ specified in a list.
 **Plot Output in Document**
 
 The format code
-`` `\?_pltdat.plot(figid, data, label=label, style=style, color=color, caption="...")` ``
-places @fig:plot1 in the document using the settings decribed above.
-Additionally the argument `caption="..."` is used for setting the
-figure caption. The figure @fig:plot1 is referenced by appending `fig:`
-to the `figid` using the keyword @`fig:plot1`.
+`` `\?_pltdat.show(figid, caption="...")` `` places @fig:plot1 in the
+document using the settings decribed above. Additionally the argument
+`caption="..."` is used for setting the figure caption. The figure
+@fig:plot1 is referenced by appending `fig:` to the `figid` using
+the keyword @`fig:plot1`.
 
-`?_pltdat.plot("plot1", data, label=label, style=style, color=color,
-caption="""This figure is generated using the format code
+`?_pltdat.plot("plot1", data, label=label, style=style, color=color)`
+`?_pltdat.show("plot1", """This figure is generated using the format code
 fmtplot.plot(...) with the arguments data, label, style, color
 described above. The figure caption is set using the argument caption.
 """)`
@@ -412,9 +452,10 @@ placed in the upper right corner using `nw`.
 	pdf_legin = fmtplot_mplt(legpos="nw", legcols=2)
 ```
 
-`?_legin.plot("plot2", data, label=label, style=style, color=color,
-caption="""This plot is generated with legend inside the plot using
-legpos as one of nw, ne, sw, se and with 2 columns using legcols=2.""")`
+`?_legin.plot("plot2", data, label=label, style=style, color=color)`
+`?_legin.show("plot2", """This plot is generated with legend inside
+the plot using legpos as one of nw, ne, sw, se and with 2 columns
+using legcols=2.""")`
 
 **Separate Legend**
 
@@ -425,9 +466,9 @@ A legend in a separate image is specified using the keyword `out`.
 	pdf_legout = fmtplot_mplt(legpos="out", legcols=2)
 ```
 
-`?_legout.plot("plot3", data, label=label, style=style, color=color,
-caption="""This plot is generated with separate legend using legpos=out
-and with 2 columns using legcols=2.""")`
+`?_legout.plot("plot3", data, label=label, style=style, color=color)`
+`?_legout.show("plot3", """This plot is generated with separate legend
+using legpos=out and with 2 columns using legcols=2.""")`
 
 **Placement of Separate Legend**
 
@@ -446,6 +487,44 @@ It was placed using the format code fmtplot.legend(figid, caption).""")`
 
 ---
 
+# Plot Example
+
+```!
+	html_ex = fmtplot_flot(legpos="out", legcols=2)
+	pdf_ex = fmtplot_mplt(legpos="out", legcols=2)
+```
+`?_ex.plot(
+	"plotex",
+	[
+		(x1, y1), (x2, y2),
+		(x3, y3), (x4, y4)
+	],
+	label=[
+		"Label for (x1, y1)",
+		"Label for (x2, y2)",
+		"Label for (x3, y3)",
+		None
+	],
+	style=[
+		("o", 11),
+		("L", 2),
+		("LD", 1, 5),
+		("Bo", 0.5, 10)
+	],
+	color=[
+		"#ff0000",
+		"#00ff00",
+		"#0000ff",
+		"#000000",
+	]
+)`
+
+`?_ex.show("plotex", """This plot is generated.""")`
+
+`?_ex.legend("plotex", caption="""This is the legend for @fig:plotex.""")`
+
+---
+
 # HTML Choice Placement
 
 `html` output supports interactive plots with zooming and paning
@@ -457,10 +536,10 @@ located below the figure.
 	pdf_choice = fmtplot_mplt(legpos="ne", legcols=2)
 ```
 
-`?_choice.plot("plot4", data, label=label, style=style, color=color,
-caption="""This plot is used together with the format code fmtplot.choice(figid).
-For html output, a list of checkboxes is generated inside a div-tag.
-For pdf no output is generated.""")`
+`?_choice.plot("plot4", data, label=label, style=style, color=color)`
+`?_choice.show("plot4", """This plot is used together with the format
+code fmtplot.choice(figid). For html output, a list of checkboxes is
+generated inside a div-tag. For pdf no output is generated.""")`
 
 In order to place the choice checkboxes for @fig:plot4, the
 `` `\?_choice.choice(figid)` `` format code is used. The checkboxes
@@ -493,6 +572,7 @@ For `pdf` no output is generated.
 `?_pltdat.script()`
 `?_legin.script()`
 `?_legout.script()`
+`?_ex.script()`
 `?_choice.script()`
 
 ---

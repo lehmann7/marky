@@ -450,11 +450,12 @@ The front matter must start in the first line with `---` and precedes all
 other text being fenced by `---`. The meta data is in `yaml` format.
 The `yaml` block is parsed using `python-pyyaml`. By default all meta
 data is imported into the preprocessed document. If a meta
-data key starts with `-` the key is not imported into the resulting
-meta data of the preprocessed document, however the key will be
-exposed into the python scole as a local variable. In the following
-exmample all keys except `figsize`, `figdpi` and `version` are copied
-into the preprocessed `!MD` document.
+data key starts with `-` the key is not exposed into the resulting
+front matter of the preprocessed document. All meta data keys will be
+exposed into the python scope as a local variable, unless the variable
+already exists. In the following exmample all keys except
+`figsize`, `figdpi` and `version` are copied into the preprocessed
+`!MD` document.
 
 **Example**
 ```yaml
@@ -760,8 +761,8 @@ The include statement supports flags for parsing the include file.
 * `nometa`: meta data in front matter is skipped during parsing
 * `nobody`: all Markdown text is skipped during parsing
 * `nomarky`: include the `!MD` text without any `!M` processing
-* `\!`: only include code blocks
-* `\!!`: only include hidden code blocks
+* `code`: only include hidden code blocks
+* `code!`: include all code blocks
 * `>>N`: increase the indentation using `N` tabs
 * `>N`: increase the indentation using `N` spaces
 * `#+N`: increase the level of ATX headings `#`. The headings are

@@ -207,8 +207,8 @@ cheat-include:
 	#  * nometa   ignore and skip all meta data
 	#  * nobody   ignore and skip Markdown body
 	#  * nomarky  no processing of marky markup
-	#  * !        include only code blocks
-	#  * !!       include only hidden code blocks
+	#  * code     include only hidden code blocks
+	#  * code!    include all code blocks
 	#  * #+N      increase level of ATX headings by N
 	#  * >>N      increase indentation level by N tabs
 	#  * >N       increase indentation level by N spaces

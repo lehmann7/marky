@@ -16,8 +16,6 @@ fontsize: 11pt
 
 ---
 
----
-
 > **Abstract** -- This is a `marky` example document for
 > illustrating `marky` markup. The `marky` source code of this
 > document can be read [here](example-src.???).

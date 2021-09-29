@@ -1,13 +1,15 @@
 function flot_plot(id, data)
 {
-	if (data) $["plot_" + id] = $.plot("#" + id, data, $["opt_" + id]);
-	else $["plot_" + id] = $.plot("#" + id, $["data_" + id], $["opt_" + id]);
+	if (document.getElementById(id)) pid = id;
+	else pid = id + "-dummy";
+	if (data) $["plot_" + id] = $.plot("#" + pid, data, $["opt_" + id]);
+	else $["plot_" + id] = $.plot("#" + pid, $["data_" + id], $["opt_" + id]);
+	$("#" + id + "-dummy").css({"display": "none"});
 }
 
 function flot_init(id, data, lpos, lcols)
 {
 	$["data_" + id] = data;
-
 	$["opt_" + id] = {
 			zoom:{interactive:true},
 			pan:{interactive:true,enableTouch:true},
@@ -44,29 +46,3 @@ function flot_choice(id)
 	});
 	if (newd.length > 0) flot_plot(id, newd);
 }
-
-//~ function plotAccordingToChoices(htmlid) {
-	//~ let data = [];
-	//~ var choiceContainer = $("#choices");
-	//~ choiceContainer.find("input").click(plotAccordingToChoices);
-	//~ choiceContainer.find("input:checked").each(function () {
-		//~ var key = $(this).attr("name");
-		//~ if (key && datasets[key]) {
-			//~ data.push(datasets[key]);
-		//~ }
-	//~ });
-
-	//~ if (data.length > 0) {
-		//~ $.plot("#placeholder", data, {
-			//~ legend: {
-				//~ show: true
-			//~ },
-			//~ yaxis: {
-				//~ min: 0
-			//~ },
-			//~ xaxis: {
-				//~ tickDecimals: 0
-			//~ }
-		//~ });
-	//~ }
-//~ }
