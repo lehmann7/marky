@@ -207,8 +207,8 @@ cheat-include:
 	#  * nometa   ignore and skip all meta data
 	#  * nobody   ignore and skip Markdown body
 	#  * nomarky  no processing of marky markup
-	#  * code     include only hidden code blocks
-	#  * code!    include all code blocks
+	#  * code     include only the hidden code blocks
+	#  * code!    include only code, but all code blocks
 	#  * #+N      increase level of ATX headings by N
 	#  * >>N      increase indentation level by N tabs
 	#  * >N       increase indentation level by N spaces
@@ -257,25 +257,29 @@ cheat-code:
 	# FORMAT CODE
 	#
 	#   ```!
-	#   def test1_html():
-	#       _("This is HTML1!")
-	#   def test1_pdf():
-	#       return "This is \{PDF1\}!"
-	#   def test2_html():
-	#       __("""
-	#           This is HTML2!
-	#           This is HTML2!
-	#           This is HTML2!
-	#       """)
-	#   def test2_pdf():
-	#       return """
-	#           This is \{PDF2\}!
-	#           This is \{PDF2\}!
-	#           This is \{PDF2\}!
-	#       """
+	#   test1 = fmtcode(html="HTML", pdf="PDF")
+	#   class Test2(fmtcode):
+	#       def html(self):
+	#           __("""
+	#               This is HTML2!
+	#               This is HTML2!
+	#               This is HTML2!
+	#           """)
+	#       def pdf(self):
+	#           return """
+	#               This is \{PDF2\}!
+	#               This is \{PDF2\}!
+	#               This is \{PDF2\}!
+	#           """
+	#   test2 = Test2()
 	#   ```
-	#   Run Format Code `?test1()` and `?test2()`.
-	#   `\?test1()` and `\?test2()` are not parsed.
+	#   Run Format Code `!test1()` and `!test2()`.
+	#   `\!test1()` and `\!test2()` are not parsed.
+	#
+	#   ```!
+	#       _(test1())
+	#       _(test2())
+	#   ```
 	#
 
 ########################################################################

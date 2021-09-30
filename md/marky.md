@@ -196,22 +196,24 @@ code in `html` and `pdf` documents,
 see @sec:formcode.
 ```md
 	`!BT*3`!
-		def code_html():
-			_("<HTML_CODE>")
-			return """
-				<MORE_CODE>
-				<MORE_CODE>
-				<MORE_CODE>
-			"""
-		def code_pdf():
-			__("""
-				{TEX_CODE}
-				{TEX_CODE}
-				{TEX_CODE}
-			""")
+		class myfmt(fmtcode):
+			def html(self):
+				_("<HTML_CODE>")
+				return """
+					<MORE_CODE>
+					<MORE_CODE>
+					<MORE_CODE>
+				"""
+			def pdf(self):
+				__("""
+					{TEX_CODE}
+					{TEX_CODE}
+					{TEX_CODE}
+				""")
+		fmtc = myfmt()
 	`!BT*3`
 
-	Format dependent output: `\!code()`
+	Format dependent output: `\!fmtc()`
 ```
 
 ---
@@ -890,98 +892,92 @@ already renders all common Markdown into `html` and `pdf`.
 `!M` supports format specific tweaking using format codes.
 
 In order to inject format specific code, `html` code or `tex` code
-for `pdf` documents, the format codes are used. Format codes are
-written as `` `\?FUNCALL(ARGS)` `` or `` `\?VARIABLE` ``
-which are translated in the following python expressions by
-prepending the format `html` or `pdf` to the expression.
-1. `htmlFUNCALL(ARGS)` and `htmlVARIABLE` for injection of raw `html`
-code for rendering `html`-based documents in `!P`.
-2. `pdfFUNCALL(ARGS)` and `pdfVARIABLE`  for injection of raw `tex`
-code in `pdf`-based documents in `!P`.
-
-Alternatively `\???` can be used to specify the location where the
-format is inserted. The two format codes `` `\?FUNCALL("???")` ``
-and `` `\?VARIABLE_???` `` would result in the following python
-expressions.
-1. `FUNCALL("html")` and `VARIABLE_html` for injection of raw `html`
-code for rendering `html`-based documents in `!P`.
-2. `FUNCALL("pdf")` and `VARIABLE_pdf`  for injection of raw `tex`
-code in `pdf`-based documents in `!P`.
+for `pdf` documents, the `fmtcode` class is used. The `fmtcode` class
+implements the `call`-operator `()` and `attr`-forwarding to the
+class members `html` and `pdf`. Each call to the `fmtcode` class
+is disptached inttoo the `html` and `pdf` members, which either can
+be member variables or class methods.
 
 During preprocessing, `!M` processes all format codes for each
-format `html` and `pdf` and caches the output. Before rendering
-the Markdown in one particular format using `!P`, `!M` extracts
-the results of the corresponding format codes and skips the others.
-Additional `tex` packages have to be included using the meta data
-field `header-includes`.
+format `html` and `pdf` and caches the output. When rendering
+the Markdown in one particular format using `!P`, `!M` only uses
+the results of the corresponding format.
+Additional `tex` packages have to be included for `pdf` as well as
+JavaScript and style sheets for `html` using the
+meta data fields `header-includes--pdf` and `header-includes--html`
+respectively.
 
-For returning the raw format code, either the `!P1` statement can
+For returning the format specific code, either the `!P1` statement can
 be used @sec:mdprint **or** the `return` statement can be used.
 If both statements are mixed, the output which had been returned
 will be appended to the text generated with the `!P1` statement.
 
 **Example: Functions and Variables**
 ```!
-	def htmlTest1():
-		_("<sup>HTML in")
-		return "superscript</sup>"
-	def pdfTest1():
-		__(r"""
-			${}_{\mbox{PDF in subscript}}$
-		""")
-	test2_html = "<sub>HTML in subscript</sub>"
-	test2_pdf =  r"${}^{\mbox{PDF in superscript}}$"
-	def test3(fmt):
-		return fmt.upper()
+	class fmt_test1(fmtcode):
+		def html(self):
+			_("<sup>HTML in")
+			return "superscript</sup>"
+		def pdf(self):
+			__(r"""
+				${}_{\mbox{PDF in subscript}}$
+			""")
+
+	test1 = fmt_test1()
+	test2 = fmtcode(
+		html="<sub>HTML in subscript</sub>",
+		pdf=r"${}^{\mbox{PDF in superscript}}$"
+	)
+	test3 = fmtcode(html="HTML", pdf="PDF")
 ```
 
 ```md
-The format code `\\?test3(???)` returns the format of
-the document: `\?test3("???")`.
-* `\?Test1()`
-* `\?test2_???`
+The format code `\\!test3()` returns the format of
+the document: `\!test3()`.
+* `\!test1()`
+* `\!test2()`
 ```
 
-The format code `\?test3(???)` returns the format of
-the document: `?test3("???")`.
-* `?Test1()`
-* `?test2_???`
+The format code `\!test3()` returns the format of
+the document: `!test3()`.
+* `!test1()`
+* `!test2()`
 
 **Example: Classes**
 ```!
 	class html:
-		def test1():
+		def test1(self):
 			_("<sup>HTML in")
 			return "superscript</sup>"
-		test2 = "<sub>HTML in subscript</sub>"
+		def test2(self):
+			return "<sub>HTML in subscript</sub>"
+		def test3(self):
+			return "HTML"
+
 	class pdf:
-		def test1():
+		def test1(self):
 			__(r"""
 				${}_{\mbox{PDF in subscript}}$
 			""")
-		test2 =  r"${}^{\mbox{PDF in superscript}}$"
-	class docfmt:
-		def __init__(self):
-			self.html = "HTML"
-			self.pdf = "PDF"
-		def get_html(self):
-			return self.html
-		def get_pdf(self):
-			return self.pdf
-	test3 = docfmt()
+		def test2(self):
+			return r"${}^{\mbox{PDF in superscript}}$"
+		def test3(self):
+			return "PDF"
+
+	fmtc = fmtcode(html=html(), pdf=pdf())
 ```
 
 ```md
-The format code `\\?test3.get_???()` returns the format of
-the document: `\?test3.get_???()`.
-* `\?.test1()`
-* `\?.test2`
+The format code `\\!fmtc.test3()` returns the format of
+the document: `\!fmtc.test3()`.
+* `\!fmtc.test1()`
+* `\!fmtc.test2()`
 ```
 
-The format code `\?test3.get_???()` returns the format of
-the document: `?test3.get_???()`.
-* `?.test1()`
-* `?.test2`
+The format code `\!fmtc.test3()` returns the format of
+the document: `!fmtc.test3()`.
+* `!fmtc.test1()`
+* `!fmtc.test2()`
 
 ---
 
@@ -1002,34 +998,38 @@ used, see @sec:formcode. The following example defines a
 
 **Example**
 ```!
-	def range_html():
-		__("""
-			$x\in [0$ <input type='range' value='0' min='0' max='100'
-			onchange="
-			document.getElementById('myval').innerHTML = this.value;
-			document.getElementById('myres').innerHTML =
-			Math.sin(this.value);"> $100]$
-		""")
-	def range_pdf():
-		return "$x\in[0,100]$"
-	def formula_html():
-		__("""
-			$y=sin(x)=$ <span id="myres">0.000</span>
-			with $x=$ <span id="myval">0</span>
-		""")
-	def formula_pdf():
-		return "$y=sin(x)$"
+	class Range(fmtcode):
+		def html(self):
+			__("""
+				$x\in [0$ <input type='range' value='0' min='0' max='100'
+				onchange="
+				document.getElementById('myval').innerHTML = this.value;
+				document.getElementById('myres').innerHTML =
+				Math.sin(this.value);"> $100]$
+			""")
+		def pdf(self):
+			return "$x\in[0,100]$"
+	class Formula(fmtcode):
+		def html(self):
+			__("""
+				$y=sin(x)=$ <span id="myres">0.000</span>
+				with $x=$ <span id="myval">0</span>
+			""")
+		def pdf(self):
+			return "$y=sin(x)$"
+	Ra = Range()
+	Fo = Formula()
 ```
 
 ```md
-$x$ and $y$ are related to each other by `\?formula_???()`.
+$x$ and $y$ are related to each other by `\!Fo()`.
 
-$x$ must be in the range `\?range_???()`.
+$x$ must be in the range `\!Ra()`.
 ```
 
-$x$ and $y$ are related to each other by `?formula_???()`.
+$x$ and $y$ are related to each other by `!Fo()`.
 
-$x$ must be in the range `?range_???()`.
+$x$ must be in the range `!Ra()`.
 
 ## Generate a Figure on-the-fly during Preprocessing
 

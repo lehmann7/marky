@@ -601,12 +601,6 @@ pattern `marky` documents contain regular Markdown, which can be
 rendered into `html` and `pdf`, as well as format specific codes
 for tweaking or polishing `html` and `pdf` output.
 
-Format codes are specified in code blocks and called using the
-inline syntax `` `\?FUNCALL(ARGS)` `` or `` `\?VARIABLE(ARGS)` ``,
-which is translated into the following pyhon function calls.
-1. `htmlFMTCODE(ARGS)`: called when linked for `html`.
-2. `pdfFMTCODE(ARGS)`: called when linked for `pdf`.
-
 Assuming preprocessing the file `md/marky.md`, linking format codes
 results in the two following output files.
 1. `build/marky.html.md`: contains output of `html` format codes.
@@ -620,10 +614,14 @@ section. The format codes are appended with `_html` and `_pdf`
 respectively.
 
 ```!
-	def pdf_mcol_begin(): return r"\begin{multicols}{2}"
-	def pdf_mcol_end(): return r"\end{multicols}"
-	def html_mcol_begin(): return r"<div style='column-count: 2;'>"
-	def html_mcol_end(): return r"</div>"
+	mcol_begin = fmtcode(
+		pdf=r"\begin{multicols}{2}",
+		html="<div style='column-count: 2;'>"
+	)
+	mcol_end = fmtcode(
+		pdf=r"\end{multicols}",
+		html="</div>"
+	)
 ```
 
 The `column-count` CSS property requires Internet Explorer>=10,
@@ -633,29 +631,7 @@ In order to use the `multicol` *tex* package, the statement
 `\usepackage{multicol}` has to be included in the yaml meta data
 in the front matter of the Markdown document.
 
-`?_mcol_begin()`Text Text Text Text Text Text Text Text Text Text
-Text Text Text Text Text Text Text Text Text Text Text Text Text
-Text Text Text Text Text Text Text Text Text Text Text Text Text
-Text Text Text Text Text Text Text Text Text Text Text Text Text
-Text Text Text Text Text Text Text Text Text Text Text Text Text
-Text Text Text Text Text Text Text Text Text Text Text Text Text
-Text Text Text Text Text Text Text Text Text Text Text Text Text
-Text Text Text Text Text Text Text Text Text Text Text Text Text
-Text Text Text Text Text Text Text Text Text Text Text Text Text
-Text Text Text Text Text Text Text Text Text Text Text Text Text
-Text Text Text Text Text Text Text Text Text Text Text Text Text
-Text Text Text Text Text Text Text Text Text Text Text Text Text
-Text Text Text Text Text Text Text Text Text Text Text Text Text
-`?_mcol_end()`
-
-**Example 2: Multi-Column Text in `pdf` and `html`**
-
-```!
-	def pdf_mcol(text): return r"\begin{multicols}{2}" + text + r"\end{multicols}"
-	def html_mcol(text): return r"<div style='column-count: 2;'>" + r"</div>"
-```
-
-`?_mcol("""
+`!mcol_begin()`
 Text Text Text Text Text Text Text Text Text Text Text Text Text
 Text Text Text Text Text Text Text Text Text Text Text Text Text
 Text Text Text Text Text Text Text Text Text Text Text Text Text
@@ -669,7 +645,7 @@ Text Text Text Text Text Text Text Text Text Text Text Text Text
 Text Text Text Text Text Text Text Text Text Text Text Text Text
 Text Text Text Text Text Text Text Text Text Text Text Text Text
 Text Text Text Text Text Text Text Text Text Text Text Text Text
-""")`
+`!mcol_end()`
 
 ---
 
