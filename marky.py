@@ -1813,6 +1813,7 @@ parser = argparse.ArgumentParser(add_help=False)
 parser.add_argument("--version", action='store_true', help="version is v" + ".".join([str(i) for i in marky_version]))
 parser.add_argument("--help", action='store_true', help="show this help message")
 
+parser.add_argument("--make", action='store_true', help="create Makefile in working directory")
 parser.add_argument("--init", action='store_true', help="create Makefile and docs in working directory")
 parser.add_argument("--pack", action='store_true', help="pack Makefile, marky.build/mdi/bib inside marky.py. source")
 parser.add_argument("--force", action='store_true', help="force overwrite of files for --init/--pack")
@@ -1852,6 +1853,14 @@ if args.version:
 	exit(0)
 elif args.help:
 	parser.print_help()
+	exit(0)
+elif args.make:
+	for i in ["./Makefile"]:
+		write_file(i, b64dec(eval("pack_" + i.split("/")[-1].replace(".", "_").replace("-", "_"))), overwrite=args.force)
+	print("# USAGE")
+	print("# 1. `make help`")
+	print("# 2. `make all-html httpd`")
+	print("# 3. `make all-pdf`")
 	exit(0)
 elif args.init:
 	for i in pack_files:
