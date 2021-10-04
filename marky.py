@@ -1436,14 +1436,13 @@ def parse_file(fpath, root_file=False, read_meta=True, read_text=True,
 					import yaml
 					for k, v in yaml.safe_load(yaml_text).items():
 						print("#    ...", "%s:" % k, v)
-						if not k.startswith("-"):
-							if not k in md_yaml:
-								print("#    ...", "%s" % k, "IMPORT")
-								md_yaml[k] = v
-							else:
-								print("#    ...", "%s" % k, "SKIP")
-						else:
-							k = k[1:]
+						app_meta = False
+						if k.endswith("--"):
+							app_meta = True
+							print("FIXME")
+							exit(1)
+						if not k in md_yaml:
+							md_yaml[k] = v
 						k = k.replace("-", "_")
 						if not k in exec_dict:
 							exec_dict[k] = v
@@ -1575,13 +1574,14 @@ def parse_line(fpath, n, line):
 
 exec_text = list()
 exec_append = False
-def _(*args, sep=" ", file=None	):
+def _(*args, sep=" ", file=None):
 	if not file is None:
 		print(*args, file=file)
 	global exec_text
 	global exec_append
 	if len(args) == 0:
 		exec_append = False
+		exec_text.append("")
 		return 0
 	if len(args) == 1 and args[0] == _:
 		exec_append = True
@@ -1598,10 +1598,13 @@ def _(*args, sep=" ", file=None	):
 		exec_text.append(text)
 	exec_append = b == -1
 
-def __(arg, append=None, shift="", crop=True):
+def __(arg=None, append=None, shift="", crop=True):
 	global exec_text
 	global exec_append
-	if not type(arg) is str:
+	if arg is None:
+		exec_append = False
+		exec_text.append("")
+	elif not type(arg) is str:
 		if exec_append and len(exec_text) > 0:
 			exec_text[-1] += str(arg)
 		else:
@@ -1614,9 +1617,9 @@ def __(arg, append=None, shift="", crop=True):
 				arg = arg[1:]
 			if len(arg[-1].strip()) == 0:
 				arg = arg[:-1]
-		n = len(arg[0]) - len(arg[0].strip())
+		n = len(arg[0]) - len(arg[0].lstrip())
 		for i in arg:
-			if crop and len(i[0:n].strip()) == 0:
+			if crop and len(i[0:n].lstrip()) == 0:
 				i = i[n:]
 			exec_text.append(shift + i)
 	if append == _:
@@ -1633,9 +1636,12 @@ def ___(arg, shift="", crop=True):
 				arg = arg[1:]
 			if len(arg[-1].strip()) == 0:
 				arg = arg[:-1]
-		n = len(arg[0]) - len(arg[0].strip())
+		n = len(arg[0]) - len(arg[0].lstrip())
+		print(n, arg[0])
+		print(n, arg[0])
+		print(n, arg[0])
 		for i in arg:
-			if crop and len(i[0:n].strip()) == 0:
+			if crop and len(i[0:n].lstrip()) == 0:
 				i = i[n:]
 			text.append(shift + i)
 		return "\n".join(text)
@@ -1817,6 +1823,7 @@ parser.add_argument("--link", type=str, default="", help="format dependent proce
 parser.add_argument("--marky", type=str, default="", help="path to input marky text")
 parser.add_argument("--md", type=str, default="", help="path to output markdown text")
 
+# ~ args, uargs = parser.parse_known_args()
 args = parser.parse_args()
 
 ########################################################################
@@ -2009,6 +2016,11 @@ html-%s: %s
 .PHONY: pdf-%s
 pdf-%s: %s
 """ % (args.target, args.target, args.pdf))
+					fh.write(
+"""
+.PHONY: all-%s
+all-%s: %s %s
+""" % (args.target, args.target, args.html, args.pdf))
 	except Exception as ex:
 		print("ERROR", type(ex), str(ex))
 		exit(1)

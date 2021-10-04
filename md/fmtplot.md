@@ -38,7 +38,13 @@ fignos-caption-name: Figure
 	import matplotlib.pyplot as plt
 
 	class fmtplot_base:
-		def setup(self, figid, data=None, style=None, label=None, color=None): pass
+		def setup(self, figid,
+			data=None,
+			style=None,
+			label=None,
+			color=None,
+			xticks=None
+		): pass
 		def show(self, figid, caption=None): pass
 		def legend(self, figid, caption=None): pass
 		def choice(self, figid): pass
@@ -69,8 +75,21 @@ fignos-caption-name: Figure
 		def jsid(self, htmlid):
 			return "flot-" + htmlid.replace("-", "_")
 
-		def setup(self, htmlid, data=None, style=None, label=None, color=None):
+		def jsticks(self, v):
+			if v is None:
+				return "null"
+			t = ",".join(["[%e,'%s']" % (i[0], i[1]) if type(i) is tuple else "%e" % i for i in v])
+			return "[" + t + "]"
+
+		def setup(self, htmlid,
+			data=None,
+			style=None,
+			label=None,
+			color=None,
+			xticks=None
+		):
 			data, style, label, color = self.fix(data, style, label, color)
+			xticks = self.jsticks(xticks)
 			jsid = self.jsid(htmlid)
 			jsdat = ""
 			jscho = ""
@@ -82,7 +101,7 @@ fignos-caption-name: Figure
 				if not c is None: jsdat += "color:'%s'," % c
 				jsdat += "},"
 			legpos = "null" if self.legpos is None else "'%s'" % self.legpos
-			self.script_html += f'flot_init("{jsid}", [{jsdat}], {legpos}, {self.legcols});'
+			self.script_html += f'flot_init("{jsid}", [{jsdat}], {legpos}, {self.legcols}, {xticks});'
 			return ___(f'''
 				<div class="flot-plot" id="{jsid}-dummy">
 				</div>
@@ -165,7 +184,13 @@ fignos-caption-name: Figure
 			bbox = bbox.transformed(fig.dpi_scale_trans.inverted())
 			fig.savefig(filename, dpi=self.figdpi, bbox_inches=bbox)
 
-		def setup(self, figid, data=None, style=None, label=None, color=None):
+		def setup(self, figid,
+			data=None,
+			style=None,
+			label=None,
+			color=None,
+			xticks=None
+		):
 			data, style, label, color = self.fix(data, style, label, color)
 			marker = "dx*sov^"
 			plt.rcParams.update(self.rcParams)
@@ -197,6 +222,11 @@ fignos-caption-name: Figure
 					plt.legend(plotgrp, label, numpoints=1,
 						handler_map={tuple: HandlerTuple(ndivide=None)},
 						ncol=self.legcols)
+			if not xticks is None:
+				plt.xticks(
+					[i[0] if type(i) is tuple else i for i in xticks],
+					[i[1] if type(i) is tuple else str(i) for i in xticks]
+				)
 			plt.tight_layout()
 			plt.savefig("./build/" + self.figdir + "/" + figid + ".png", dpi=self.figdpi)
 			plt.close("all")
@@ -232,9 +262,9 @@ fignos-caption-name: Figure
 			self.llabel = None
 			self.lcolor = None
 			self.ldata = None
-		def plot(self, figid):
+		def plot(self, figid, xticks=None):
 			return self.setup(figid, data=self.ldata, style=self.lstyle,
-				label=self.llabel, color=self.lcolor)
+				label=self.llabel, color=self.lcolor, xticks=xticks)
 
 ```
 

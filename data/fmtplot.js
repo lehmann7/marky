@@ -7,13 +7,14 @@ function flot_plot(id, data)
 	$("#" + id + "-dummy").css({"display": "none"});
 }
 
-function flot_init(id, data, lpos, lcols)
+function flot_init(id, data, lpos, lcols, xticks)
 {
 	$["data_" + id] = data;
 	$["opt_" + id] = {
 			zoom:{interactive:true},
 			pan:{interactive:true,enableTouch:true},
 			grid:{hoverable:true,clickable:true},
+			xaxis:{ticks:xticks},
 	};
 
 	if (lpos == null) $["opt_" + id]["legend"] = {show:false};
