@@ -1637,9 +1637,6 @@ def ___(arg, shift="", crop=True):
 			if len(arg[-1].strip()) == 0:
 				arg = arg[:-1]
 		n = len(arg[0]) - len(arg[0].lstrip())
-		print(n, arg[0])
-		print(n, arg[0])
-		print(n, arg[0])
 		for i in arg:
 			if crop and len(i[0:n].lstrip()) == 0:
 				i = i[n:]
