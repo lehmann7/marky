@@ -1355,7 +1355,10 @@ ICAgIG5vdGUgICAgPSB7QW4gb3B0aW9uYWwgbm90ZX0sCiAgICB2b2x1bWUgID0gezR9Cn0K
 
 def include_file(line, n, root_file, only_mkdep=False):
 	global mkdep
+	global inc_path
+	old_incpath = inc_path
 	ipath = inc_path + "/" + line.split(" ")[1]
+	inc_path = "/".join(ipath.split("/")[0:-1])
 	iflag = list(set(line.split(" ")[2:]))
 	print("# !!!", root_file, n, "->", ipath, " ".join(iflag))
 	flag_read_meta = True
@@ -1408,6 +1411,7 @@ def include_file(line, n, root_file, only_mkdep=False):
 			parse_file(ipath, read_meta=flag_read_meta, read_text=flag_read_text, run_marky=flag_run_marky,
 				shift_atx=flag_shift_atx, shift_str=shift_str, code_only=flag_only_code)
 		print("# !!!", root_file, n, "<-", ipath)
+	inc_path = old_incpath
 
 ########################################################################
 
@@ -1415,7 +1419,6 @@ def parse_file(fpath, root_file=False, read_meta=True, read_text=True,
 	run_marky=True, shift_atx=0, shift_str="", code_only=0):
 	global mkdep
 	global md_text
-	global inc_path
 	global exec_dict
 	global md_yaml
 	try:
@@ -1522,8 +1525,6 @@ def parse_file(fpath, root_file=False, read_meta=True, read_text=True,
 ########################################################################
 
 def parse_mkdep(fpath):
-	global mkdep
-	global inc_path
 	try:
 		with open(fpath, "r") as fh:
 			marky_text = fh.read()
