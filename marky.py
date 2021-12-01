@@ -1931,6 +1931,8 @@ exec_dict["__"] = __
 exec_dict["___"] = ___
 exec_dict["fmtcode"] = fmtcode
 
+sys.path.append(".")
+
 if len(args.link) > 0:
 
 	md_text = read_file(args.md)
