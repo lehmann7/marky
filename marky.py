@@ -1681,7 +1681,10 @@ class fmtcode:
 			if not v is None:
 				text += v
 		else:
-			text += f
+			if len(kwargs) > 0:
+				text += f.format(**kwargs)
+			else:
+				text += f
 		text += " html?>"
 		text += "<?pdf "
 		f = self.pdf
@@ -1690,7 +1693,10 @@ class fmtcode:
 			if not v is None:
 				text += v
 		else:
-			text += f
+			if len(kwargs) > 0:
+				text += f.format(**kwargs)
+			else:
+				text += f
 		text += " pdf?>"
 		return text
 	def __getattr__(self, name):
@@ -1930,8 +1936,6 @@ exec_dict["_"] = _
 exec_dict["__"] = __
 exec_dict["___"] = ___
 exec_dict["fmtcode"] = fmtcode
-
-sys.path.append(".")
 
 if len(args.link) > 0:
 
