@@ -1831,6 +1831,8 @@ parser.add_argument("--md", type=str, default="", help="path to output markdown 
 # ~ args, uargs = parser.parse_known_args()
 args = parser.parse_args()
 
+sys.path.append(".")
+
 ########################################################################
 
 def b64enc(x, n=72):
