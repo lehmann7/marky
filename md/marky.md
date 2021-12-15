@@ -13,9 +13,9 @@ header-includes--html: >
 xnos-cleveref: true
 xnos-capitalise: true
 fontsize: 11pt
--figsize: [10,8]
--figdpi: 300
--version: undefined
+figsize: [10,8]
+figdpi: 300
+version: undefined
 
 ---
 !!! ../Makefile aux
@@ -478,9 +478,9 @@ header-includes--html: >
 xnos-cleveref: `!xnos_cleveref`
 xnos-capitalise: `!xnos_capitalise`
 fontsize: `!fontsize`
--version: `!version`
--figsize: `!figsize`
--figdpi: `!figdpi`
+version: `!version`
+figsize: `!figsize`
+figdpi: `!figdpi`
 
 ---
 
@@ -519,10 +519,8 @@ size is `!fontsize` and the @fig:figure1, !@fig:figure2_1,
 `!"x".join(str(i) for i in figsize)`cm. The font size applies to
 both document text and figure text.
 
-As the user-defined fields are preceeded with `-`, they are not copied
-into the meta data of the preprocessed `!MD` text. They are only
-exposed into the python scope as variables for processing the `!M`
-`!MD` text, as described in @sec:incmeta.
+The values of meta data fields can be manipulated during include
+when being preceeded by `-` or `--`, as described in @sec:incmeta.
 
 ## Python Code Blocks inside `!MD` Text {#sec:block}
 
@@ -817,6 +815,9 @@ following meta data.
 ---
 width: 10
 height: 20
+serial: none
+parameter: value
+text: abc
 
 ---
 \!!! include.mdi
@@ -827,19 +828,18 @@ height: 20
 
 ---
 depth: 30
-volume: 6000
--serial: A56GHJ
+serial-: A
+parameter--: default
+text: def
 
 ---
 ```
 
-By default all `yaml` meta data fields are copied to the meta data of
-the root `!MD` document which is processed. However, if a meta data
-key is preceeded by `-` the key is not imported into the root document.
-All `yaml` meta data keys which start with `-` are exposed to the
-python scope and will appear as local variables, but they will not
-appear in the meta data of the front matter in the preprocessed
-`!MD` text. Given the example above, the resulting meta data in
+By default the values of meta data keys are appended. When a meta
+data key is preceded by `-` the included key replaces the present
+key, if it is preceded by `--` the included key is skipped if the
+meta data key already is present in the root document.
+Given the example above, the resulting meta data in
 the front matter of the preprocessed `!MD` text looks as follows.
 
 **Preprocessed Document**
@@ -849,7 +849,11 @@ the front matter of the preprocessed `!MD` text looks as follows.
 width: 10
 height: 20
 depth: 30
-volume: 6000
+serial: A
+parameter: value
+text: |
+   abc
+   def
 
 ---
 ```
