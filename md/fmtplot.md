@@ -1,7 +1,11 @@
 ---
-title: "`fmtplot`: Format Code for Plots in `pdf` and `html` Output"
-date: 2021-09-07
-author: lehmann7
+title--: "`fmtplot`: Format Code for Plots in `pdf` and `html` Output"
+date--: 2021-09-07
+author--: lehmann7
+fontsize--: 11pt
+xnos-cleveref--: true
+xnos-capitalise--: true
+fignos-caption-name--: Figure
 header-includes--html: >
    <script language="javascript" type="text/javascript" src="data/fmtplotjs/jquery.js"></script>
    <script language="javascript" type="text/javascript" src="data/fmtplotjs/jquery.event.drag.js"></script>
@@ -24,10 +28,6 @@ header-includes--html: >
    <script language="javascript" type="text/javascript" src="data/fmtplotjs/jquery.flot.image.js"></script>
    <link rel="stylesheet" type="text/css" href="data/fmtplot.css">
    <script language="javascript" type="text/javascript" src="data/fmtplot.js"></script>
-fontsize: 11pt
-xnos-cleveref: true
-xnos-capitalise: true
-fignos-caption-name: Figure
 
 ---
 !!! ../data/fmtplot.css aux
@@ -35,6 +35,7 @@ fignos-caption-name: Figure
 ```!!
 	import os
 	import json
+	import numpy as np
 	import matplotlib.pyplot as plt
 
 	class fmtplot_base:
@@ -46,7 +47,7 @@ fignos-caption-name: Figure
 			xticks=None
 		): pass
 		def show(self, figid, caption=None): pass
-		def legend(self, figid, caption=None): pass
+		def legend(self, figid, caption=None, choice=False): pass
 		def choice(self, figid): pass
 		def script(self): pass
 		def fix(self, data, style, label, color):
@@ -107,7 +108,7 @@ fignos-caption-name: Figure
 				</div>
 			''')
 
-		def show(self, htmlid, caption=None):
+		def show(self, htmlid, caption=None, choice=False):
 			caption = "" if caption is None else caption
 			colon = ":" if caption != "" else ""
 			jsid = self.jsid(htmlid)
@@ -119,7 +120,8 @@ fignos-caption-name: Figure
 				</div>
 				</div>
 				<figcaption>
-				<span>{fignos_caption_name} !@fig:{htmlid}{{nolink=True}}:</span> {caption}
+				<p><span>{fignos_caption_name} !@fig:{htmlid}{{nolink=True}}:</span> {caption}</p>
+				{self.choice(htmlid) if choice else ""}
 				</figcaption>
 				</figure>
 				</div>
@@ -206,7 +208,7 @@ fignos-caption-name: Figure
 					if e == "L":
 						pgroup.extend(plt.plot(d[0], d[1], color=c, lw=s[i+1]))
 					if e == "B":
-						pgroup.append(plt.bar(d[0], d[1], color=c, width=min(d[0][0:-1] - d[0][1:])*s[i+1]))
+						pgroup.append(plt.bar(d[0], d[1], color=c, width=min(np.array(d[0][0:-1]) - np.array(d[0][1:]))*s[i+1]))
 				if not l is None:
 					plotgrp.append(tuple(pgroup))
 					plotlbl.append(l)
@@ -231,7 +233,7 @@ fignos-caption-name: Figure
 			plt.savefig("./build/" + self.figdir + "/" + figid + ".png", dpi=self.figdpi)
 			plt.close("all")
 
-		def show(self, figid, caption=None):
+		def show(self, figid, caption=None, choice=False):
 			caption = "" if caption is None else caption
 			return f'![{caption}]({self.figdir + "/" + figid + ".png"})' + "{#fig:" + figid + "}"
 

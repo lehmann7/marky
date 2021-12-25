@@ -1438,7 +1438,7 @@ def parse_file(fpath, root_file=False, read_meta=True, read_text=True,
 						k_ = k
 						if k_.endswith("--"): k_ = k[:-2]
 						elif k_.endswith("-"): k_ = k[:-1]
-						if not k in md_yaml:
+						if not k_ in md_yaml:
 							md_yaml[k_] = v
 						else:
 							if k.endswith("--"):
@@ -1448,7 +1448,7 @@ def parse_file(fpath, root_file=False, read_meta=True, read_text=True,
 							else:
 								md_yaml[k_] += "\n" + v
 						k_ = k_.replace("-", "_")
-						if not k in exec_dict:
+						if not k_ in exec_dict:
 							exec_dict[k_] = v
 						else:
 							if k.endswith("--"):
@@ -1589,8 +1589,9 @@ def _(*args, sep=" ", file=None):
 	global exec_text
 	global exec_append
 	if len(args) == 0:
+		if exec_append == False:
+			exec_text.append("")
 		exec_append = False
-		exec_text.append("")
 		return 0
 	if len(args) == 1 and args[0] == _:
 		exec_append = True
