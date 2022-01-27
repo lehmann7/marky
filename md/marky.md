@@ -57,6 +57,61 @@ is embedded directly inside the Markdown text. Using the `___()`
 function text is generated from python algorithms and
 dynamically inserted into the resulting Markdown.
 
+# How does `marky` work internally?
+
+`marky` uses an extremely simple mechanism for generating a python programm
+from the Markdown text. Using the `<\?...?\>` and `{\{...}\}` statement,
+Python code is embedded into the Markdown text and translated into a series
+of calls to the `___()` function using `f`-strings as arguments, where
+python variables are referenced. This results into a python program
+which can generate Markdown text algorithmically.
+
+#### Example: `md/file.md` {-}
+```php
+* This is {first}. <\?
+x = 1 # this is code
+for i in range(3):
+	if x:
+		?\>
+{\{i+1}\}. The value is {\{\{x}\}\}.
+<\?
+	else:
+		?\>{\{i+1}\}. The value is zero.
+<\?
+	x = 0
+?\>* This is last.
+```
+The file produces the following Markdown output.
+
+#### Output: Markdown {-}
+```bash
+* This is {first}.
+1. The value is {1}.
+2. The value is zero.
+3. The value is zero.
+* This is last.
+```
+
+`marky` transforms the Markdown into Python source code.
+Execution of the Python source code yields the new Markdown text.
+
+#### Output: `build/file.py` {-}
+```python
+___(rf"""* This is {\{first}\}. """, ___);
+x = 1 # this is code
+for i in range(3):
+	if x:
+		___(rf"""
+{i+1}. The value is {\{\{x}\}\}.
+""", ___);
+	else:
+		___(rf"""{i+1}. The value is zero.
+""", ___);
+	x = 0
+___(rf"""* This is last.
+""", ___);
+```
+
 # Quick Start
 
 ## `marky` Dependencies
@@ -502,61 +557,6 @@ specifies corresponding options for the generation of `pdf` and `html`
 documents. During make, `marky` scans all meta data fields, and
 fields which end with `--pdf` and `--html` are selected and forwarded
 to `pandoc` based on the format to be rendered.
-
-# How does `marky` work internally?
-
-`marky` uses an extremely simple mechanism for generating a python programm
-from the Markdown text. Using the `<\?...?\>` and `{\{...}\}` statement,
-Python code is embedded into the Markdown text and translated into a series
-of calls to the `___()` function using `f`-strings as arguments, where
-python variables are referenced. This results into a python program
-which can generate Markdown text algorithmically.
-
-#### Example: `md/file.md` {-}
-```php
-* This is {first}. <\?
-x = 1 # this is code
-for i in range(3):
-	if x:
-		?\>
-{\{i+1}\}. The value is {\{\{x}\}\}.
-<\?
-	else:
-		?\>{\{i+1}\}. The value is zero.
-<\?
-	x = 0
-?\>* This is last.
-```
-The file produces the following Markdown output.
-
-#### Output: Markdown {-}
-```bash
-* This is {first}.
-1. The value is {1}.
-2. The value is zero.
-3. The value is zero.
-* This is last.
-```
-
-`marky` transforms the Markdown into Python source code.
-Execution of the Python source code yields the new Markdown text.
-
-#### Output: `build/file.py` {-}
-```python
-___(rf"""* This is {\{first}\}. """, ___);
-x = 1 # this is code
-for i in range(3):
-	if x:
-		___(rf"""
-{i+1}. The value is {\{\{x}\}\}.
-""", ___);
-	else:
-		___(rf"""{i+1}. The value is zero.
-""", ___);
-	x = 0
-___(rf"""* This is last.
-""", ___);
-```
 
 # Scientific Writing in Markdown {#sec:panmd}
 
