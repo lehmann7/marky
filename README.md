@@ -1,13 +1,13 @@
----
-
 > **Abstract** -- `marky` is a preprocessor with an easy and intuitive
 > syntax for execution of embedded <span style='color:blue'>pyhon</span> code during rendering
 > `html` and `pdf` documents from Markdown text.
-> This document is created using `marky`, version *0.9*.
+> this document is created using `marky`, version *0.9*.
 > For more information please refer to the
 > [`marky` repository](https://github.com/lehmann7/marky).
 
----
+![*Left*: Marky Markdown Text, *Middle*: Rendered PDF, *Right:* Rendered HTML](data/marky.png)
+
+> **`marky` Preprocessor**-- *Left*: `marky` Markdown Text, *Middle*: Rendered PDF, *Right:* Rendered HTML.
 
 # `marky` Dynamic Markdown
 
