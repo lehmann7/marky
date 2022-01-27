@@ -1,7 +1,7 @@
 > **Abstract** -- `marky` is a preprocessor with an easy and intuitive
-> syntax for execution of embedded <span style='color:blue'>pyhon</span> code during rendering
+> syntax for execution of embedded <span style='color:blue;'>pyhon</span> code during rendering
 > `html` and `pdf` documents from Markdown text.
-> this document is created using `marky`, version *0.9*.
+> This document is created using `marky`, version *0.9*.
 > For more information please refer to the
 > [`marky` repository](https://github.com/lehmann7/marky).
 
@@ -24,6 +24,50 @@ is embedded directly inside the Markdown text. Using the `___()`
 function text is generated from python algorithms and
 dynamically inserted into the resulting Markdown.
 
+The following example can be produced by just calling
+`make pdf/file` or `make html/file`.
+
+#### Example: `md/file.md` {-}
+```markdown
+---
+title: An Example
+---
+<?
+def cap_first(x):
+	return " ".join([i[0].upper() + i[1:] for i in i.split()])
+for i in ["very", "not so"]:
+	?>
+**{{cap_first(i)}} Section**
+
+To day is a {{i}} very nice day.
+The sun is shining {{i}} bright and
+the birds are singing {{i}} loud and
+fly {{i}} high in the {{i}} blue sky.
+	<?
+?>
+```
+#### Output `build/file.md` {-}
+```markdown
+---
+title: An Example
+---
+
+**Very Section**
+
+To day is a very very nice day.
+The sun is shining very bright and
+the birds are singing very loud and
+fly very high in the very blue sky.
+
+**Not So Section**
+
+To day is a not so very nice day.
+The sun is shining not so bright and
+the birds are singing not so loud and
+fly not so high in the not so blue sky.
+
+```
+
 # How does `marky` work internally?
 
 `marky` uses an extremely simple mechanism for generating a python programm
@@ -33,7 +77,7 @@ of calls to the `___()` function using `f`-strings as arguments, where
 python variables are referenced. This results into a python program
 which can generate Markdown text algorithmically.
 
-#### Example: `md/file.md`
+#### Example: `md/file.md` {-}
 ```php
 * This is {first}. <?
 x = 1 # this is code
@@ -50,7 +94,7 @@ for i in range(3):
 ```
 The file produces the following Markdown output.
 
-#### Output: Markdown
+#### Output: Markdown {-}
 ```bash
 * This is {first}.
 1. The value is {1}.
@@ -62,7 +106,7 @@ The file produces the following Markdown output.
 `marky` transforms the Markdown into Python source code.
 Execution of the Python source code yields the new Markdown text.
 
-#### Output: `build/file.py`
+#### Output: `build/file.py` {-}
 ```python
 ___(rf"""* This is {{first}}. """, ___);
 x = 1 # this is code
@@ -83,30 +127,37 @@ ___(rf"""* This is last.
 
 ## `marky` Dependencies
 
-`marky` uses [pandoc](https://www.pandoc.org/) for rendering `html` and `pdf`.
-
 `marky` depends on `pandoc` and `pyyaml`. `pandoc` is used for rendering
-the Markdown into `html` and `pdf`. `pandoc` supports various Markdown
-extensions allowing for scientific writing using equations, figures,
-tables, citations and corresponding referencing mechanism for the latter.
-`pyyaml` is used for parsing meta data in the front matter of the
-Markdown text.
+the Markdown into `html` and `pdf`. `marky` uses
+[pandoc](https://www.pandoc.org/) for rendering `html` and `pdf`.
+`pandoc>=2.10` releases can be found
+[here](https://github.com/jgm/pandoc/releases).
+The other packages can be installed with `pip`.
 
-`marky` renders the documentation using `pandoc` into `html` and
-`pdf` by invoking `make all`. `marky` requires
-installing the dependencies `python-pyyaml`, `pandoc` and `pandoc-xnos`
-(`pandoc-fignos`, `pandoc-secnos`, `pandoc-eqnos`, `pandoc-tablenos`).
-The details are shown in the Makefile help message.
+```bash
+pip install pandoc-fignos
+pip install pandoc-eqnos
+pip install pandoc-secnos
+pip install pandoc-tablenos
+pip install pandoc-xnos
+pip install pyyaml
+```
 
 ## `marky` Workflow
 
-Workflow for creating `html` or `pdf` using `marky`
+Workflow for creating `html` or `pdf` using `marky` by
+invocation of `make scan all`.
 
-1. user writes a Markdown text file and places it in `md/*.md`
+1. write    |->|2. build            |->|3. render
+------------|--|--------------------|--|----------------
+`md/file.md`|->|`build/file.html.md`|->|`html/file.html`
+           .|->|`build/file.pdf.md` |->|`pdf/file.pdf`
+
+1. **write**: user writes a Markdown text file and places it in `md/*.md`
 directory with the extension `.md`.
-2. `marky` transforms the files in `md/*.md` into regular Markdown text
+2. **build**: marky` transforms the files in `md/*.md` into regular Markdown text
 and places the transformed files in `build/`.
-3. the regular Markdown text in the files `build/*.md` is rendered into
+3. **render**: the regular Markdown text in the files `build/*.md` is rendered into
 `html` and `pdf` using `pandoc`.
 
 The three steps are implemented in a Makefile.
@@ -141,13 +192,13 @@ make help
 
 During initialization, `marky` creates directories and files.
 After initialization, the following structure is auto-generated
-in the project directory.
+in the project directory. `marky` shows the project structure
+when invoking `make tree`.
 ```bash
-make help
 PROJECT TREE
 ##############
 <working_dir>
-|- marky.py             - marky executable
+|- marky.py            - marky executable
 |- Makefile        (*) - marky Makefile
 |- pandoc-run      (*) - pandoc wrapper
 |- md/             (*) - user Markdown dir
@@ -192,9 +243,8 @@ in `html/`, `build/` and `pdf/`.
 a short info about the `marky` dependencies, make targets and
 examples.
 ```bash
-make help
 marky DEPENDENCIES
-###################
+####################
 * pandoc >= 2.10
 * pip install pandoc-fignos
 * pip install pandoc-eqnos
@@ -210,17 +260,16 @@ User files `*.md` have to be placed in `md/*.md`!
 `make clean` deletes all files in `build/`, `html/` and `pdf/`.
 
 marky UTILS
-############
+#############
 * make help            - show this *Help Message*
 * make tree            - show the *Project Tree*
-* make cheat           - show the marky *Cheat Sheet*
 * make httpd           - run python -m httpd.server in `html/`
 * make clean           - delete: `build/*`, `html/*`, `pdf/*`
 * make scan            - build make deps: `build/*.make`
 * make list            - list all scanned files and targets
 
 marky BUILD ALL
-################
+#################
 * make build           -> `build/*.{html,pdf}.md`
 * make tex             -> `build/*.tex`
 * make html            -> `html/*.html`
@@ -228,7 +277,7 @@ marky BUILD ALL
 * make all             -> `html/*.html`, `pdf/*.pdf`
 
 marky BUILD FILE
-#################
+##################
 * make build/file      -> `build/file.{html,pdf}.md`
 * make build/file.tex  -> `build/file.tex`
 * make html/file       -> `html/file.html`
@@ -295,7 +344,7 @@ python code in order to access installed python packages as usual.
 
 Using `<?!...?>` code is executed and also shown in Markdown.
 
-#### Example
+#### Example {-}
 ```python
 <?!
 x = 42 # visible code
@@ -303,33 +352,33 @@ print("Hello console!")
 ?>
 ```
 
-#### Run and Output
+#### Run and Output {-}
 ```python
 x = 42 # visible code
 
 ```
 
-**Attention:** Using the `print()` function the text will be printed
+**ATTENTION:** Using the `print()` function the text will be printed
 to the console and **not** inside the resulting Markdown text.
 
 ### Hidden Code
 
 Using `<?...?>` code is executed but not shown in Markdown.
 
-#### Example
+#### Example {-}
 ```python
 <?
 x = 41 # hidden code
 ___(f"Output to Markdown. x = {x}!")
 ?>
 ```
-#### Run and Output
+#### Run and Output {-}
 ```python
 Output to Markdown. x = 41!
 
 ```
 
-**Attention:** Using the `___()` function the text will be printed
+**ATTENTION:** Using the `___()` function the text will be printed
 inside the resulting Markdown text **and not** on the console.
 
 ## The `___()` Function
@@ -338,7 +387,7 @@ Using the `print()` statement the text will be printed to the console.
 When using the `___()` statement new Markdown text is
 inserted dynamically into the document during preprocessing.
 
-#### Example: Line Break
+#### Example: Line Break {-}
 ```python
 <?
 x = 40 # hidden code
@@ -347,13 +396,13 @@ ___("single line! ", ___)
 ___(f"x = {x}")
 ?>
 ```
-#### Run and Output
+#### Run and Output {-}
 ```bash
 Output in single line! x = 40
 
 ```
 
-#### Example: Shift, Crop, Return
+#### Example: Shift, Crop, Return {-}
 ```python
 <?
 result = ___("""
@@ -365,7 +414,7 @@ result = ___("""
 ___(result)
 ?>
 ```
-#### Run and Output
+#### Run and Output {-}
 ```bash
 ########* text is cropped and shifted
 ########      * shift and crop
@@ -411,14 +460,14 @@ formatted output of variables and results of expressions into Markdown
 text. The `marky` operator `{{<expression>[:<format>]}}` uses the
 syntax of [`f`-strings](https://docs.python.org/3/reference/lexical_analysis.html#f-strings).
 
-#### Example 1
+#### Example 1 {-}
 ```bash
-Text text {{x}} and {{",".join([str(i) for i in range(x-10,x)])}}.
+`x` is {{x}} and {{",".join([str(i) for i in range(x-10,x)])}}.
 ```
-#### Output
-> Text text 40 and 30,31,32,33,34,35,36,37,38,39.
+#### Output {-}
+> `x` is 40 and 30,31,32,33,34,35,36,37,38,39.
 
-#### Example 2
+#### Example 2 {-}
 ```python
 x = int(1)
 y = float(2.3)
@@ -431,7 +480,7 @@ b = (4, 5)
 This is a paragraph and x is {{x:03d}} and y is {{y:.2f}}.
 Other content is: a = {{a}}, b = {{b}}.
 ```
-#### Output
+#### Output {-}
 > This is a paragraph and x is 001 and y is 2.30.
 > Other content is: a = [1, 2, 3], b = (4, 5).
 
@@ -449,11 +498,11 @@ with consistent paths. Using the `marky` format link
  `.???` file extension results in consistent links for `html` and
 `pdf` documents.
 
-#### Example
+#### Example {-}
 ```md
 [Link to this Document](marky.???)
 ```
-#### Output
+#### Output {-}
 > [Link to this Document](marky.html)
 
 ## Format Codes
@@ -471,7 +520,7 @@ depending on the output format.
 JavaScript and style sheets for `html` using the meta data fields
 `header-includes--pdf` and `header-includes--html` respectively.
 
-#### Example: `fmtcode`
+#### Example: `fmtcode` {-}
 ```python
 F = fmtcode(html="H<sup>T</sup><sub>M</sub>L", pdf=r"\LaTeX")
 
@@ -479,10 +528,10 @@ F = fmtcode(html="H<sup>T</sup><sub>M</sub>L", pdf=r"\LaTeX")
 ```markdown
 Invocation of format code results in: {{F()}}.
 ```
-#### Output
+#### Output {-}
 > Invocation of format code results in: H<sup>T</sup><sub>M</sub>L.
 
-#### Example: Color
+#### Example: Color {-}
 ```python
 C = lambda color: fmtcode(
 	html="<span style='color:%s;'>{0}</span>" % color,
@@ -495,11 +544,11 @@ R = C("red")
 ```markdown
 Text with {{B("blue")}} and {{R("RED")}}.
 ```
-#### Output
+#### Output {-}
 > Text with <span style='color:blue;'>blue</span> and <span style='color:red;'>RED</span>.
 
 
-#### Example: Classes
+#### Example: Classes {-}
 ```python
 class color:
 	def __init__(self, color):
@@ -525,7 +574,7 @@ RR = CC("red")
 ```markdown
 Text with {{BB.upper("blue")}} and {{RR.lower("RED")}}.
 ```
-#### Output
+#### Output {-}
 > Text with <span style='color:blue;'>BLUE</span> and <span style='color:red;'>red</span>.
 
 # Meta Data in Front Matter
@@ -538,7 +587,7 @@ data is imported into the preprocessed document.
 
 ## Pandoc Front Matter
 
-#### Example
+#### Example {-}
 ```yaml
 ---
 title:
@@ -592,7 +641,7 @@ documents. During make, `marky` scans all meta data fields, and
 fields which end with `--pdf` and `--html` are selected and forwarded
 to `pandoc` based on the format to be rendered.
 
-# Scientific Writing in Markdown
+# Scientific Writing in Markdown {#sec:panmd}
 
 [Markdown](https://pandoc.org/MANUAL.html#pandocs-markdown) is a markup
 language for technical writing, with emphasis on readability. Markdown
@@ -644,7 +693,7 @@ and "Tab." are added automatically to the corresponding element.
 If the prefix is to be omitted, the reference is written as
 `\!@ref:label`.
 
-#### Example
+#### Example {-}
 ```md
 ## Referenced Section {#sec:label}
 
