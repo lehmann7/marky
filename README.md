@@ -1,16 +1,4 @@
 ---
-bibliography: data/marky.bib
-fontsize: 11pt
-header-includes: '<style>* { box-sizing: border-box; }</style>
-
-  '
-title: '`marky` Documentation (`html` Version)'
-xnos-capitalise: true
-xnos-cleveref: true
-
----
-
----
 
 > **Abstract** -- `marky` is a preprocessor with an easy and intuitive
 > syntax for execution of embedded <span style='color:blue'>pyhon</span> code during rendering
