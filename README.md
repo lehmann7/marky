@@ -1,10 +1,10 @@
 ---
-bibliography: data/pype.bib
+bibliography: data/marky.bib
 fontsize: 11pt
 header-includes: '<style>* { box-sizing: border-box; }</style>
 
   '
-title: '`pype` Documentation (`html` Version)'
+title: '`marky` Documentation (`html` Version)'
 xnos-capitalise: true
 xnos-cleveref: true
 
@@ -12,19 +12,19 @@ xnos-cleveref: true
 
 ---
 
-> **Abstract** -- `pype` is a preprocessor with an easy and intuitive
+> **Abstract** -- `marky` is a preprocessor with an easy and intuitive
 > syntax for execution of embedded <span style='color:blue'>pyhon</span> code during rendering
 > `html` and `pdf` documents from Markdown text.
-> This document is created using `pype`, version *0.9*.
+> This document is created using `marky`, version *0.9*.
 > For more information please refer to the
-> [`pype` repository](https://github.com/lehmann7/marky).
+> [`marky` repository](https://github.com/lehmann7/marky).
 
 ---
 
-# `pype` Dynamic Markdown
+# `marky` Dynamic Markdown
 
-`pype` is a Markdown preprocessor which transforms a Markdown document
-using python. `pype` implements three statements with extremely easy
+`marky` is a Markdown preprocessor which transforms a Markdown document
+using python. `marky` implements three statements with extremely easy
 and intuitive syntax, which are embedded directly in the Markdown text:
 
 1. `<?...?>`: Python code block.
@@ -38,30 +38,30 @@ dynamically inserted into the resulting Markdown.
 
 # Quick Start
 
-## `pype` Dependencies
+## `marky` Dependencies
 
-`pype` uses [pandoc](https://www.pandoc.org/) for rendering `html` and `pdf`.
+`marky` uses [pandoc](https://www.pandoc.org/) for rendering `html` and `pdf`.
 
-`pype` depends on `pandoc` and `pyyaml`. `pandoc` is used for rendering
+`marky` depends on `pandoc` and `pyyaml`. `pandoc` is used for rendering
 the Markdown into `html` and `pdf`. `pandoc` supports various Markdown
 extensions allowing for scientific writing using equations, figures,
 tables, citations and corresponding referencing mechanism for the latter.
 `pyyaml` is used for parsing meta data in the front matter of the
 Markdown text.
 
-`pype` renders the documentation using `pandoc` into `html` and
-`pdf` by invoking `make all`. `pype` requires
+`marky` renders the documentation using `pandoc` into `html` and
+`pdf` by invoking `make all`. `marky` requires
 installing the dependencies `python-pyyaml`, `pandoc` and `pandoc-xnos`
 (`pandoc-fignos`, `pandoc-secnos`, `pandoc-eqnos`, `pandoc-tablenos`).
 The details are shown in the Makefile help message.
 
-## `pype` Workflow
+## `marky` Workflow
 
-Workflow for creating `html` or `pdf` using `pype`
+Workflow for creating `html` or `pdf` using `marky`
 
 1. user writes a Markdown text file and places it in `md/*.md`
 directory with the extension `.md`.
-2. `pype` transforms the files in `md/*.md` into regular Markdown text
+2. `marky` transforms the files in `md/*.md` into regular Markdown text
 and places the transformed files in `build/`.
 3. the regular Markdown text in the files `build/*.md` is rendered into
 `html` and `pdf` using `pandoc`.
@@ -70,33 +70,33 @@ The three steps are implemented in a Makefile.
 
 ## Download and Initialize
 
-`pype` is supplied as a single-file script which automatically
+`marky` is supplied as a single-file script which automatically
 sets up the project structure containing all scripts
 required for processing and rendering Markdown.
 
-For example, download `pype` from github.
+For example, download `marky` from github.
 ```bash
-git clone https://lehmann7.github.com/pype.git
-cd pype
+git clone https://lehmann7.github.com/marky.git
+cd marky
 ```
 
-After download, the `pype` environment is initialized using `pype`.
+After download, the `marky` environment is initialized using `marky`.
 ```bash
-./pype.py --init
+./marky.py --init
 # mkdir build/
 # mkdir data
 # mkdir md/
 # WRITE Makefile
 # WRITE pandoc-run
-# WRITE md/pype.md
+# WRITE md/marky.md
 # WRITE .gitignore
 # USAGE
 make help
 ```
 
-## `pype` Environment
+## `marky` Environment
 
-During initialization, `pype` creates directories and files.
+During initialization, `marky` creates directories and files.
 After initialization, the following structure is auto-generated
 in the project directory.
 ```bash
@@ -104,15 +104,15 @@ make help
 PROJECT TREE
 ##############
 <working_dir>
-|- pype.py             - pype executable
-|- Makefile        (*) - pype Makefile
+|- marky.py             - marky executable
+|- Makefile        (*) - marky Makefile
 |- pandoc-run      (*) - pandoc wrapper
 |- md/             (*) - user Markdown dir
 |  |- *.md         (*) - user Markdown text
 |- data/           (*) - user data dir
 |  |- *.*                user data files
 |- build/          (*) - build Markdown dir
-|  |- *.py         (*) - Markdown pype code
+|  |- *.py         (*) - Markdown marky code
 |  |- *.make       (*) - Makefile rules
 |  |- *.html.md    (*) - Markdown for html format
 |  |- *.pdf.md     (*) - Markdown for pdf format
@@ -120,7 +120,7 @@ PROJECT TREE
 |- pdf/*.pdf       (*) - rendered pdf dir
 
 (*) directories/files are auto-generated using
-   `./pype.py --init` and `make scan´
+   `./marky.py --init` and `make scan´
 
 
 
@@ -145,12 +145,12 @@ in `html/`, `build/` and `pdf/`.
 
 ## Integrated Documentation
 
-`pype` has an integrated environment. Using `make help` displays
-a short info about the `pype` dependencies, make targets and
+`marky` has an integrated environment. Using `make help` displays
+a short info about the `marky` dependencies, make targets and
 examples.
 ```bash
 make help
-pype DEPENDENCIES
+marky DEPENDENCIES
 ###################
 * pandoc >= 2.10
 * pip install pandoc-fignos
@@ -166,17 +166,17 @@ All files in `build/*.md` and `html/*.html` are auto-generated!
 User files `*.md` have to be placed in `md/*.md`!
 `make clean` deletes all files in `build/`, `html/` and `pdf/`.
 
-pype UTILS
+marky UTILS
 ############
 * make help            - show this *Help Message*
 * make tree            - show the *Project Tree*
-* make cheat           - show the pype *Cheat Sheet*
+* make cheat           - show the marky *Cheat Sheet*
 * make httpd           - run python -m httpd.server in `html/`
 * make clean           - delete: `build/*`, `html/*`, `pdf/*`
 * make scan            - build make deps: `build/*.make`
 * make list            - list all scanned files and targets
 
-pype BUILD ALL
+marky BUILD ALL
 ################
 * make build           -> `build/*.{html,pdf}.md`
 * make tex             -> `build/*.tex`
@@ -184,7 +184,7 @@ pype BUILD ALL
 * make pdf             -> `pdf/*.pdf`
 * make all             -> `html/*.html`, `pdf/*.pdf`
 
-pype BUILD FILE
+marky BUILD FILE
 #################
 * make build/file      -> `build/file.{html,pdf}.md`
 * make build/file.tex  -> `build/file.tex`
@@ -205,20 +205,20 @@ EXAMPLE
 
 ```
 
-# `pype` Features
+# `marky` Features
 
 Place a new file in `md/file.md` and run the following commands.
 ```bash
 touch md/file.md
 ```
 
-`pype` discovers the new document when invoking `make scan`.
+`marky` discovers the new document when invoking `make scan`.
 ```bash
 make scan
 # WRITE build/file.make
 ```
 
-`pype` renders `html` and `pdf` using make targets.
+`marky` renders `html` and `pdf` using make targets.
 ```bash
 make html/file
 make pdf/file
@@ -365,7 +365,7 @@ Table: Table is generated using code and the `___()` statement. {#tbl:algt}
 
 The `{{...}}` statement uses sntax similar to python `f`-strings for
 formatted output of variables and results of expressions into Markdown
-text. The `pype` operator `{{<expression>[:<format>]}}` uses the
+text. The `marky` operator `{{<expression>[:<format>]}}` uses the
 syntax of [`f`-strings](https://docs.python.org/3/reference/lexical_analysis.html#f-strings).
 
 #### Example 1 {-}
@@ -402,7 +402,7 @@ between each other using links. In order to refer to external
 [Link Caption](path/to/file.pdf)
 ```
 One link statement cannot be used for rendering `html` and `pdf`
-with consistent paths. Using the `pype` format link
+with consistent paths. Using the `marky` format link
  `.???` file extension results in consistent links for `html` and
 `pdf` documents.
 
@@ -417,7 +417,7 @@ with consistent paths. Using the `pype` format link
 
 Often when writing markdown for `html` and `pdf` documents, the
 output needs to be tweaked accordingly.
-`pype` supports format specific tweaking by injecting
+`marky` supports format specific tweaking by injecting
 raw `html` or `tex` code into Markdown using format codes.
 
 In order to inject format specific code the `fmtcode` class is used.
@@ -525,7 +525,7 @@ extensions for referencing
 [sections](https://github.com/tomduck/pandoc-secnos#customization) and
 [equations](https://github.com/tomduck/pandoc-eqnos#customization).
 
-## `pype` Format Fields
+## `marky` Format Fields
 
 **Example**
 ```yaml
@@ -545,13 +545,13 @@ therefore it must contain corresponding tex and `html` code.
 
 The field `header-includes` ending with `--pdf` or `--html`
 specifies corresponding options for the generation of `pdf` and `html`
-documents. During make, `pype` scans all meta data fields, and
+documents. During make, `marky` scans all meta data fields, and
 fields which end with `--pdf` and `--html` are selected and forwarded
 to `pandoc` based on the format to be rendered.
 
-# How does `pype` work internally?
+# How does `marky` work internally?
 
-`pype` uses an extremely simple mechanism for generating a python programm
+`marky` uses an extremely simple mechanism for generating a python programm
 from the Markdown text. Using the `<?...?>` and `{{...}}` statement,
 Python code is embedded into the Markdown text and translated into a series
 of calls to the `___()` function using `f`-strings as arguments, where
@@ -584,7 +584,7 @@ The file produces the following Markdown output.
 * This is last.
 ```
 
-`pype` transforms the Markdown into Python source code.
+`marky` transforms the Markdown into Python source code.
 Execution of the Python source code yields the new Markdown text.
 
 #### Output: `build/file.py` {-}
@@ -613,7 +613,7 @@ can be rendered in many formats including `html` and `pdf` by using
 
 Using various Markdown extensions of `pandoc` a sufficient structure for
 writing scientific documents is reflected using Markdown syntax.
-`pype` by default uses the following `pandoc` Markdown extensions.
+`marky` by default uses the following `pandoc` Markdown extensions.
 * parsing extensions
 	* [all_symbols_escapable](https://pandoc.org/MANUAL.html#extension-all_symbols_escapable)
 	* [intraword_underscores](https://pandoc.org/MANUAL.html#extension-intraword_underscores)
@@ -684,7 +684,7 @@ This is a reference to @eq:label.
 This is a citation [@Muller1993].
 ```
 
-The file `pype.bib` is specified in the meta data in the front
+The file `marky.bib` is specified in the meta data in the front
 matter of the Markdown text.
 
 ## Referenced Section {#sec:label}
