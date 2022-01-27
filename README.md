@@ -150,9 +150,9 @@ invocation of `make scan all`.
 
 *write*     |->|*build*             |->|*render*
 ------------|--|--------------------|--|----------------
--           |->|`build/file.html.md`|->|`html/file.html`
-`md/file.md`|  |-                   |  |-
--           |->|`build/file.pdf.md` |->|`pdf/file.pdf`
+`-`         |->|`build/file.html.md`|->|`html/file.html`
+`md/file.md`|  |`-`                 |  |`-`
+`-`         |->|`build/file.pdf.md` |->|`pdf/file.pdf`
 
 1. **write**: user writes a Markdown text file and places it in `md/*.md`
 directory with the extension `.md`.
