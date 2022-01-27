@@ -1,0 +1,65 @@
+#!/bin/bash
+
+[ $# == 0 ] && echo """
+# Usage: $0: <FORMAT> <INFILE> <OUTFILE>
+# Example:
+# $0 html build/file.html.md html/file.html
+# $0 pdf build/file.pdf.md pdf/file.pdf
+""" && exit 1
+
+PANDOC=pandoc
+
+MDEXT=\
+all_symbols_escapable+\
+intraword_underscores+\
+escaped_line_breaks+\
+space_in_atx_header+\
+lists_without_preceding_blankline+\
+inline_code_attributes+\
+strikeout+\
+yaml_metadata_block+\
+pipe_tables+\
+line_blocks+\
+implicit_figures+\
+abbreviations+\
+inline_notes
+
+PDOPT="""
+--table-of-contents
+--number-sections
+"""
+
+if [ $1 == html ] ; then
+$PANDOC "$2" \
+--filter pandoc-xnos \
+--citeproc \
+--from=markdown+raw_html+$MDEXT \
+--to=html5 \
+--self-contained \
+--output="$3" \
+--resource-path="./build/" \
+$PDOPT
+fi
+
+if [ $1 == pdf ] ; then
+$PANDOC "$2" \
+--filter pandoc-xnos \
+--citeproc \
+--from=markdown+raw_tex+$MDEXT \
+--to=latex \
+--output="$3" \
+--resource-path="./build/" \
+--pdf-engine=xelatex \
+$PDOPT
+fi
+
+if [ $1 == tex ] ; then
+$PANDOC "$2" \
+--filter pandoc-xnos \
+--citeproc \
+--from=markdown+raw_tex+$MDEXT \
+--to=latex \
+--output="$3" \
+--resource-path="./build/" \
+$PDOPT
+fi

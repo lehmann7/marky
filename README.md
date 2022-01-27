@@ -1,361 +1,713 @@
-> `marky` is Markdown preprocessor allowing to execute embedded python
-> code in Markdown documents. After preprocessing, a regular Markdown
-> file is present, which is rendered into `html` and `pdf` using
-> `pandoc`. `marky` handles all this steps using a Makefile.
-
-![*Left*: Marky Markdown Text, *Middle*: Rendered PDF, *Right:* Rendered HTML](data/marky.png)
-
-> **`marky` Preprocessor**-- *Left*: `marky` Markdown Text, *Middle*: Rendered PDF, *Right:* Rendered HTML
-
-# `marky`
-
-`marky` markup is compatible with standard Markdown. `marky` introduces
-a simple markup syntax for executing python code embedded in
-Markdown text.
-
-In the following a short introduction of `marky` is presented.
-In order to understand the complete `marky` features and
-syntax please refer to the following documents.
-
-1. *Read the Rendered Documents*
-* [`marky` Quickstart](https://lehmann7.github.io/quickstart.html)
-* [`marky` Example](https://lehmann7.github.io/example.html)
-* [`marky` Documentation](https://lehmann7.github.io/marky.html)
-2. *Read the Source Code with `marky` Markup*
-* [`marky` Example Source](https://lehmann7.github.io/example-src.html)
-* [`marky` Quickstart Source](https://lehmann7.github.io/quick-src.html)
-* [`marky` Documentation Source](https://lehmann7.github.io/marky-src.html)
-
-# Features
-
-`marky` introduces a small set of new markup for executing embedded
-python code in Markdown documents, which is still compatible with
-regular Markdown. Rendering `marky` documents with regular Markdown
-results in a formatted document with code snippets included.
-When preprocessing the document with `marky` the code snippets are
-executed and results are inserted into the Markdown text.
-
-`marky` is implemented according to the
-[KISS principle](https://en.wikipedia.org/wiki/KISS_principle) and
-introduces the following main features.
-
-1. Code Blocks for embedding python code. Python code is executed
-and displayed `!` or executed only `!!`.
-```md
-	```!
-	PYTHON_CODE
-	```
-
-	```!!
-	PYTHON_CODE
-	```
-```
-
-2. Inline Code for embedding results of python expressions and
-variables into Markdown text using `` `!EXPRESSION:FORMAT` `` and
-`` `!VARIABLE:FORMAT` ``.
-
-3. Format dependent insertion of raw `html` and *tex* for `pdf`
-using `` `?FormatCode()` `` and format dependent links using `.???`.
-```md
-	[Link description](file.???)
-```
-
-4. Include statement for Markdown text using `!!!`. `marky` keeps
-track of Make dependencies.
-```md
-	!!! file.mdi
-```
-
-5. Document meta data in Markdown front matter. This feature is
-not explained in the short introduction. Please refer to the `marky`
-documentation for explanation.
-```md
-	---
-	META_DATA
-	---
-	MARKDOWN
-```
-
-# Extension
-
-Using the `marky` include statement and format codes, typesetting
-extensions for the standard Markdown can be implemented.
-The include statement and format codes are explained in detail
-in the [`marky` documentation](marky.???).
-
-* [`fmtplot`](https://lehmann7.github.io/fmtplot.html):
-a format code, which produces interactive plots for `html`
-using [`flot`](https://www.flotcharts.org) and static plots
-for `pdf` using [`matplotlib`](https://www.matplotlib.org/).
-
-![*Left*: Marky Markdown Text, *Middle*: Rendered PDF, *Right:* Rendered HTML](data/fmtplot.png)
-
-> **`fmtplot` Extension**-- *Left*: `marky` Markdown Text, *Middle*: Rendered HTML, *Right:* Rendered PDF
-
-# Implementation
-
-This is a prototype implementation of `marky`. It is tested on
-a linux bash shell. However, `marky` only uses standard tools `make`,
-`python` and `pandoc`. It is likely that it will run on other shells
-with the same tools. When testing `marky` in another setup,
-please report issues.
-
-# TODO
-
-* meta data import no overwrite
-* remake code include
-* cache python blocks
-* inline statements multiple backticks
-* escape `` ` `` in inline statements
-* rethink flags of include statement
-* reimplement parsing of markup
-* better display of traceback for code errors
-* implement quite output mode
-* implement output mode for showing code output only
-* merge meta data for `field`, `field--pdf` and `field--html`
-* rename `md/` -> `src/`
-* escape `???` in format code
-
-# `marky` Markup for Execution of Embedded Python Code
-
-> For the full documentation of the `marky` markup, please refer to the
-> documentation or quickstart, as stated above.
-
-`marky` preprocesses Markdown files and executes embedded python code.
-For embedding python code `marky` introduces a simple syntax, which is
-compatible with regular Markdown.
-
-**Displayed Code, Executed**
-
-The code fenced by `` ```! `` and `` ``` ``, is executed and displayed
-in the document.
-
-```python
-	```!
-	def list_and(l):
-		return ", ".join(str(i) for i in l[:-1]) + " and " + str(l[-1])
-
-	x = 2
-	y = math.sqrt(x)
-	```
-```
-
-**Hidden Code, Executed**
-
-The code fenced by `` ```!! `` and `` ``` ``, is executed but **not**
-displayed in the document.
-
-```python
-	```!!
-	import math
-	print("Hello Console!")
-	```
-```
-
-**Inline Formatted Output**
-
-`marky` can output formatted results of expressions and variables inline
-using the following statements.
-
-The square root of x=`` `!x` ``, is `` `!y:.3f` ``.
-
-*Output:*
-The square root of x=2, is 1.414.
-
-The first five numbers are `` `!list_and(range(5))` ``.
-
-*Output:*
-The first five numbers are 0, 1, 2, 3 and 4.
-
-The `list_and(l)` function is implemented in the python code block
-above. The variables `x` and `y` are defined there as well.
-
-**Format Links**
-
-```md
-[Link to document](file.???)
-```
-
-will be proprocessed into the following text:
-* when rendering `html`: `[Link to document](file.html)`
-* when rendering `pdf`: `[Link to document](file.pdf)`
-
-**Format Codes**
-
-```python
-	```!
-	def htmlFormatCode(): return "H<sup>T</sup><sub>M</sub>L"
-	def pdfFormatCode(): return "\LaTeX"
-	```
-```
-
-The format code returns `` `?FormatCode()` ``.
-
-*Output for `pdf`*:
-The format code returns \LaTeX.
-
-*Output for `html`*:
-The format code returns H<sup>T</sup><sub>M</sub>L
-
-**Include Statement**
-
-`marky` allows to include other Markdown text using the `!!!` statement.
-Please refer to the `marky` documentation for complete description
-of the `!!!` statement. During rendering `marky` keeps track of
-included files and creates Makefile rules for dependent make.
-
-```md
-	!!! file.mdi
-```
-
-**Meta Data**
-
-Document meta data can be included in the Markdown front matter.
-This feature is not explained in the short introduction.
-Please refer to the `marky` documentation for explanation.
-
-```md
-	---
-	META_DATA
-	---
-	MARKDOWN
-```
-
-**Escape Markup**
-
-The `marky` markup can be escaped. When markup is escaped
-`marky` removes the escape sequence and prints out the
-unescaped statement.
-
-Markup           |Escape Sequence|Unescaped Sequence
------------------|---------------|------------------
-code block hidden|`` ```\!! ``   |`` ```!! ``
-code block shown |`` ```\! ``    |`` ```! ``
-inline code      |`` `\!...` ``  |```` `!...` ````
-format code      |`` `\?...` ``  |```` `?...` ````
-include statement|`\!!!`         |`!!!`
-format link      |`.\???`        |`.???`
-
-# Download and Run `marky`
-
-> For the full documentation of the `marky` usage, please refer to the
-> documentation or quickstart, as stated above.
-
-`marky` is Markdown preprocessor allowing to execute embedded python
-code in Markdown documents. After preprocessing, a regular Markdown
-file is present, which is rendered into `html` and `pdf` using
-`pandoc`. `marky` handles all this steps using a Makefile.
-`marky` is a single-file script which depends on `python` (>=3.6),
-`pandoc` (>=2.11), `pyyaml` and `pandoc-xnos`.
-
-**Installing Dependencies**
-
-`pandoc` binaries for Debian-based Linux are released
-[here](https://github.com/jgm/pandoc/releases).
-`pyyaml` is installed using the linux package manager or `pip` and
-`pandoc-xnos` consists of the components `fignos`, `secnos`, `eqnos`
-and `tablenos` which are installed using `pip`. Depending on the
-linux installation maybe `pip3` has to be used.
-
-```bash
-pip install pyyaml
-pip install pandoc-fignos
-pip install pandoc-secnos
-pip install pandoc-eqnos
-pip install pandoc-tablenos
-```
-
-**Download `marky` Script**
-
-`marky` is downloaded using the following commands.
-
-```bash
-cd $HOME
-git clone https://github.com/lehmann7/marky.git
-cd marky
-```
-
-Alternatively, marky can be obtained diretly without `git`:
-
-```bash
-cd $HOME
-mkdir marky
-cd marky
-wget https://raw.githubusercontent.com/lehmann7/marky/main/marky.py
-chmod +x marky.py
-```
-
-**Initialize `marky` Environment**
-
-The `marky` environment consists of the Makefile and the documentation.
-The `marky` Makefile, documentation and quickstart are unpacked from
-the `marky.py` script file into the current working directory.
-The `marky` environment is initialized using the following commands.
-
-```bash
-cd $HOME
-cd marky
-./marky.py --init
-WRITE ./md/marky.md
-WRITE ./md/marky.mdi
-WRITE ./md/marky-src.md
-WRITE ./md/quickstart.md
-WRITE ./md/quick-src.md
-WRITE ./md/example.md
-WRITE ./md/example-src.md
-WRITE ./data/marky.bib
-USAGE
-1. `make help`
-2. `make all-html httpd`
-3. `make all-pdf`
-```
-
-During initialization `marky` creates two directories `md/` and `data/`.
-`md/` is the directory which contains the Markdown text to be rendered
-into `html` and `pdf`. `data/` is the resource directory which contains
-bibliography, images, videos and other assets.
-
-**Render Documentation and Examples**
-
-If all dependencies have been installed accordingly and the `marky`
-environment is initialized, `marky` can be used to render a local
-copy of the documentation, the quickstart and the example.
-
-The following commands render the Markdown text of the documentation.
-
-```bash
-cd $HOME
-cd marky
-make all-pdf
-make all-html
-```
-
-During `make` a new directory `build/` is created, which contains
-temporary files (preprocessed Markdown text, linked text for `html`
-and `pdf`). The resulting `html` and `pdf` documents are placed inside
-`html/` and `pdf/`. For rendering the `html` documents, `pandoc`
-requires internet access, because java scripts and style sheets are
-fetched from content delivery networks.
-
-**`marky` Makefile**
-
-The `marky` Makefile coordinates the three steps of the `marky`
-document processing pipeline: preprocessing, linking and rendering.
-The `marky` Makefile supports several targets for displaying help
-or rendering all, multiple or specific documents.
-
-Target         |Description
----------------|----------------------------------------------------
-`make help`    |display help message on the console
-`make cheat`   |display the `marky` markup Cheat Sheet
-`make scan`    |scan for new documents `md/*.md` and update Makefile
-`make all`     |render all documents `md/*.md` into `html` and `pdf`
-`make all-pdf` |render all documents `md/*.md` into `pdf/*.pdf`
-`make all-html`|render all documents `md/*.md` into `html/*.html`
-`make httpd`   |start python webserver in `html/`
-`make clean`   |remove all files: `build/*`, `pdf/*`, `html/*`
+---
+bibliography: data/pype.bib
+fontsize: 11pt
+header-includes: '<style>* { box-sizing: border-box; }</style>
+
+  '
+title: '`pype` Documentation (`html` Version)'
+xnos-capitalise: true
+xnos-cleveref: true
 
 ---
 
-*Thanks for reading, please try `marky`.*
+---
+
+> **Abstract** -- `pype` is a preprocessor with an easy and intuitive
+> syntax for execution of embedded <span style='color:blue'>pyhon</span> code during rendering
+> `html` and `pdf` documents from Markdown text.
+> This document is created using `pype`, version *0.9*.
+> For more information please refer to the
+> [`pype` repository](https://github.com/lehmann7/marky).
+
+---
+
+# `pype` Dynamic Markdown
+
+`pype` is a Markdown preprocessor which transforms a Markdown document
+using python. `pype` implements three statements with extremely easy
+and intuitive syntax, which are embedded directly in the Markdown text:
+
+1. `<?...?>`: Python code block.
+2. `{{...}}`: `f`-string output into Markdown.
+3. `___()`: Function for output into Markdown.
+
+Using `<?...?>` and `{{...}}` python processing and `f`-string output
+is embedded directly inside the Markdown text. Using the `___()`
+function text is generated from python algorithms and
+dynamically inserted into the resulting Markdown.
+
+# Quick Start
+
+## `pype` Dependencies
+
+`pype` uses [pandoc](https://www.pandoc.org/) for rendering `html` and `pdf`.
+
+`pype` depends on `pandoc` and `pyyaml`. `pandoc` is used for rendering
+the Markdown into `html` and `pdf`. `pandoc` supports various Markdown
+extensions allowing for scientific writing using equations, figures,
+tables, citations and corresponding referencing mechanism for the latter.
+`pyyaml` is used for parsing meta data in the front matter of the
+Markdown text.
+
+`pype` renders the documentation using `pandoc` into `html` and
+`pdf` by invoking `make all`. `pype` requires
+installing the dependencies `python-pyyaml`, `pandoc` and `pandoc-xnos`
+(`pandoc-fignos`, `pandoc-secnos`, `pandoc-eqnos`, `pandoc-tablenos`).
+The details are shown in the Makefile help message.
+
+## `pype` Workflow
+
+Workflow for creating `html` or `pdf` using `pype`
+
+1. user writes a Markdown text file and places it in `md/*.md`
+directory with the extension `.md`.
+2. `pype` transforms the files in `md/*.md` into regular Markdown text
+and places the transformed files in `build/`.
+3. the regular Markdown text in the files `build/*.md` is rendered into
+`html` and `pdf` using `pandoc`.
+
+The three steps are implemented in a Makefile.
+
+## Download and Initialize
+
+`pype` is supplied as a single-file script which automatically
+sets up the project structure containing all scripts
+required for processing and rendering Markdown.
+
+For example, download `pype` from github.
+```bash
+git clone https://lehmann7.github.com/pype.git
+cd pype
+```
+
+After download, the `pype` environment is initialized using `pype`.
+```bash
+./pype.py --init
+# mkdir build/
+# mkdir data
+# mkdir md/
+# WRITE Makefile
+# WRITE pandoc-run
+# WRITE md/pype.md
+# WRITE .gitignore
+# USAGE
+make help
+```
+
+## `pype` Environment
+
+During initialization, `pype` creates directories and files.
+After initialization, the following structure is auto-generated
+in the project directory.
+```bash
+make help
+PROJECT TREE
+##############
+<working_dir>
+|- pype.py             - pype executable
+|- Makefile        (*) - pype Makefile
+|- pandoc-run      (*) - pandoc wrapper
+|- md/             (*) - user Markdown dir
+|  |- *.md         (*) - user Markdown text
+|- data/           (*) - user data dir
+|  |- *.*                user data files
+|- build/          (*) - build Markdown dir
+|  |- *.py         (*) - Markdown pype code
+|  |- *.make       (*) - Makefile rules
+|  |- *.html.md    (*) - Markdown for html format
+|  |- *.pdf.md     (*) - Markdown for pdf format
+|- html/*.html     (*) - rendered html dir
+|- pdf/*.pdf       (*) - rendered pdf dir
+
+(*) directories/files are auto-generated using
+   `./pype.py --init` and `make scan´
+
+
+
+```
+
+The script `pandoc-run` can be adjusted in case specific
+`pandoc` options are required for rendering the `html` and `pdf` documents.
+
+## Document Rendering
+
+By invoking `make all` all files `md/*.md` are transformed
+into corresponding `html/*.html` and `pdf/*.pdf` files. By
+invoking `make httpd` a python web server is started in `html/`.
+
+All user-generated Markdown content goes into `md/*` user-generated
+data files go into `data/*`.
+
+**ATTENTION:** The files in the directories `build/*` are
+**auto-generated**. All user files have to be placed inside the
+directory `md/*`. Invoking `make clean` will **delete all files**
+in `html/`, `build/` and `pdf/`.
+
+## Integrated Documentation
+
+`pype` has an integrated environment. Using `make help` displays
+a short info about the `pype` dependencies, make targets and
+examples.
+```bash
+make help
+pype DEPENDENCIES
+###################
+* pandoc >= 2.10
+* pip install pandoc-fignos
+* pip install pandoc-eqnos
+* pip install pandoc-secnos
+* pip install pandoc-tablenos
+* pip install pandoc-xnos
+* pip install pyyaml
+
+ATTENTION
+###########
+All files in `build/*.md` and `html/*.html` are auto-generated!
+User files `*.md` have to be placed in `md/*.md`!
+`make clean` deletes all files in `build/`, `html/` and `pdf/`.
+
+pype UTILS
+############
+* make help            - show this *Help Message*
+* make tree            - show the *Project Tree*
+* make cheat           - show the pype *Cheat Sheet*
+* make httpd           - run python -m httpd.server in `html/`
+* make clean           - delete: `build/*`, `html/*`, `pdf/*`
+* make scan            - build make deps: `build/*.make`
+* make list            - list all scanned files and targets
+
+pype BUILD ALL
+################
+* make build           -> `build/*.{html,pdf}.md`
+* make tex             -> `build/*.tex`
+* make html            -> `html/*.html`
+* make pdf             -> `pdf/*.pdf`
+* make all             -> `html/*.html`, `pdf/*.pdf`
+
+pype BUILD FILE
+#################
+* make build/file      -> `build/file.{html,pdf}.md`
+* make build/file.tex  -> `build/file.tex`
+* make html/file       -> `html/file.html`
+* make pdf/file        -> `pdf/pdf.html`
+
+EXAMPLE
+#########
+1. run `make scan html/file.html httpd`:
+   * generate `build/file.make`
+   * transform `md/file.md` -> `html/file.html`
+   * start a python httpd server in `html`
+2. run `make scan pdf/file.pdf`
+   * generate `build/file.make`
+   * transform `md/file.md` -> `pdf/file.pdf`
+
+
+
+```
+
+# `pype` Features
+
+Place a new file in `md/file.md` and run the following commands.
+```bash
+touch md/file.md
+```
+
+`pype` discovers the new document when invoking `make scan`.
+```bash
+make scan
+# WRITE build/file.make
+```
+
+`pype` renders `html` and `pdf` using make targets.
+```bash
+make html/file
+make pdf/file
+```
+
+## Meta Data in Front Matter
+
+If document starts with `---`, yaml is used to parse
+the front matter block delimited by `---`.
+All meta data keys will be exposed into the python scope as a local
+variable, unless the variable already exists.
+
+```md
+---
+title: "My Documet"
+author: ...
+date: 2022-01-01
+---
+The title of this document is {{title}}.
+```
+
+## Embedding Python Code
+
+Python code blocks are embedded into Markdown using `<?...?>` and `{{...}}`.
+All code blocks span one large scope sharing functions and local
+variables. Meta data is imported from Markdown front matter as local
+variables in the python scope. The `import` statement can be used in
+python code in order to access installed python packages as usual.
+
+### Visible Code
+
+Using `<?!...?>` code is executed and also shown in Markdown.
+
+#### Example {-}
+```python
+<?!
+x = 42 # visible code
+print("Hello console!")
+?>
+```
+
+#### Run and Output {-}
+```python
+x = 42 # visible code
+
+```
+
+**Attention:** Using the `print()` function the text will be printed
+to the console and **not** inside the resulting Markdown text.
+
+### Hidden Code
+
+Using `<?...?>` code is executed but not shown in Markdown.
+
+#### Example {-}
+```python
+<?
+x = 41 # hidden code
+___(f"Output to Markdown. x = {x}!")
+?>
+```
+#### Run and Output {-}
+```python
+Output to Markdown. x = 41!
+
+```
+
+**Attention:** Using the `___()` function the text will be printed
+inside the resulting Markdown text **and not** on the console.
+
+## The `___()` Function
+
+Using the `print()` statement the text will be printed to the console.
+When using the `___()` statement new Markdown text is
+inserted dynamically into the document during preprocessing.
+
+#### Example: Line Break {-}
+```python
+<?
+x = 40 # hidden code
+___("Output in", ___)
+___("single line! ", ___)
+___(f"x = {x}")
+?>
+```
+#### Run and Output {-}
+```bash
+Output in single line! x = 40
+
+```
+
+#### Example: Shift, Crop, Return {-}
+```python
+<?
+result = ___("""
+   * text is cropped and shifted
+         * shift and crop
+            * can be combined
+          * returning the result
+""", shift="########", crop=True, ret=True)
+___(result)
+?>
+```
+#### Run and Output {-}
+```bash
+########* text is cropped and shifted
+########      * shift and crop
+########         * can be combined
+########       * returning the result
+
+```
+
+## Algorithmic Table Example
+
+@tbl:algt is generated using the following python clode block.
+
+```python
+n = 5
+table = ""
+dec = ["*%s*", "**%s**", "~~%s~~", "`%s`",
+       r"$\times^%s$", "$\infty_%s$"]
+table += "|".join("X"*n) + "\n" + "|".join("-"*n) + "\n"
+for i in range(n):
+	fill = [chr(ord("A")+(2*i+3*k)%26) for k in range(i+1)]
+	fill = [dec[(l+i)%len(dec)]%k for l, k in enumerate(fill)]
+	text = list("0")*n
+	text[(n>>1)-(i>>1):(n>>1)+(i>>1)] = fill
+	table += "|".join(text) + "\n"
+
+```
+
+X|X|X|X|X
+-|-|-|-|-
+0|0|*A*|0|0|0
+0|0|**C**|~~F~~|0|0|0
+0|~~E~~|`H`|$\times^K$|0|0
+0|`G`|$\times^J$|$\infty_M$|*P*|0|0
+$\times^I$|$\infty_L$|*O*|**R**|~~U~~|0
+
+
+Table: Table is generated using code and the `___()` statement. {#tbl:algt}
+
+## Inline Formatted Output
+
+The `{{...}}` statement uses sntax similar to python `f`-strings for
+formatted output of variables and results of expressions into Markdown
+text. The `pype` operator `{{<expression>[:<format>]}}` uses the
+syntax of [`f`-strings](https://docs.python.org/3/reference/lexical_analysis.html#f-strings).
+
+#### Example 1 {-}
+```bash
+Text text {{x}} and {{",".join([str(i) for i in range(x-10,x)])}}.
+```
+#### Output {-}
+> Text text 40 and 30,31,32,33,34,35,36,37,38,39.
+
+#### Example 2 {-}
+```python
+x = int(1)
+y = float(2.3)
+z = 0
+a = [1, 2, 3]
+b = (4, 5)
+
+```
+```markdown
+This is a paragraph and x is {{x:03d}} and y is {{y:.2f}}.
+Other content is: a = {{a}}, b = {{b}}.
+```
+#### Output {-}
+> This is a paragraph and x is 001 and y is 2.30.
+> Other content is: a = [1, 2, 3], b = (4, 5).
+
+## Format Link Extension
+
+When writing multiple documents, often documents are referenced
+between each other using links. In order to refer to external
+`html` and `pdf` documents the Markdown link statement is used.
+```md
+[Link Caption](path/to/file.html)
+[Link Caption](path/to/file.pdf)
+```
+One link statement cannot be used for rendering `html` and `pdf`
+with consistent paths. Using the `pype` format link
+ `.???` file extension results in consistent links for `html` and
+`pdf` documents.
+
+#### Example {-}
+```md
+[Link to this Document](marky.???)
+```
+#### Output {-}
+> [Link to this Document](marky.html)
+
+## Format Codes
+
+Often when writing markdown for `html` and `pdf` documents, the
+output needs to be tweaked accordingly.
+`pype` supports format specific tweaking by injecting
+raw `html` or `tex` code into Markdown using format codes.
+
+In order to inject format specific code the `fmtcode` class is used.
+The `fmtcode` class manages injection of `html` and `tex` code
+depending on the output format.
+
+**ATTENTION:** `tex` packages have to be included for `pdf` as well as
+JavaScript and style sheets for `html` using the meta data fields
+`header-includes--pdf` and `header-includes--html` respectively.
+
+#### Example: `fmtcode` {-}
+```python
+F = fmtcode(html="H<sup>T</sup><sub>M</sub>L", pdf=r"\LaTeX")
+
+```
+```markdown
+Invocation of format code results in: {{F()}}.
+```
+#### Output {-}
+> Invocation of format code results in: H<sup>T</sup><sub>M</sub>L.
+
+#### Example: Color {-}
+```python
+C = lambda color: fmtcode(
+	html="<span style='color:%s;'>{0}</span>" % color,
+	pdf=r"\textcolor{{%s}}{{{0}}}" % color
+)
+B = C("blue")
+R = C("red")
+
+```
+```markdown
+Text with {{B("blue")}} and {{R("RED")}}.
+```
+#### Output {-}
+> Text with <span style='color:blue;'>blue</span> and <span style='color:red;'>RED</span>.
+
+
+#### Example: Classes {-}
+```python
+class color:
+	def __init__(self, color):
+		self.color = color
+	def upper(self, x):
+		return self.text(x.upper())
+	def lower(self, x):
+		return self.text(x.lower())
+
+class html(color):
+	def text(self, x):
+		return f"<span style='color:{self.color};'>{x}</span>"
+
+class pdf(color):
+	def text(self, x):
+		return rf"\textcolor{{{self.color}}}{{{x}}}"
+
+CC = lambda x: fmtcode(html=html(x), pdf=pdf(x))
+BB = CC("blue")
+RR = CC("red")
+
+```
+```markdown
+Text with {{BB.upper("blue")}} and {{RR.lower("RED")}}.
+```
+#### Output {-}
+> Text with <span style='color:blue;'>BLUE</span> and <span style='color:red;'>red</span>.
+
+# Meta Data in Front Matter
+
+Meta data is annotated in the front matter of a 	Markdown text document.
+The front matter must start in the first line with `---` and precedes all
+other text being fenced by `---`. The meta data is in `yaml` format.
+The `yaml` block is parsed using `python-pyyaml`. All meta
+data is imported into the preprocessed document.
+
+## Pandoc Front Matter
+
+#### Example {-}
+```yaml
+---
+title:
+date:
+author:
+link-citations:
+bibliography:
+header-includes:
+xnos-cleveref:
+xnos-capitalise:
+fontsize:
+---
+```
+The meta data fields
+[`title`, `date`, `author`](https://pandoc.org/MANUAL.html#metadata-variables),
+[`link-citations`](https://pandoc.org/MANUAL.html#other-relevant-metadata-fields),
+[`bibliography`](https://pandoc.org/MANUAL.html#citation-rendering) and
+[`header-includes`](https://pandoc.org/MANUAL.html#variables-set-automatically)
+are processed by `pandoc` during document rendering. `fontsize` adjusts the
+font size in [`html`](https://pandoc.org/MANUAL.html#variables-for-html)
+and [`pdf`](https://pandoc.org/MANUAL.html#variables-for-latex) documents.
+The `xnos-cleveref` and `xnos-capitalise`
+fields are used by the [`pandoc-xnos`](https://github.com/tomduck/pandoc-xnos)
+extensions for referencing
+[figures](https://github.com/tomduck/pandoc-fignos#customization),
+[tables](https://github.com/tomduck/pandoc-tablenos#customization),
+[sections](https://github.com/tomduck/pandoc-secnos#customization) and
+[equations](https://github.com/tomduck/pandoc-eqnos#customization).
+
+## `pype` Format Fields
+
+**Example**
+```yaml
+---
+header-includes--pdf: >
+  \hypersetup{
+  colorlinks=false,
+  allbordercolors={0 0 0},
+  pdfborderstyle={/S/U/W 1}}
+header-includes--html: >
+  <style>* { box-sizing: border-box; }</style>
+---
+```
+
+The pandoc `header-includes` field is used for `pdf` and `html` documents,
+therefore it must contain corresponding tex and `html` code.
+
+The field `header-includes` ending with `--pdf` or `--html`
+specifies corresponding options for the generation of `pdf` and `html`
+documents. During make, `pype` scans all meta data fields, and
+fields which end with `--pdf` and `--html` are selected and forwarded
+to `pandoc` based on the format to be rendered.
+
+# How does `pype` work internally?
+
+`pype` uses an extremely simple mechanism for generating a python programm
+from the Markdown text. Using the `<?...?>` and `{{...}}` statement,
+Python code is embedded into the Markdown text and translated into a series
+of calls to the `___()` function using `f`-strings as arguments, where
+python variables are referenced. This results into a python program
+which can generate Markdown text algorithmically.
+
+#### Example: `md/file.md` {-}
+```php
+* This is {first}. <?
+x = 1 # this is code
+for i in range(3):
+	if x:
+		?>
+{{i+1}}. The value is {{{x}}}.
+<?
+	else:
+		?>{{i+1}}. The value is zero.
+<?
+	x = 0
+?>* This is last.
+```
+The file produces the following Markdown output.
+
+#### Output: Markdown {-}
+```bash
+* This is {first}.
+1. The value is {1}.
+2. The value is zero.
+3. The value is zero.
+* This is last.
+```
+
+`pype` transforms the Markdown into Python source code.
+Execution of the Python source code yields the new Markdown text.
+
+#### Output: `build/file.py` {-}
+```python
+___(rf"""* This is {{first}}. """, ___);
+x = 1 # this is code
+for i in range(3):
+	if x:
+		___(rf"""
+{i+1}. The value is {{{x}}}.
+""", ___);
+	else:
+		___(rf"""{i+1}. The value is zero.
+""", ___);
+	x = 0
+___(rf"""* This is last.
+""", ___);
+```
+
+# Scientific Writing in Markdown {#sec:panmd}
+
+[Markdown](https://pandoc.org/MANUAL.html#pandocs-markdown) is a markup
+language for technical writing, with emphasis on readability. Markdown
+can be rendered in many formats including `html` and `pdf` by using
+[`pandoc`](https://pandoc.org/) for example.
+
+Using various Markdown extensions of `pandoc` a sufficient structure for
+writing scientific documents is reflected using Markdown syntax.
+`pype` by default uses the following `pandoc` Markdown extensions.
+* parsing extensions
+	* [all_symbols_escapable](https://pandoc.org/MANUAL.html#extension-all_symbols_escapable)
+	* [intraword_underscores](https://pandoc.org/MANUAL.html#extension-intraword_underscores)
+	* [escaped_line_breaks](https://pandoc.org/MANUAL.html#extension-escaped_line_breaks)
+	* [space_in_atx_header](https://pandoc.org/MANUAL.html#extension-space_in_atx_header)
+	* [lists_without_preceding_blankline](https://pandoc.org/MANUAL.html#extension-lists_without_preceding_blankline)
+* styling extensions
+	* [inline_code_attributes](https://pandoc.org/MANUAL.html#extension-inline_code_attributes)
+	* [strikeout](https://pandoc.org/MANUAL.html#extension-strikeout)
+* structuring extensions
+	* [yaml_metadata_block](https://pandoc.org/MANUAL.html#extension-yaml_metadata_block)
+	* [pipe_tables](https://pandoc.org/MANUAL.html#extension-pipe_tables)
+	* [line_blocks](https://pandoc.org/MANUAL.html#extension-line_blocks)
+	* [implicit_figures](https://pandoc.org/MANUAL.html#extension-implicit_figures)
+	* [abbreviations](https://pandoc.org/MANUAL.html#extension-abbreviations)
+	* [inline_notes](https://pandoc.org/MANUAL.html#extension-inline_notes)
+* code injection
+	* [raw_html](https://pandoc.org/MANUAL.html#extension-raw_html)
+	* [raw_tex](https://pandoc.org/MANUAL.html#extension-raw_tex)
+
+`pandoc` supports
+[equations](https://pandoc.org/MANUAL.html#extension-tex_math_dollars)
+rendered inline and single-line in tex-style using `$...$` and `$$...$$`,
+[bibliography](https://pandoc.org/MANUAL.html#citations)
+using the `--citeproc` option,
+[section numbering](https://pandoc.org/MANUAL.html#extension-header_attributes)
+using the `--number-sections` option and
+[table of contents](https://pandoc.org/MANUAL.html#option--toc)
+using the `--table-of-contents` option.
+
+`pandoc` supports [`xnos`](https://github.com/tomduck/pandoc-xnos) filters
+for referencing document content like
+[figures](https://github.com/tomduck/pandoc-fignos#usage),
+[equations](https://github.com/tomduck/pandoc-eqnos#usage),
+[tables](https://github.com/tomduck/pandoc-tablenos#usage),
+[sections](https://github.com/tomduck/pandoc-secnos#usage)
+by using the `--filter pandoc-xnos` option.
+`xnos` integrates clever references, which means "Fig.", "Sec.", "Eq."
+and "Tab." are added automatically to the corresponding element.
+If the prefix is to be omitted, the reference is written as
+`\!@ref:label`.
+
+#### Example {-}
+```md
+## Referenced Section {#sec:label}
+
+This is a reference to @sec:label.
+
+![This is the caption](data:image/png;base64,iVBORw0KGgoAAAANS
+UhEUgAAAAUAAAAFCAYAAACNbyblAAAAHElEQVQI12P4//8/w38GIAXDIBKE0DH
+xgljNBAAO9TXL0Y4OHwAAAABJRU5ErkJggg==){#fig:label}
+
+This is a reference to @fig:label.
+
+A  |B  |C  |D
+---|---|---|---
+000|111|444|555
+222|333|666|777
+
+Table: This is the caption {#tbl:label}
+
+This is a reference to @tbl:label.
+
+$$\mbox{e}^{\mbox{i}\pi}+1=0$${#eq:label}
+
+This is a reference to @eq:label.
+
+This is a citation [@Muller1993].
+```
+
+The file `pype.bib` is specified in the meta data in the front
+matter of the Markdown text.
+
+## Referenced Section {#sec:label}
+
+This is a reference to @sec:label.
+
+![This is the caption](data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAAHElEQVQI12P4//8/w38GIAXDIBKE0DHxgljNBAAO9TXL0Y4OHwAAAABJRU5ErkJggg==){#fig:label}
+
+This is a reference to @fig:label.
+
+A  |B  |C  |D
+---|---|---|---
+000|111|444|555
+222|333|666|777
+
+Table: This is the caption. {#tbl:label}
+
+This is a reference to @tbl:label.
+
+$$\mbox{e}^{i\pi}+1=0$${#eq:label}
+
+This is a reference to @eq:label.
+
+This is a citation [@Muller1993].
+
+# References
