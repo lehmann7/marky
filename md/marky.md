@@ -64,7 +64,7 @@ The following example can be produced by just calling
 `make pdf/file` or `make html/file`.
 
 #### Example: `md/file.md` {-}
-```markdown
+```php
 ---
 title: An Example
 ---
