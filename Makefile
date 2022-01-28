@@ -62,7 +62,7 @@ tree:
 	# |- Makefile        (*) - marky Makefile
 	# |- pandoc-run      (*) - pandoc wrapper
 	# |- md/             (*) - user Markdown dir
-	# |  |- *.md         (*) - user Markdown text
+	# |  |- *.md             - user Markdown text
 	# |- data/           (*) - user data dir
 	# |  |- *.*                user data files
 	# |- build/          (*) - build Markdown dir
