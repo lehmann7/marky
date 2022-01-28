@@ -591,15 +591,18 @@ data is imported into the preprocessed document.
 #### Example {-}
 ```yaml
 ---
-title:
-date:
-author:
-link-citations:
-bibliography:
-header-includes:
-xnos-cleveref:
-xnos-capitalise:
-fontsize:
+title: My Document
+date: 2022-01-01
+author: ...
+link-citations: true
+bibliography: data/marky.bib
+header-includes: >
+   \hypersetup{colorlinks=false,
+   allbordercolors={0 0 0},
+   pdfborderstyle={/S/U/W 1}}
+xnos-cleveref: true
+xnos-capitalise: true
+fontsize: 11pt
 ---
 ```
 The meta data fields
