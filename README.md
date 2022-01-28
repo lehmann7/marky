@@ -27,7 +27,7 @@ dynamically inserted into the resulting Markdown.
 The following example can be produced by just calling
 `make pdf/file` or `make html/file`.
 
-#### Example: `md/file.md` {-}
+#### Example: `md/file.md`
 ```markdown
 ---
 title: An Example
@@ -46,7 +46,7 @@ fly {{i}} high in the {{i}} blue sky.
 	<?
 ?>
 ```
-#### Output `build/file.md` {-}
+#### Output `build/file.md`
 ```markdown
 ---
 title: An Example
@@ -77,7 +77,7 @@ of calls to the `___()` function using `f`-strings as arguments, where
 python variables are referenced. This results into a python program
 which can generate Markdown text algorithmically.
 
-#### Example: `md/file.md` {-}
+#### Example: `md/file.md`
 ```php
 * This is {first}. <?
 x = 1 # this is code
@@ -94,7 +94,7 @@ for i in range(3):
 ```
 The file produces the following Markdown output.
 
-#### Output: Markdown {-}
+#### Output: Markdown
 ```bash
 * This is {first}.
 1. The value is {1}.
@@ -106,7 +106,7 @@ The file produces the following Markdown output.
 `marky` transforms the Markdown into Python source code.
 Execution of the Python source code yields the new Markdown text.
 
-#### Output: `build/file.py` {-}
+#### Output: `build/file.py`
 ```python
 ___(rf"""* This is {{first}}. """, ___);
 x = 1 # this is code
@@ -345,7 +345,7 @@ python code in order to access installed python packages as usual.
 
 Using `<?!...?>` code is executed and also shown in Markdown.
 
-#### Example {-}
+#### Example
 ```python
 <?!
 x = 42 # visible code
@@ -353,7 +353,7 @@ print("Hello console!")
 ?>
 ```
 
-#### Run and Output {-}
+#### Run and Output
 ```python
 x = 42 # visible code
 
@@ -366,14 +366,14 @@ to the console and **not** inside the resulting Markdown text.
 
 Using `<?...?>` code is executed but not shown in Markdown.
 
-#### Example {-}
+#### Example
 ```python
 <?
 x = 41 # hidden code
 ___(f"Output to Markdown. x = {x}!")
 ?>
 ```
-#### Run and Output {-}
+#### Run and Output
 ```python
 Output to Markdown. x = 41!
 
@@ -388,7 +388,7 @@ Using the `print()` statement the text will be printed to the console.
 When using the `___()` statement new Markdown text is
 inserted dynamically into the document during preprocessing.
 
-#### Example: Line Break {-}
+#### Example: Line Break
 ```python
 <?
 x = 40 # hidden code
@@ -397,13 +397,13 @@ ___("single line! ", ___)
 ___(f"x = {x}")
 ?>
 ```
-#### Run and Output {-}
+#### Run and Output
 ```bash
 Output in single line! x = 40
 
 ```
 
-#### Example: Shift, Crop, Return {-}
+#### Example: Shift, Crop, Return
 ```python
 <?
 result = ___("""
@@ -415,7 +415,7 @@ result = ___("""
 ___(result)
 ?>
 ```
-#### Run and Output {-}
+#### Run and Output
 ```bash
 ########* text is cropped and shifted
 ########      * shift and crop
@@ -461,14 +461,14 @@ formatted output of variables and results of expressions into Markdown
 text. The `marky` operator `{{<expression>[:<format>]}}` uses the
 syntax of [`f`-strings](https://docs.python.org/3/reference/lexical_analysis.html#f-strings).
 
-#### Example 1 {-}
+#### Example 1
 ```bash
 `x` is {{x}} and {{",".join([str(i) for i in range(x-10,x)])}}.
 ```
-#### Output {-}
+#### Output
 > `x` is 40 and 30,31,32,33,34,35,36,37,38,39.
 
-#### Example 2 {-}
+#### Example 2
 ```python
 x = int(1)
 y = float(2.3)
@@ -481,7 +481,7 @@ b = (4, 5)
 This is a paragraph and x is {{x:03d}} and y is {{y:.2f}}.
 Other content is: a = {{a}}, b = {{b}}.
 ```
-#### Output {-}
+#### Output
 > This is a paragraph and x is 001 and y is 2.30.
 > Other content is: a = [1, 2, 3], b = (4, 5).
 
@@ -499,11 +499,11 @@ with consistent paths. Using the `marky` format link
  `.???` file extension results in consistent links for `html` and
 `pdf` documents.
 
-#### Example {-}
+#### Example
 ```md
 [Link to this Document](marky.???)
 ```
-#### Output {-}
+#### Output
 > [Link to this Document](marky.html)
 
 ## Format Codes
@@ -521,7 +521,7 @@ depending on the output format.
 JavaScript and style sheets for `html` using the meta data fields
 `header-includes--pdf` and `header-includes--html` respectively.
 
-#### Example: `fmtcode` {-}
+#### Example: `fmtcode`
 ```python
 F = fmtcode(html="H<sup>T</sup><sub>M</sub>L", pdf=r"\LaTeX")
 
@@ -529,10 +529,10 @@ F = fmtcode(html="H<sup>T</sup><sub>M</sub>L", pdf=r"\LaTeX")
 ```markdown
 Invocation of format code results in: {{F()}}.
 ```
-#### Output {-}
+#### Output
 > Invocation of format code results in: H<sup>T</sup><sub>M</sub>L.
 
-#### Example: Color {-}
+#### Example: Color
 ```python
 C = lambda color: fmtcode(
 	html="<span style='color:%s;'>{0}</span>" % color,
@@ -545,11 +545,11 @@ R = C("red")
 ```markdown
 Text with {{B("blue")}} and {{R("RED")}}.
 ```
-#### Output {-}
+#### Output
 > Text with <span style='color:blue;'>blue</span> and <span style='color:red;'>RED</span>.
 
 
-#### Example: Classes {-}
+#### Example: Classes
 ```python
 class color:
 	def __init__(self, color):
@@ -575,7 +575,7 @@ RR = CC("red")
 ```markdown
 Text with {{BB.upper("blue")}} and {{RR.lower("RED")}}.
 ```
-#### Output {-}
+#### Output
 > Text with <span style='color:blue;'>BLUE</span> and <span style='color:red;'>red</span>.
 
 # Meta Data in Front Matter
@@ -588,7 +588,7 @@ data is imported into the preprocessed document.
 
 ## Pandoc Front Matter
 
-#### Example {-}
+#### Example
 ```yaml
 ---
 title: My Document
@@ -697,7 +697,7 @@ and "Tab." are added automatically to the corresponding element.
 If the prefix is to be omitted, the reference is written as
 `\!@ref:label`.
 
-#### Example {-}
+#### Example
 ```md
 ## Referenced Section {#sec:label}
 
