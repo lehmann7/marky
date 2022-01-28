@@ -215,10 +215,7 @@ PROJECT TREE
 |- pdf/*.pdf       (*) - rendered pdf dir
 
 (*) directories/files are auto-generated using
-   `./marky.py --init` and `make scan´
-
-
-
+   `./marky.py --init; make scan; make all´
 ```
 
 The script `pandoc-run` can be adjusted in case specific
