@@ -353,7 +353,7 @@ print("Hello console!")
 #### Run and Output
 ```python
 x = 42 # visible code
-
+print("Hello console!")
 ```
 
 **ATTENTION:** Using the `print()` function the text will be printed
