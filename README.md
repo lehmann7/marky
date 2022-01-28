@@ -750,5 +750,3 @@ $$\mbox{e}^{i\pi}+1=0$${#eq:label}
 This is a reference to @eq:label.
 
 This is a citation [@Muller1993].
-
-# References
