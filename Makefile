@@ -44,11 +44,11 @@ help:
 	#
 	# EXAMPLE
 	#########
-	# 1. run `make scan html/file.html httpd`:
+	# 1. run `make scan; make html/file.html httpd`:
 	#    * generate `build/file.make`
 	#    * transform `md/file.md` -> `html/file.html`
 	#    * start a python httpd server in `html`
-	# 2. run `make scan pdf/file.pdf`
+	# 2. run `make scan; make pdf/file.pdf`
 	#    * generate `build/file.make`
 	#    * transform `md/file.md` -> `pdf/file.pdf`
 	#
@@ -74,7 +74,7 @@ tree:
 	# |- pdf/*.pdf       (*) - rendered pdf dir
 	#
 	# (*) directories/files are auto-generated using
-	#    `./marky.py --init` and `make scan´
+	#    `./marky.py --init; make scan; make all´
 	#
 
 .PHONY: clean

@@ -187,7 +187,7 @@ pip install pyyaml
 ## `marky` Workflow
 
 Workflow for creating `html` or `pdf` using `marky` by
-invocation of `make scan all`.
+invocation of `make scan` and `make all`.
 
 *make*|1. *write*  |  |2. *build*          |  |3. *render*
 ------|------------|--|--------------------|--|----------------
