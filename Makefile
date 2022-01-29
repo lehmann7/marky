@@ -66,7 +66,7 @@ tree:
 	# |- data/           (*) - user data dir
 	# |  |- *.*                user data files
 	# |- build/          (*) - build Markdown dir
-	# |  |- *.py         (*) - Markdown marky code
+	# |  |- *.py         (*) - marky Python code
 	# |  |- *.make       (*) - Makefile rules
 	# |  |- *.html.md    (*) - Markdown for html format
 	# |  |- *.pdf.md     (*) - Markdown for pdf format

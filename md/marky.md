@@ -197,7 +197,7 @@ invocation of `make scan` and `make all`.
 
 1. **write**: user writes a Markdown text file and places it in `md/*.md`
 directory with the extension `.md`.
-2. **build**: marky` transforms the files in `md/*.md` into regular Markdown text
+2. **build**: `marky` transforms the files in `md/*.md` into regular Markdown text
 and places the transformed files in `build/`.
 3. **render**: the regular Markdown text in the files `build/*.md` is rendered into
 `html` and `pdf` using `pandoc`.
@@ -296,13 +296,23 @@ the front matter block delimited by `---`.
 All meta data keys will be exposed into the python scope as a local
 variable, unless the variable already exists.
 
-```md
+#### Example {-}
+```markdown
 ---
-title: "My Documet"
+title: "{{title}}"
 author: ...
 date: 2022-01-01
 ---
 The title of this document is {\{title}\}.
+```
+#### Output {-}
+```markdown
+---
+title: "{{title}}"
+author: ...
+date: 2022-01-01
+---
+The title of this document is {{title}}.
 ```
 
 ## Embedding Python Code

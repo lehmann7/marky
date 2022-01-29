@@ -536,7 +536,7 @@ def _marky_front_join(y, text):
 def _marky_front_split(t):
 	global _MARKY_EXEC_DICT
 	if not t.startswith("---\n"):
-		return dict(), mark, 0
+		return dict(), t, 0
 	y = t.split("---\n")[1]
 	meta_lines = len(y.split("\n")) + 2
 	mark = "---\n".join(t.split("---\n")[2:])
@@ -700,6 +700,7 @@ def _marky_paste_code(t):
 	return t
 
 def _marky_meta_merge(old, front):
+	global _MARKY_EXEC_DICT
 	meta = {}
 	meta.update(old)
 	try:
@@ -708,6 +709,11 @@ def _marky_meta_merge(old, front):
 				print("<!-- field exists, skip yaml %s --!>" % k)
 			else:
 				meta[k] = v
+			k = k.replace("-", "_")
+			if k in _MARKY_EXEC_DICT:
+				print("<!-- field exists, skip local %s --!>" % k)
+			else:
+				_MARKY_EXEC_DICT[k] = v
 	except Exception as ex:
 		print("# META MERGE ERROR", type(ex), str(ex))
 		sys.exit(1)
@@ -762,14 +768,14 @@ def _marky_print_trace(ex, mlines, code):
 	print("# TRACEBACK")
 	import traceback
 	traceback.print_tb(ex.__traceback__)
-	print("# PYTHON ERROR")
-	print(type(ex), str(ex))
-	if ex.filename == "<string>":
+	if hasattr(ex, "filename") and ex.filename == "<string>":
 		print("# ERROR LOCATION")
 		code = code.split("\n")
 		print(len(code))
 		for i in range(max(0, ex.lineno-5), min(len(code), ex.lineno+5)):
 			print("*" if i + 1 == ex.lineno else " ", "%03d" % i, code[i])
+	print("# PYTHON ERROR")
+	print(type(ex), str(ex))
 
 ########################################################################
 
