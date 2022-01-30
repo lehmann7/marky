@@ -605,12 +605,12 @@ format code is called. The figure @fig:plot3 is referenced by appending
 	___(ex.show("plotex", """This plot is generated."""))
 	?>
 
-<?!
-	___(ex.legend("plotex", caption="""This is the legend for @fig:plotex."""))
-	?>
 ```python
 {{___(code=True, crop=True)}}
 ```
+<?!
+	___(ex.legend("plotex", caption="""This is the legend for @fig:plotex."""))
+	?>
 
 ---
 
@@ -620,6 +620,9 @@ format code is called. The figure @fig:plot3 is referenced by appending
 and enabling and disabling the plot entities using checkboxes.
 The is feature is demonstrated in @fig:plot4. The checkboxes are
 located below the figure.
+```python
+{{___(code=True, crop=True)}}
+```
 <?!
 	choice = fmtplot(
 		html=fmtplot_flot(legpos="ne", legcols=2),
@@ -630,22 +633,17 @@ located below the figure.
 	code fmtplot.choice(figid). For html output, a list of checkboxes is
 	generated inside a div-tag. For pdf no output is generated."""))
 	?>
-```python
-{{___(code=True, crop=True)}}
-```
 
 In order to place the choice checkboxes for @fig:plot4, the
 `choice(figid)` format code is used. The checkboxes
 are placed inside a `<div>` tag.
 For `pdf` output there no choice is displayed.
-
-<?!
-	___(choice.choice("plot4"))
-	?>
 ```python
 {{___(code=True, crop=True)}}
 ```
-
+<?!
+	___(choice.choice("plot4"))
+	?>
 ---
 
 # Java Script Placement
@@ -656,6 +654,9 @@ data and setup code for the plots. The JavaScript is inserted into
 JavaScripts have to be placed at the end of the document.
 For `pdf` no output is generated.
 
+```python
+{{___(code=True, crop=True)}}
+```
 <?!
 	___(pltdat.script())
 	___(ex.script())
@@ -663,9 +664,6 @@ For `pdf` no output is generated.
 	___(legout.script())
 	___(choice.script())
 	?>
-```python
-{{___(code=True, crop=True)}}
-```
 
 ---
 
