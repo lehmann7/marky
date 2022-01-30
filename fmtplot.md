@@ -1,12 +1,12 @@
 
 ![*Left*: Marky Markdown, rendered in *Middle*: PDF and *Right:* HTML](data/marky.png)
 
-> **`marky` Preprocessor**-- `marky` Markdown Text (*Left*) is rendered
+> **`marky` Dynamic Markdown**-- `marky` Markdown Text (*Left*) is rendered
 > into PDF (*Middle*) and HTML (*Right*) by just calling `make scan; make all`.
 
 ![*Left*: Marky Markdown, rendered in *Middle*: PDF and *Right:* HTML](data/fmtplot.png)
 
-> [**`fmtplot` Extension**](fmtplot.md)-- *Left*: `marky` Markdown Text, *Middle*: Rendered HTML, *Right:* Rendered PDF
+> [**`fmtplot`**](fmtplot.md) Plot Generation for `pdf` and `html` -- `marky` Markdown Text (*Left*) is rendered in PDF (*Middle*) and HTML (*Right*)
 
 
 
