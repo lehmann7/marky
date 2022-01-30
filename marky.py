@@ -552,10 +552,16 @@ def _marky_front_split(t):
 ########################################################################
 
 def _marky_mdtext_print(*args, sep=" ", shift="", crop=False, ret=False,
-	file=None, run=False):
+	file=None, run=False, code=False, pop=True):
 	global _MARKY_EXEC_QUIET
 	global _MARKY_EXEC_TEXT
 	global _MARKY_EXEC_APPEND
+	global _MARKY_PASTE_CODE
+	if code:
+		if len(_MARKY_PASTE_CODE) == 0: return ""
+		code = _MARKY_PASTE_CODE[0]
+		if pop: _MARKY_PASTE_CODE = _MARKY_PASTE_CODE[1:]
+		return _marky_mdtext_print(code, shift=shift, crop=crop, ret=True, code=False)
 	if not file is None:
 		_marky_run(_MARKY_MD_DIR + file, "/".join(file.split("/")[0:-1]), run)
 		return
@@ -695,12 +701,14 @@ def _marky_code_text(t, fstring=True):
 			sys.exit(1)
 
 def _marky_paste_code(t):
-	show_code = False
+	global _MARKY_PASTE_CODE
+	# ~ show_code = False
 	if t.startswith("!"):
 		t = t[1:]
-		show_code = True
-	if show_code:
-		return _marky_code_text(t, fstring=False) + t
+		_MARKY_PASTE_CODE.append(t)
+		# ~ show_code = True
+	# ~ if show_code:
+		# ~ return _marky_code_text(t, fstring=False) + t
 	return t
 
 def _marky_meta_merge(old, front):
@@ -780,12 +788,11 @@ def _marky_run(fname, inbase, run=True):
 				Y = "\\"*(i + 0)
 				r = r.replace(a + (b % X)*j + c, a + (b % Y)*j + c)
 	open(_MARKY_BUILD_DIR + inbase + ".py", "w").write(r)
-	# ~ print(_MARKY_EXEC_GLOBALS)
 	try:
-		old_val = _MARKY_EXEC_LOCALS["__marky__"]
-		_MARKY_EXEC_LOCALS["__marky__"] = run
-		exec(r, _MARKY_EXEC_GLOBALS, _MARKY_EXEC_LOCALS)
-		_MARKY_EXEC_LOCALS["__marky__"] = old_val
+		old_val = _MARKY_EXEC_GLOBALS["__marky__"]
+		_MARKY_EXEC_GLOBALS["__marky__"] = run
+		exec(r, _MARKY_EXEC_GLOBALS, None)
+		_MARKY_EXEC_GLOBALS["__marky__"] = old_val
 	except Exception as ex:
 		_marky_print_trace(ex, meta_lines, r)
 		sys.exit(1)
@@ -953,9 +960,9 @@ _MARKY_EXEC_APPEND = False
 _MARKY_EXEC_GLOBALS = dict()
 _MARKY_EXEC_GLOBALS["___"] = _marky_mdtext_print
 _MARKY_EXEC_GLOBALS["fmtcode"] = _marky_fmtcode
-_MARKY_EXEC_LOCALS = dict()
-_MARKY_EXEC_LOCALS["__marky__"] = True
+_MARKY_EXEC_GLOBALS["__marky__"] = True
 _MARKY_META_DICT = dict()
+_MARKY_PASTE_CODE = list()
 
 ########################################################################
 

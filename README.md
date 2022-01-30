@@ -349,7 +349,6 @@ x = 42 # visible code
 print("Hello console!")
 ?>
 ```
-
 #### Run and Output
 ```python
 x = 42 # visible code
@@ -373,7 +372,6 @@ ___(f"Output to Markdown. x = {x}!")
 #### Run and Output
 ```python
 Output to Markdown. x = 41!
-
 ```
 
 **ATTENTION:** Using the `___()` function the text will be printed

@@ -69,7 +69,7 @@ The following example can be produced by just calling
 title: An Example
 ---
 <\?
-def cap_first(x):
+def cap_first(i):
 	return " ".join([i[0].upper() + i[1:] for i in i.split()])
 for i in ["very", "not so"]:
 	?\>
@@ -88,7 +88,7 @@ fly {\{i}\} high in the {\{i}\} blue sky.
 title: An Example
 ---
 <?
-def cap_first(x):
+def cap_first(i):
 	return " ".join([i[0].upper() + i[1:] for i in i.split()])
 for i in ["very", "not so"]:
 	?>
@@ -315,6 +315,43 @@ date: 2022-01-01
 The title of this document is {{title}}.
 ```
 
+## Inline Formatted Output
+
+Python local variables and variables from meta data in front matter
+can be accessed diretly from the markdown text.
+The `{\{...}\}` statement uses syntax similar to python `f`-strings for
+formatted output of variables and results of expressions into Markdown
+text. The `marky` operator `{\{<expression>[:<format>]}\}` uses the
+syntax of [`f`-strings](https://docs.python.org/3/reference/lexical_analysis.html#f-strings).
+
+#### Example 1 {-}
+```bash
+Title of this document is {\{title}\} and font size is {\{fontsize}\}.
+`x` is {\{x}\} and {\{",".join([str(i) for i in range(x-10,x)])}\}.
+```
+#### Output {-}
+> Title of this document is {{title}} and font size is {{fontsize}}.
+> `x` is {{x}} and {{",".join([str(i) for i in range(x-10,x)])}}.
+
+#### Example 2 {-}
+<?!
+x = int(1)
+y = float(2.3)
+z = 0
+a = [1, 2, 3]
+b = (4, 5)
+?>
+```python
+{{___(code=True, crop=True)}}
+```
+```markdown
+This is a paragraph and x is {\{x:03d}\} and y is {\{y:.2f}\}.
+Other content is: a = {\{a}\}, b = {\{b}\}.
+```
+#### Output {-}
+> This is a paragraph and x is {{x:03d}} and y is {{y:.2f}}.
+> Other content is: a = {{a}}, b = {{b}}.
+
 ## Embedding Python Code
 
 Python code blocks are embedded into Markdown using `<\?...?\>` and `{\{...}\}`.
@@ -325,7 +362,9 @@ python code in order to access installed python packages as usual.
 
 ### Visible Code
 
-Using `<\?!...?\>` code is executed and also shown in Markdown.
+Using `<\?!...?\>` code is executed and stored.
+The text of the last `<\?!...?\>` block can be
+accessed and placed via `{\{___(code=True)}\}`.
 
 #### Example {-}
 ```python
@@ -333,13 +372,16 @@ Using `<\?!...?\>` code is executed and also shown in Markdown.
 x = 42 # visible code
 print("Hello console!")
 ?\>
+{\{___(code=True)}\}
 ```
 
 #### Run and Output {-}
-```python<?!
+<?!
 x = 42 # visible code
 print("Hello console!")
 ?>
+```python
+{{___(code=True, crop=True)}}
 ```
 
 **ATTENTION:** Using the `print()` function the text will be printed
@@ -421,7 +463,7 @@ ___(result)
 
 @tbl:algt is generated using the following python clode block.
 
-```python<?!
+<?!
 n = 5
 table = ""
 dec = ["*%s*", "**%s**", "~~%s~~", "`%s`",
@@ -434,42 +476,13 @@ for i in range(n):
 	text[(n>>1)-(i>>1):(n>>1)+(i>>1)] = fill
 	table += "|".join(text) + "\n"
 ?>
+```python
+{{___(code=True, crop=True)}}
 ```
 
 {{table}}
 
 Table: Table is generated using code and the `___()` statement. {#tbl:algt}
-
-## Inline Formatted Output
-
-The `{\{...}\}` statement uses sntax similar to python `f`-strings for
-formatted output of variables and results of expressions into Markdown
-text. The `marky` operator `{\{<expression>[:<format>]}\}` uses the
-syntax of [`f`-strings](https://docs.python.org/3/reference/lexical_analysis.html#f-strings).
-
-#### Example 1 {-}
-```bash
-`x` is {\{x}\} and {\{",".join([str(i) for i in range(x-10,x)])}\}.
-```
-#### Output {-}
-> `x` is {{x}} and {{",".join([str(i) for i in range(x-10,x)])}}.
-
-#### Example 2 {-}
-```python<?!
-x = int(1)
-y = float(2.3)
-z = 0
-a = [1, 2, 3]
-b = (4, 5)
-?>
-```
-```markdown
-This is a paragraph and x is {\{x:03d}\} and y is {\{y:.2f}\}.
-Other content is: a = {\{a}\}, b = {\{b}\}.
-```
-#### Output {-}
-> This is a paragraph and x is {{x:03d}} and y is {{y:.2f}}.
-> Other content is: a = {{a}}, b = {{b}}.
 
 ## Format Link Extension
 
@@ -508,9 +521,11 @@ JavaScript and style sheets for `html` using the meta data fields
 `header-includes--pdf` and `header-includes--html` respectively.
 
 #### Example: `fmtcode` {-}
-```python<?!
+<?!
 F = fmtcode(html="H<sup>T</sup><sub>M</sub>L", pdf=r"\LaTeX")
 ?>
+```python
+{{___(code=True, crop=True)}}
 ```
 ```markdown
 Invocation of format code results in: {\{F()}\}.
@@ -519,7 +534,7 @@ Invocation of format code results in: {\{F()}\}.
 > Invocation of format code results in: {{F()}}.
 
 #### Example: Color {-}
-```python<?!
+<?!
 C = lambda color: fmtcode(
 	html="<span style='color:%s;'>{0}</span>" % color,
 	pdf=r"\textcolor{{%s}}{{{0}}}" % color
@@ -527,6 +542,8 @@ C = lambda color: fmtcode(
 B = C("blue")
 R = C("red")
 ?>
+```python
+{{___(code=True, crop=True)}}
 ```
 ```markdown
 Text with {\{B("blue")}\} and {\{R("RED")}\}.
@@ -536,7 +553,7 @@ Text with {\{B("blue")}\} and {\{R("RED")}\}.
 
 
 #### Example: Classes {-}
-```python<?!
+<?!
 class color:
 	def __init__(self, color):
 		self.color = color
@@ -557,6 +574,8 @@ CC = lambda x: fmtcode(html=html(x), pdf=pdf(x))
 BB = CC("blue")
 RR = CC("red")
 ?>
+```python
+{{___(code=True, crop=True)}}
 ```
 ```markdown
 Text with {\{BB.upper("blue")}\} and {\{RR.lower("RED")}\}.
