@@ -322,7 +322,7 @@ for the classes `fmtplot_flot` for `html` and `fmtplot_mplt` for `pdf`.
 The format code has the following arguments.
 
 ```python
-{{___(code=True, crop=True)}}
+<\?{{___(code=True, crop=True)}}?\>
 ```
 <?!
 	pltdat = fmtplot(
@@ -359,7 +359,7 @@ also is used for the image filename `build/<figdir>/<figid>.png`.
 Plot `data` is specified in two sequences containing `x` and `y` values
 of point coordinates.
 ```python
-{{___(code=True, crop=True)}}
+<\?{{___(code=True, crop=True)}}?\>
 ```
 <?!
 	import numpy as np
@@ -391,7 +391,7 @@ For each data sequence `(x, y)` the label is specified in a list.
 A sequence with the label `None` does not appear in the legend and
 in the `html` choices.
 ```python
-{{___(code=True, crop=True)}}
+<\?{{___(code=True, crop=True)}}?\>
 ```
 <?!
 	label=[
@@ -415,7 +415,7 @@ is the `styleid` identifier string and the other elements are arguments
 * `("<styleid><styleid>", <arg1>, <arg2>)`
 
 ```python
-{{___(code=True, crop=True)}}
+<\?{{___(code=True, crop=True)}}?\>
 ```
 <?!
 	style=[
@@ -457,7 +457,7 @@ between neighbouring `x` points in the data sequence. {#tbl:styleid}
 For each data sequence `(x, y)` the color for lines and points is
 specified in a list.
 ```python
-{{___(code=True, crop=True)}}
+<\?{{___(code=True, crop=True)}}?\>
 ```
 <?!
 	color=[
@@ -480,7 +480,7 @@ document using the settings decribed above. Additionally the argument
 the keyword @`fig:plot1`.
 
 ```python
-{{___(code=True, crop=True)}}
+<\?{{___(code=True, crop=True)}}?\>
 ```
 <?!
 	___(pltdat.setup("plot1", data, label=label, style=style, color=color))
@@ -513,7 +513,7 @@ A legend in figures is specified using one of the keywords
 `nw`, `ne`, `sw` or `se` for `legpos`. In @fig:plot2, the legendis
 placed in the upper right corner using `nw`.
 ```python
-{{___(code=True, crop=True)}}
+<\?{{___(code=True, crop=True)}}?\>
 ```
 <?!
 	legin = fmtplot(
@@ -531,7 +531,7 @@ placed in the upper right corner using `nw`.
 A legend in a separate image is specified using the keyword `out`.
 @fig:plot3 has a separate legend given in @fig:plot3-legend.
 ```python
-{{___(code=True, crop=True)}}
+<\?{{___(code=True, crop=True)}}?\>
 ```
 <?!
 	legout = fmtplot(
@@ -552,7 +552,7 @@ format code is called. The figure @fig:plot3 is referenced by appending
 @fig:plot3-legend is  referenced by additionally appending
 `-legend` using the keyword @`fig:plot3-legend`.
 ```python
-{{___(code=True, crop=True)}}
+<\?{{___(code=True, crop=True)}}?\>
 ```
 <?!
 	___(legout.legend("plot3", caption="""This is the legend for @fig:plot3.
@@ -564,7 +564,7 @@ format code is called. The figure @fig:plot3 is referenced by appending
 # Plot Example
 
 ```python
-{{___(code=True, crop=True)}}
+<\?{{___(code=True, crop=True)}}?\>
 ```
 <?!
 	ex = fmtplot(
@@ -599,14 +599,14 @@ format code is called. The figure @fig:plot3 is referenced by appending
 	?>
 
  ```python
-{{___(code=True, crop=True)}}
+<\?{{___(code=True, crop=True)}}?\>
 ```
 <?!
 	___(ex.show("plotex", """This plot is generated."""))
 	?>
 
 ```python
-{{___(code=True, crop=True)}}
+<\?{{___(code=True, crop=True)}}?\>
 ```
 <?!
 	___(ex.legend("plotex", caption="""This is the legend for @fig:plotex."""))
@@ -621,7 +621,7 @@ and enabling and disabling the plot entities using checkboxes.
 The is feature is demonstrated in @fig:plot4. The checkboxes are
 located below the figure.
 ```python
-{{___(code=True, crop=True)}}
+<\?{{___(code=True, crop=True)}}?\>
 ```
 <?!
 	choice = fmtplot(
@@ -639,7 +639,7 @@ In order to place the choice checkboxes for @fig:plot4, the
 are placed inside a `<div>` tag.
 For `pdf` output there no choice is displayed.
 ```python
-{{___(code=True, crop=True)}}
+<\?{{___(code=True, crop=True)}}?\>
 ```
 <?!
 	___(choice.choice("plot4"))
@@ -653,9 +653,8 @@ data and setup code for the plots. The JavaScript is inserted into
 `html` documents using the the format code `fmtplot.script()`.
 JavaScripts have to be placed at the end of the document.
 For `pdf` no output is generated.
-
 ```python
-{{___(code=True, crop=True)}}
+<\?{{___(code=True, crop=True)}}?\>
 ```
 <?!
 	___(pltdat.script())
