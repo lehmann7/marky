@@ -824,7 +824,7 @@ header-includes: >
 ---
 ```
 
-# Scientific Writing in Markdown {#sec:panmd}
+# Scientific Writing in Markdown
 
 [Markdown](https://pandoc.org/MANUAL.html#pandocs-markdown) is a markup
 language for technical writing, with emphasis on readability. Markdown
