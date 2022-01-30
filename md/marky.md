@@ -835,4 +835,10 @@ This is a reference to @eq:label.
 
 This is a citation [@Muller1993].
 
+---
+
+*Thanks for reading, please try* `marky`.
+
+---
+
 # References
