@@ -88,7 +88,7 @@ algorithms and dynamically inserted into the resulting Markdown.
 ```markdown
 <?!
 for i in range(3):
-	___(f"{i+1}. `i = {i}`", "abcdefghij"[0:i*3])
+	___(f"{i+1}. `i = {i}`", "abcdefghij"[0:(i+1)*3])
 ?>
 ```
 
@@ -97,7 +97,7 @@ follows the Python indentation standard. Markdown
 text is integrated into the program flow when being
 inserted in python statements accordingly.
 
-#### Example 3: Text in Program Flow {-}
+#### Example 3: Text in Condition {-}
 ```php
 This is the first line.
 <\?
@@ -118,6 +118,23 @@ else:
 	?>This Line is shown.<?
 ?>
 This is the last line.
+```
+
+#### Example 4: Text in Program Flow {-}
+```php
+<\?
+for i in range(3):
+	?\>{\{i+1}\}. `i = {\{i}\}` in this iteration.
+<\?
+?\>
+```
+#### Run and Output {-}
+```markdown
+<?
+for i in range(3):
+	?>{{i+1}}. `i = {{i}}` in this iteration.
+<?
+?>
 ```
 
 ## A First `marky` Example
