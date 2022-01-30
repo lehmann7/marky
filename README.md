@@ -7,7 +7,7 @@
 
 
 > **Abstract** -- `marky` is a preprocessor with an easy and intuitive
-> syntax for execution of embedded <<?html <span style='color:blue;'>pyhon</span> html?>><<?pdf \textcolor{blue}{pyhon} pdf?>> code during rendering
+> syntax for execution of embedded <span style='color:blue;'>pyhon</span> code during rendering
 > `html` and `pdf` documents from Markdown text.
 > This document is created using `marky`, version *0.9*.
 > For more information please refer to the
@@ -615,15 +615,15 @@ between each other using links. In order to refer to external
 ```
 One link statement cannot be used for rendering `html` and `pdf`
 with consistent paths. Using the `marky` format link
- `.\???` file extension results in consistent links for `html` and
+ `.???` file extension results in consistent links for `html` and
 `pdf` documents.
 
 #### Example 
 ```md
-[Link to this Document](marky.\???)
+[Link to this Document](marky.???)
 ```
 #### Output 
-> [Link to this Document](marky.???)
+> [Link to this Document](marky.html)
 
 ## Format Codes
 
@@ -649,7 +649,7 @@ F = fmtcode(html="H<sup>T</sup><sub>M</sub>L", pdf=r"\LaTeX")
 Invocation of format code results in: {{F()}}.
 ```
 #### Output 
-> Invocation of format code results in: <<?html H<sup>T</sup><sub>M</sub>L html?>><<?pdf \LaTeX pdf?>>.
+> Invocation of format code results in: H<sup>T</sup><sub>M</sub>L.
 
 #### Example: Color 
 
@@ -665,7 +665,7 @@ R = C("red")
 Text with {{B("blue")}} and {{R("RED")}}.
 ```
 #### Output 
-> Text with <<?html <span style='color:blue;'>blue</span> html?>><<?pdf \textcolor{blue}{blue} pdf?>> and <<?html <span style='color:red;'>RED</span> html?>><<?pdf \textcolor{red}{RED} pdf?>>.
+> Text with <span style='color:blue;'>blue</span> and <span style='color:red;'>RED</span>.
 
 
 #### Example: Classes 
@@ -695,7 +695,7 @@ RR = CC("red")
 Text with {{BB.upper("blue")}} and {{RR.lower("RED")}}.
 ```
 #### Output 
-> Text with <<?html <span style='color:blue;'>BLUE</span> html?>><<?pdf \textcolor{blue}{BLUE} pdf?>> and <<?html <span style='color:red;'>red</span> html?>><<?pdf \textcolor{red}{red} pdf?>>.
+> Text with <span style='color:blue;'>BLUE</span> and <span style='color:red;'>red</span>.
 
 ## Markdown Include
 
