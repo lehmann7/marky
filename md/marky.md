@@ -677,10 +677,10 @@ ___(file="include.md", __marky__=False, raw=False, aux=False)
 
 `___(file)` supports following options.
 * `__marky__`: controls whether the include file is processed as `marky`
-script (`True`) or as a `marky` module (`False`), (default: `False`).
+script (`True`) or as a `marky` module (`False`, default).
 * `raw`: controls whether the include file is included as-is (`True`)
-or processed via `marky` (`False`), (default: `False`).
-* `aux`: disables processing of the file, (default: `False`).
+or processed via `marky` (`False`, default).
+* `aux`: disables processing of the file if `True`, (default: `False`).
 
 When script mode is activated (`__marky__=True`) then the *module code*
 as well as the *script code* are executed. However, if module mode is
