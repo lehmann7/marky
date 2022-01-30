@@ -356,8 +356,10 @@ In order to init @fig:plot1 for output, the format code
 is called with the corresponding arguments.
 
 ```python
+<\?
 	___(pltdat.setup("plot1", data=data, label=label,
 		style=style, color=color))
+?\>
 ```
 
 **Figure Identifier**
