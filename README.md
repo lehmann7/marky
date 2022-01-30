@@ -4,6 +4,10 @@
 > **`marky` Preprocessor**-- `marky` Markdown Text (*Left*) is rendered
 > into PDF (*Middle*) and HTML (*Right*) by just calling `make scan; make all`.
 
+![*Left*: Marky Markdown, rendered in *Middle*: PDF and *Right:* HTML](data/fmtplot.png)
+
+> [**`fmtplot` Extension**](fmtplot.md)-- *Left*: `marky` Markdown Text, *Middle*: Rendered HTML, *Right:* Rendered PDF
+
 
 
 > **Abstract** -- `marky` is a preprocessor with an easy and intuitive
