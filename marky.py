@@ -551,8 +551,11 @@ def _marky_front_split(t):
 
 ########################################################################
 
-def _marky_mdtext_print(*args, sep=" ", shift="", crop=False, ret=False,
-	file=None, run=False, code=False, pop=True):
+def _marky_mdtext_print(*args, sep=" ", shift="", crop=False, ret=False, code=False, pop=True,
+	file=None, __marky__=False, raw=False, aux=False):
+	# MD output: args, sep=" ", shift="", crop=False, ret=False
+	# MD code output: code=False, pop=True
+	# MD include: file, __marky__, raw, aux
 	global _MARKY_EXEC_QUIET
 	global _MARKY_EXEC_TEXT
 	global _MARKY_EXEC_APPEND
@@ -563,7 +566,15 @@ def _marky_mdtext_print(*args, sep=" ", shift="", crop=False, ret=False,
 		if pop: _MARKY_PASTE_CODE = _MARKY_PASTE_CODE[1:]
 		return _marky_mdtext_print(code, shift=shift, crop=crop, ret=True, code=False)
 	if not file is None:
-		_marky_run(_MARKY_MD_DIR + file, "/".join(file.split("/")[0:-1]), run)
+		if aux:
+			_MARKY_INCLUDE_LIST.append(file)
+		elif raw:
+			if not os.path.exists(file):
+				print("# ERROR", "no such file", file)
+				sys.exit(1)
+			___(open(file, "r").read(), ___)
+		else:
+			_marky_run(_MARKY_MD_DIR + file, "/".join(file.split("/")[0:-1]), __marky__)
 		return
 	if len(args) == 0:
 		if _MARKY_EXEC_APPEND == False: _MARKY_EXEC_TEXT.append("")
@@ -752,6 +763,8 @@ def _marky_meta_merge(old, front):
 def _marky_run(fname, inbase, run=True):
 	global _MARKY_EXEC_GLOBALS
 	global _MARKY_META_DICT
+	global _MARKY_INCLUDE_LIST
+	_MARKY_INCLUDE_LIST.append(fname)
 	with open(fname, "r") as h:
 		front, t, meta_lines = _marky_front_split(h.read())
 	_MARKY_META_DICT = _marky_meta_merge(_MARKY_META_DICT, front)
@@ -762,7 +775,10 @@ def _marky_run(fname, inbase, run=True):
 		p1 = t.find("?>", p)
 		if p0 > -1:
 			if p1 < p0:
+				print(t[max(0, p0-250):p0+2])
 				print("# ERROR", "?> before <?")
+				if "<!?" in t:
+					print("# there is <!? in text, did you mean: <?!")
 				sys.exit(1)
 			if p0 > 0: r += _marky_code_text(t[p:p0])
 			p1 = t.find("?>", p0)
@@ -867,6 +883,7 @@ def _marky_link(front, md_text, link):
 
 def _marky_write_build(inbase, outdir, front, mark):
 	os.makedirs(_MARKY_BUILD_DIR + outdir, exist_ok=True)
+	open(_MARKY_BUILD_DIR + inbase + ".deps", "w").write("\n".join(list(set(_MARKY_INCLUDE_LIST))))
 	if not mark is None:
 		open(_MARKY_BUILD_DIR + inbase + ".md", "w").write(_marky_front_join(front, mark))
 		for fmt in _MARKY_FORMAT:
@@ -962,6 +979,7 @@ _MARKY_EXEC_GLOBALS["___"] = _marky_mdtext_print
 _MARKY_EXEC_GLOBALS["fmtcode"] = _marky_fmtcode
 _MARKY_EXEC_GLOBALS["__marky__"] = True
 _MARKY_META_DICT = dict()
+_MARKY_INCLUDE_LIST = list()
 _MARKY_PASTE_CODE = list()
 
 ########################################################################

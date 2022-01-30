@@ -55,39 +55,117 @@ and intuitive syntax, which are embedded directly in the Markdown text:
 2. `{\{...}\}`: `f`-string output into Markdown.
 3. `___()`: Function for output into Markdown.
 
-Using `<\?...?\>` and `{\{...}\}` python processing and `f`-string output
-is embedded directly inside the Markdown text. Using the `___()`
-function text is generated from python algorithms and
-dynamically inserted into the resulting Markdown.
+Using `<\?...?\>` and `{\{...}\}` python code and `f`-string output
+are embedded directly inside the Markdown text.
 
-The following example can be produced by just calling
+#### Example 1: Inline Formatted Ouput {-}
+<?!
+x = 123.45
+LEG = lambda v, w: "lesser" if v < w else "equal or greater"
+?>
+```php
+<\?{{___(code=True)}}?\>
+```
+```markdown
+This is an example with a value x={\{x:.3f}\},
+which is {\{LEG(x, 100)}\} than 100.
+```
+#### Run and Output {-}
+```markdown
+This is an example with a value x={{x:.3f}},
+which is {{LEG(x, 100)}} than 100.
+```
+
+Using the `___()` function text is generated from python
+algorithms and dynamically inserted into the resulting Markdown.
+
+#### Example 2: Dynamic Text from Code {-}
+```php
+<\?{{___(code=True)}}?\>
+```
+#### Run and Output {-}
+```markdown
+<?!
+for i in range(3):
+	___(f"{i+1}. `i = {i}`", "abcdefghij"[0:i*3])
+?>
+```
+
+Python code, which is embedded in the Markdown text
+follows the Python indentation standard. Markdown
+text is integrated into the program flow when being
+inserted in python statements accordingly.
+
+#### Example 3: Text in Program Flow {-}
+```php
+This is the first line.
+<\?
+if False:
+	?\>This Line is **not** shown.<\?
+else:
+	?\>This Line is shown.<\?
+?\>
+This is the last line.
+```
+#### Run and Output {-}
+```markdown
+This is the first line.
+<?
+if False:
+	?>This Line is **not** shown.<?
+else:
+	?>This Line is shown.<?
+?>
+This is the last line.
+```
+
+## A First `marky` Example
+
+`marky` combines python expressions with Markdown, for dynamic creation
+of text. In the following, two in-depth examples of `marky` are presented.
+
+#### Example 1: `marky` Syntax {-}
+<?!
+x = 123
+y = 45
+def abc_fun(v, a, b, c):
+	return a if v < 100 else b if v == 100 else c
+LEG = lambda v: abc_fun(v, "lesser", "equal", "greater")
+?>
+```php
+<\?{{___(code=True)}}?\>
+```
+```markdown
+This is an example with a value x={\{x}\}, which is
+{\{LEG(x)}\} than 100. There is another value y={\{y}\},
+which is {\{LEG(y)}\} than 100. Both values together
+are x+y={\{x+y}\}.
+```
+#### Run and Output {-}
+```markdown
+This is an example with a value x={{x}}, which is
+{{LEG(x)}} than 100. There is another value y={{y}},
+which is {{LEG(y)}} than 100. Both values together
+are x+y={{x+y}}.
+```
+
+The following example contains meta data in the front matter
+and  can be rendered into `pdf` and `html` by just calling
 `make pdf/file` or `make html/file`.
 
-#### Example: `md/file.md` {-}
+#### Example 2: `md/file.md` {-}
 ```php
 ---
 title: An Example
 ---
-<\?
-def cap_first(i):
-	return " ".join([i[0].upper() + i[1:] for i in i.split()])
-for i in ["very", "not so"]:
-	?\>
-**{\{cap_first(i)}\} Section**
-
-To day is a {\{i}\} very nice day.
-The sun is shining {\{i}\} bright and
-the birds are singing {\{i}\} loud and
-fly {\{i}\} high in the {\{i}\} blue sky.
-	<\?
-?\>
+<\?{{___(code=True)}}?\>
 ```
 #### Output `build/file.md` {-}
 ```markdown
 ---
 title: An Example
 ---
-<?
+<?!
 def cap_first(i):
 	return " ".join([i[0].upper() + i[1:] for i in i.split()])
 for i in ["very", "not so"]:
@@ -102,7 +180,7 @@ fly {{i}} high in the {{i}} blue sky.
 ?>
 ```
 
-# How does `marky` work internally?
+## How does `marky` work internally?
 
 `marky` uses an extremely simple mechanism for generating a python programm
 from the Markdown text. Using the `<\?...?\>` and `{\{...}\}` statement,
@@ -272,18 +350,25 @@ ___(text_proc("make help"))
 
 # `marky` Features
 
-Place a new file in `md/file.md` and run the following commands.
+In order to quick start a new Markdown project, just link the
+`marky.py` executable in the project dir and initialize
+the environment.
 ```bash
-touch md/file.md
+mkdir my_project
+cd my_project
+./marky.py --init
 ```
 
-`marky` discovers the new document when invoking `make scan`.
+Now `marky` is ready for operation. Place a new file in `md/file.md`
+and run the following commands.
 ```bash
+touch md/file.md
 make scan
 # WRITE build/file.make
 ```
 
-`marky` renders `html` and `pdf` using make targets.
+`marky` discovers the new document when invoking `make scan`.
+`marky` also renders `html` and `pdf` using make targets.
 ```bash
 make html/file
 make pdf/file
@@ -393,14 +478,11 @@ Using `<\?...?\>` code is executed but not shown in Markdown.
 
 #### Example {-}
 ```python
-<\?
-x = 41 # hidden code
-___(f"Output to Markdown. x = {x}!")
-?\>
+<\?{{___(code=True)}}?\>
 ```
 #### Run and Output {-}
 ```python
-<?
+<?!
 x = 41 # hidden code
 ___(f"Output to Markdown. x = {x}!")
 ?>
@@ -417,16 +499,11 @@ inserted dynamically into the document during preprocessing.
 
 #### Example: Line Break {-}
 ```python
-<\?
-x = 40 # hidden code
-___("Output in", ___)
-___("single line! ", ___)
-___(f"x = {x}")
-?\>
+<\?{{___(code=True)}}?\>
 ```
 #### Run and Output {-}
 ```bash
-<?
+<?!
 x = 40 # hidden code
 ___("Output in ", ___)
 ___("single line! ", ___)
@@ -436,19 +513,11 @@ ___(f"x = {x}")
 
 #### Example: Shift, Crop, Return {-}
 ```python
-<\?
-result = ___("""
-   * text is cropped and shifted
-         * shift and crop
-            * can be combined
-          * returning the result
-""", shift="########", crop=True, ret=True)
-___(result)
-?\>
+<\?{{___(code=True)}}?\>
 ```
 #### Run and Output {-}
 ```bash
-<?
+<?!
 result = ___("""
    * text is cropped and shifted
          * shift and crop
@@ -583,9 +652,19 @@ Text with {\{BB.upper("blue")}\} and {\{RR.lower("RED")}\}.
 #### Output {-}
 > Text with {{BB.upper("blue")}} and {{RR.lower("RED")}}.
 
+## Markdown Include
+
+Often when writing markdown for `html` and `pdf` documents,
+certain paragraphs need to be duplicated, or rendered
+with other parameters. `marky supports` including
+other documents via `___(file)`the
+output needs to be tweaked accordingly.
+`marky` supports format specific tweaking by injecting
+raw `html` or `tex` code into Markdown using format codes.
+
 # Meta Data in Front Matter
 
-Meta data is annotated in the front matter of a 	Markdown text document.
+Meta data is annotated in the front matter of a Markdown text document.
 The front matter must start in the first line with `---` and precedes all
 other text being fenced by `---`. The meta data is in `yaml` format.
 The `yaml` block is parsed using `python-pyyaml`. All meta
