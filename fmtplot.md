@@ -95,8 +95,8 @@ is called with the corresponding arguments.
 
 ```python
 <?
-	___(pltdat.setup("plot1", data=data, label=label,
-		style=style, color=color))
+___(pltdat.setup("plot1", data=data,
+	label=label, style=style, color=color))
 ?>
 ```
 
