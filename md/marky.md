@@ -364,11 +364,13 @@ ___(text_proc("make help"))
 # `marky` Features
 
 In order to quick start a new Markdown project, just link the
-`marky.py` executable in the project dir and initialize
-the environment.
+`marky.py` executable in the project dir or clone the git as
+described above, and initialize the environment using `--init`.
 ```bash
 mkdir my_project
 cd my_project
+ln -s ~/marky/marky.py .
+# ... or git clone ...
 ./marky.py --init
 ```
 
