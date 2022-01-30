@@ -534,7 +534,7 @@ def _marky_front_join(y, text):
 	)
 
 def _marky_front_split(t):
-	global _MARKY_EXEC_DICT
+	global _MARKY_EXEC_GLOBALS
 	if not t.startswith("---\n"):
 		return dict(), t, 0
 	y = t.split("---\n")[1]
@@ -551,10 +551,14 @@ def _marky_front_split(t):
 
 ########################################################################
 
-def _marky_mdtext_print(*args, sep=" ", shift="", crop=False, ret=False):
+def _marky_mdtext_print(*args, sep=" ", shift="", crop=False, ret=False,
+	file=None, run=False):
 	global _MARKY_EXEC_QUIET
 	global _MARKY_EXEC_TEXT
 	global _MARKY_EXEC_APPEND
+	if not file is None:
+		_marky_run(_MARKY_MD_DIR + file, "/".join(file.split("/")[0:-1]), run)
+		return
 	if len(args) == 0:
 		if _MARKY_EXEC_APPEND == False: _MARKY_EXEC_TEXT.append("")
 		_MARKY_EXEC_APPEND = False
@@ -700,30 +704,49 @@ def _marky_paste_code(t):
 	return t
 
 def _marky_meta_merge(old, front):
-	global _MARKY_EXEC_DICT
+	global _MARKY_EXEC_GLOBALS
 	meta = {}
 	meta.update(old)
 	try:
 		for k, v in front.items():
-			if k in meta:
-				print("<!-- field exists, skip yaml %s --!>" % k)
+			x = k.split("--")
+			if "--" in k and x[-1] in _MARKY_FORMAT:
+				if k in meta:
+					if type(v) is list:
+						print("<!-- field link, merge yaml list %s --!>" % k)
+						meta[k].extend(v)
+					if type(v) is dict:
+						print("<!-- field link, merge yaml dict %s --!>" % k)
+						meta[k].update(v)
+					if type(v) is str:
+						print("<!-- field link, merge yaml str %s --!>" % k)
+						meta[k] += " " + v
+					else:
+						print("<!-- field exists, skip yaml %s %s --!>" % (str(type(v)), k))
+				else:
+					print("<!-- field link, set yaml %s --!>" % k)
+					meta[k] = v
 			else:
-				meta[k] = v
-			k = k.replace("-", "_")
-			if k in _MARKY_EXEC_DICT:
-				print("<!-- field exists, skip local %s --!>" % k)
-			else:
-				_MARKY_EXEC_DICT[k] = v
+				if k in meta:
+					print("<!-- field exists, skip yaml %s --!>" % k)
+				else:
+					meta[k] = v
+				k = k.replace("-", "_")
+				if k in _MARKY_EXEC_GLOBALS:
+					print("<!-- field exists, skip local %s --!>" % k)
+				else:
+					_MARKY_EXEC_GLOBALS[k] = v
 	except Exception as ex:
 		print("# META MERGE ERROR", type(ex), str(ex))
 		sys.exit(1)
 	return meta
 
-def _marky_run(fname, meta, inbase):
-	global _MARKY_EXEC_DICT
+def _marky_run(fname, inbase, run=True):
+	global _MARKY_EXEC_GLOBALS
+	global _MARKY_META_DICT
 	with open(fname, "r") as h:
 		front, t, meta_lines = _marky_front_split(h.read())
-	meta = _marky_meta_merge(meta, front)
+	_MARKY_META_DICT = _marky_meta_merge(_MARKY_META_DICT, front)
 	p = 0
 	r = ""
 	while True:
@@ -757,12 +780,15 @@ def _marky_run(fname, meta, inbase):
 				Y = "\\"*(i + 0)
 				r = r.replace(a + (b % X)*j + c, a + (b % Y)*j + c)
 	open(_MARKY_BUILD_DIR + inbase + ".py", "w").write(r)
+	# ~ print(_MARKY_EXEC_GLOBALS)
 	try:
-		exec(r, _MARKY_EXEC_DICT, None)
+		old_val = _MARKY_EXEC_LOCALS["__marky__"]
+		_MARKY_EXEC_LOCALS["__marky__"] = run
+		exec(r, _MARKY_EXEC_GLOBALS, _MARKY_EXEC_LOCALS)
+		_MARKY_EXEC_LOCALS["__marky__"] = old_val
 	except Exception as ex:
 		_marky_print_trace(ex, meta_lines, r)
 		sys.exit(1)
-	return meta
 
 def _marky_print_trace(ex, mlines, code):
 	print("# TRACEBACK")
@@ -922,11 +948,14 @@ _MARKY_PACK_FILES = [
 	".gitignore"
 ]
 _MARKY_EXEC_QUIET = False
-_MARKY_EXEC_DICT = dict()
 _MARKY_EXEC_TEXT = list()
 _MARKY_EXEC_APPEND = False
-_MARKY_EXEC_DICT["___"] = _marky_mdtext_print
-_MARKY_EXEC_DICT["fmtcode"] = _marky_fmtcode
+_MARKY_EXEC_GLOBALS = dict()
+_MARKY_EXEC_GLOBALS["___"] = _marky_mdtext_print
+_MARKY_EXEC_GLOBALS["fmtcode"] = _marky_fmtcode
+_MARKY_EXEC_LOCALS = dict()
+_MARKY_EXEC_LOCALS["__marky__"] = True
+_MARKY_META_DICT = dict()
 
 ########################################################################
 
@@ -1015,9 +1044,9 @@ if __name__ == "__main__":
 	outdir = "/".join(inbase.split("/")[0:-1])
 
 	if os.path.exists(_MARKY_BUILD_DIR):
-		front = _marky_run(infile, {}, inbase)
+		_marky_run(infile, inbase)
 		mark = "\n".join(_MARKY_EXEC_TEXT)
-		_marky_write_build(inbase, outdir, front, mark)
+		_marky_write_build(inbase, outdir, _MARKY_META_DICT, mark)
 	else:
 		print("# ERROR", "no build dir: mkdir build")
 		sys.sys.exit(1)
