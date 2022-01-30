@@ -625,7 +625,7 @@ def _marky_mdtext_print(*args, sep=" ", shift="", crop=False, ret=False, code=Fa
 		return _marky_mdtext_print(code, shift=shift, crop=crop, ret=True, code=False)
 	if not file is None:
 		if aux:
-			_MARKY_INCLUDE_LIST.append(file)
+			_MARKY_INCLUDE_LIST.append(_MARKY_MD_DIR + file)
 		elif raw:
 			if not os.path.exists(file):
 				print("# ERROR", "no such file", file)
@@ -941,7 +941,7 @@ def _marky_link(front, md_text, link):
 
 def _marky_write_build(inbase, outdir, front, mark):
 	os.makedirs(_MARKY_BUILD_DIR + outdir, exist_ok=True)
-	open(_MARKY_BUILD_DIR + inbase + ".deps", "w").write("\n".join(list(set(_MARKY_INCLUDE_LIST))))
+	open(_MARKY_BUILD_DIR + inbase + ".deps", "w").write("\n".join(list(set(_MARKY_INCLUDE_LIST[1:]))))
 	if not mark is None:
 		open(_MARKY_BUILD_DIR + inbase + ".md", "w").write(_marky_front_join(front, mark))
 		for fmt in _MARKY_FORMAT:
@@ -951,9 +951,10 @@ def _marky_write_build(inbase, outdir, front, mark):
 		fhnd.write(f"""# auto-generated
 all_md:=$(all_md) {_MARKY_MD_DIR+inbase}.md
 
-{_MARKY_BUILD_DIR+inbase}.md: {_MARKY_MD_DIR+inbase}.md
+{_MARKY_BUILD_DIR+inbase}.md: {_MARKY_MD_DIR+inbase}.md $(file < {_MARKY_BUILD_DIR+inbase}.deps)
 	mkdir -p "{_MARKY_BUILD_DIR+outdir}"
 	ln -snf ../{_MARKY_DATA_DIR} {_MARKY_BUILD_DIR+_MARKY_DATA_DIR}
+	ln -snf ../{_MARKY_DATA_DIR} {_MARKY_MD_DIR+_MARKY_DATA_DIR}
 	./marky.py --base="{inbase}.md"
 
 .PHONY: build/{inbase}
