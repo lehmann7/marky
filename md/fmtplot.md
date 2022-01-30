@@ -315,6 +315,16 @@ The script download the following files:
 
 ---
 
+# Include
+
+Include `fmtplot` as follows.
+
+```python
+<\?
+___(file="fmtplot.md")
+?\>
+```
+
 # Plot Generation
 
 Plots are prepared by calling the class `fmtplot` together with
