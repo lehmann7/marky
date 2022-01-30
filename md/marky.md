@@ -159,14 +159,26 @@ and  can be rendered into `pdf` and `html` by just calling
 ---
 title: An Example
 ---
-<\?{{___(code=True)}}?\>
+<\?
+def cap_first(i):
+	return " ".join([i[0].upper() + i[1:] for i in i.split()])
+for i in ["very", "not so"]:
+	?\>
+**{\{cap_first(i)}\} Section**
+
+To day is a {\{i}\} very nice day.
+The sun is shining {\{i}\} bright and
+the birds are singing {\{i}\} loud and
+fly {\{i}\} high in the {\{i}\} blue sky.
+	<\?
+?\>
 ```
 #### Output `build/file.md` {-}
 ```markdown
 ---
 title: An Example
 ---
-<?!
+<?
 def cap_first(i):
 	return " ".join([i[0].upper() + i[1:] for i in i.split()])
 for i in ["very", "not so"]:
