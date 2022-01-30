@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 ########################################################################
-# marky Markdown Preprocessor ###########################################
+# marky Markdown Preprocessor ##########################################
 ########################################################################
 
 # Quick Make Example Project
@@ -603,6 +603,12 @@ def _marky_front_split(t):
 
 ########################################################################
 
+def _marky_file_mtime_older(f1, f2):
+	return os.path.getmtime(f1) < os.path.getmtime(f2)
+
+def _marky_file_mtime_newer(f1, f2):
+	return os.path.getmtime(f1) > os.path.getmtime(f2)
+
 def _marky_mdtext_print(*args, sep=" ", shift="", crop=False, ret=False, code=False, pop=True,
 	file=None, __marky__=False, raw=False, aux=False):
 	# MD output: args, sep=" ", shift="", crop=False, ret=False
@@ -828,7 +834,7 @@ def _marky_run(fname, inbase, run=True):
 		if p0 > -1:
 			if p1 < p0:
 				print(t[max(0, p0-250):p0+2])
-				print("# ERROR", "?> before <?")
+				print("# ERROR", "?> before <?", r"... (can use <\? and ?\> for escaping)")
 				if "<!?" in t:
 					print("# there is <!? in text, did you mean: <?!")
 				sys.exit(1)
