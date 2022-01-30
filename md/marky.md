@@ -746,7 +746,7 @@ extensions for referencing
 
 ## `marky` Format Fields
 
-**Example**
+#### Example: `md/file.md` {-}
 ```yaml
 ---
 header-includes--pdf: >
@@ -767,6 +767,28 @@ specifies corresponding options for the generation of `pdf` and `html`
 documents. During make, `marky` scans all meta data fields, and
 fields which end with `--pdf` and `--html` are selected and forwarded
 to `pandoc` based on the format to be rendered.
+
+After build `make build/file` the meta data field `header-includes`
+is present in the files `build/file.html.md` and`build/file.pdf.md`
+accordingly.
+
+#### Example: `build/file.html.md` {-}
+```yaml
+---
+header-includes: >
+  <style>* { box-sizing: border-box; }</style>
+---
+```
+#### Example: `build/file.pdf.md` {-}
+```yaml
+---
+header-includes: >
+  \hypersetup{
+  colorlinks=false,
+  allbordercolors={0 0 0},
+  pdfborderstyle={/S/U/W 1}\}
+---
+```
 
 # Scientific Writing in Markdown {#sec:panmd}
 
