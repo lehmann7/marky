@@ -699,13 +699,39 @@ Text with {{BB.upper("blue")}} and {{RR.lower("RED")}}.
 
 ## Markdown Include
 
-Often when writing markdown for `html` and `pdf` documents,
-certain paragraphs need to be duplicated, or rendered
-with other parameters. `marky supports` including
-other documents via `___(file)`the
-output needs to be tweaked accordingly.
-`marky` supports format specific tweaking by injecting
-raw `html` or `tex` code into Markdown using format codes.
+The `marky` include statement `___(file)` For inclusion of text from
+other files can be used to include text into `html` and `pdf` documents.
+```python
+<?
+___(file="include.md", __marky__=False, raw=False, aux=False)
+?>
+```
+
+`___(file)` supports following options.
+* `__marky__`: controls whether the include file is processed as `marky`
+script (`True`) or as a `marky` module (`False`), (default: `False`).
+* `raw`: controls whether the include file is included as-is (`True`)
+or processed via `marky` (`False`), (default: `False`).
+* `aux`: disables processing of the file, (default: `False`).
+
+When script mode is activated (`__marky__=True`) then the *module code*
+as well as the *script code* are executed. However, if module mode is
+activated  (`__marky__=False`), only the *module code* is processed.
+
+```php
+---
+title: Test
+---
+<?
+# marky module code
+?>
+`marky` module output
+<?
+if __marky__:
+	# marky script code
+	?>`marky` script output<?
+?>
+```
 
 # Meta Data in Front Matter
 
