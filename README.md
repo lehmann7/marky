@@ -934,4 +934,3 @@ This is a citation [@Muller1993].
 
 ---
 
-# References
