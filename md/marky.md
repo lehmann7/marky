@@ -2,6 +2,7 @@
 title: "`marky` Documentation "
 title--pdf: "-- `pdf`"
 title--html: "-- `html`"
+author: lehmann7
 bibliography: data/marky.bib
 header-includes--pdf: >
    \hypersetup{colorlinks=false,

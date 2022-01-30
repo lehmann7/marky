@@ -1,7 +1,8 @@
 
-![*Left*: Marky Markdown Text, *Middle*: Rendered PDF, *Right:* Rendered HTML](data/marky.png)
+![*Left*: Marky Markdown, rendered in *Middle*: PDF and *Right:* HTML](data/marky.png)
 
-> **`marky` Preprocessor**-- *Left*: `marky` Markdown Text, *Middle*: Rendered PDF, *Right:* Rendered HTML.
+> **`marky` Preprocessor**-- `marky` Markdown Text (*Left*) is rendered
+> into PDF (*Middle*) and HTML (*Right*) by just calling `make scan; make all`.
 
 
 
