@@ -609,7 +609,7 @@ def _marky_file_mtime_older(f1, f2):
 def _marky_file_mtime_newer(f1, f2):
 	return os.path.getmtime(f1) > os.path.getmtime(f2)
 
-def _marky_mdtext_print(*args, sep=" ", shift="", crop=False, ret=False, code=False, pop=True,
+def _marky_mdtext_print(*args, sep=" ", shift="", crop=False, ret=False, code=False, text=False, pop=True,
 	file=None, __marky__=False, raw=False, aux=False):
 	# MD output: args, sep=" ", shift="", crop=False, ret=False
 	# MD code output: code=False, pop=True
@@ -618,11 +618,16 @@ def _marky_mdtext_print(*args, sep=" ", shift="", crop=False, ret=False, code=Fa
 	global _MARKY_EXEC_TEXT
 	global _MARKY_EXEC_APPEND
 	global _MARKY_PASTE_CODE
+	global _MARKY_PASTE_TEXT
+	if text:
+		text = _MARKY_EXEC_TEXT[_MARKY_PASTE_TEXT:]
+		if pop: _MARKY_PASTE_TEXT = len(_MARKY_EXEC_TEXT)
+		return _marky_mdtext_print(text, shift=shift, crop=crop, ret=True)
 	if code:
 		if len(_MARKY_PASTE_CODE) == 0: return ""
 		code = _MARKY_PASTE_CODE[0]
 		if pop: _MARKY_PASTE_CODE = _MARKY_PASTE_CODE[1:]
-		return _marky_mdtext_print(code, shift=shift, crop=crop, ret=True, code=False)
+		return _marky_mdtext_print(code, shift=shift, crop=crop, ret=True)
 	if not file is None:
 		if aux:
 			_MARKY_INCLUDE_LIST.append(_MARKY_MD_DIR + file)
@@ -635,7 +640,7 @@ def _marky_mdtext_print(*args, sep=" ", shift="", crop=False, ret=False, code=Fa
 			_marky_run(_MARKY_MD_DIR + file, "/".join(file.split("/")[0:-1]), __marky__)
 		return
 	if len(args) == 0:
-		if _MARKY_EXEC_APPEND == False: _MARKY_EXEC_TEXT.append("")
+		if _MARKY_EXEC_APPEND == False: _MARKY_EXEC_TEXT += "\n"
 		_MARKY_EXEC_APPEND = False
 	else:
 		if ret: return _marky_mdtext_ret(args[0], shift, crop)
@@ -650,9 +655,9 @@ def _marky_mdtext_print(*args, sep=" ", shift="", crop=False, ret=False, code=Fa
 			args = args[0:-1]
 		text = sep.join([str(i) for i in args])
 		if _MARKY_EXEC_APPEND and len(_MARKY_EXEC_TEXT) > 0:
-			_MARKY_EXEC_TEXT[-1] += text
+			_MARKY_EXEC_TEXT += text
 		else:
-			_MARKY_EXEC_TEXT.append(text)
+			_MARKY_EXEC_TEXT += "\n" + text
 		_MARKY_EXEC_APPEND = exec_append_new
 		if not _MARKY_EXEC_QUIET: print(text, end="" if _MARKY_EXEC_APPEND else "\n", flush=True)
 
@@ -671,7 +676,7 @@ def _marky_mdtext_crop(arg, shift, crop):
 	for i in arg:
 		if crop and len(i[0:n].lstrip()) == 0:
 			i = i[n:]
-		_MARKY_EXEC_TEXT.append(shift + i)
+		_MARKY_EXEC_TEXT += "\n" + shift + i
 
 def _marky_mdtext_ret(arg, shift="", crop=True):
 	if not type(arg) is str:
@@ -771,13 +776,9 @@ def _marky_code_text(t, fstring=True):
 
 def _marky_paste_code(t):
 	global _MARKY_PASTE_CODE
-	# ~ show_code = False
 	if t.startswith("!"):
 		t = t[1:]
 		_MARKY_PASTE_CODE.append(t)
-		# ~ show_code = True
-	# ~ if show_code:
-		# ~ return _marky_code_text(t, fstring=False) + t
 	return t
 
 def _marky_meta_merge(old, front):
@@ -941,17 +942,18 @@ def _marky_link(front, md_text, link):
 
 def _marky_write_build(inbase, outdir, front, mark):
 	os.makedirs(_MARKY_BUILD_DIR + outdir, exist_ok=True)
-	open(_MARKY_BUILD_DIR + inbase + ".deps", "w").write("\n".join(list(set(_MARKY_INCLUDE_LIST[1:]))))
 	if not mark is None:
 		open(_MARKY_BUILD_DIR + inbase + ".md", "w").write(_marky_front_join(front, mark))
 		for fmt in _MARKY_FORMAT:
 			open(_MARKY_BUILD_DIR + inbase + "." + fmt + ".md", "w").write(_marky_link(front, mark, fmt))
-
+	inname = inbase.replace(".", "__").replace("/", "__")
 	with open(_MARKY_BUILD_DIR + inbase + ".make", "w") as fhnd:
 		fhnd.write(f"""# auto-generated
+dep_{inname}:={" ".join(list(set(_MARKY_INCLUDE_LIST[1:])))}
+
 all_md:=$(all_md) {_MARKY_MD_DIR+inbase}.md
 
-{_MARKY_BUILD_DIR+inbase}.md: {_MARKY_MD_DIR+inbase}.md $(file < {_MARKY_BUILD_DIR+inbase}.deps)
+{_MARKY_BUILD_DIR+inbase}.md: {_MARKY_MD_DIR+inbase}.md $(dep_{inname})
 	mkdir -p "{_MARKY_BUILD_DIR+outdir}"
 	ln -snf ../{_MARKY_DATA_DIR} {_MARKY_BUILD_DIR+_MARKY_DATA_DIR}
 	ln -snf ../{_MARKY_DATA_DIR} {_MARKY_MD_DIR+_MARKY_DATA_DIR}
@@ -1031,7 +1033,7 @@ _MARKY_PACK_FILES = [
 	".gitignore"
 ]
 _MARKY_EXEC_QUIET = False
-_MARKY_EXEC_TEXT = list()
+_MARKY_EXEC_TEXT = ""
 _MARKY_EXEC_APPEND = False
 _MARKY_EXEC_GLOBALS = dict()
 _MARKY_EXEC_GLOBALS["___"] = _marky_mdtext_print
@@ -1040,6 +1042,7 @@ _MARKY_EXEC_GLOBALS["__marky__"] = True
 _MARKY_META_DICT = dict()
 _MARKY_INCLUDE_LIST = list()
 _MARKY_PASTE_CODE = list()
+_MARKY_PASTE_TEXT = 0
 
 ########################################################################
 
@@ -1129,8 +1132,7 @@ if __name__ == "__main__":
 
 	if os.path.exists(_MARKY_BUILD_DIR):
 		_marky_run(infile, inbase)
-		mark = "\n".join(_MARKY_EXEC_TEXT)
-		_marky_write_build(inbase, outdir, _MARKY_META_DICT, mark)
+		_marky_write_build(inbase, outdir, _MARKY_META_DICT, _MARKY_EXEC_TEXT)
 	else:
 		print("# ERROR", "no build dir: mkdir build")
 		sys.sys.exit(1)
