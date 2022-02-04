@@ -587,12 +587,13 @@ def _marky_front_join(y, text):
 
 def _marky_front_split(t):
 	global _MARKY_EXEC_GLOBALS
+	global _MARKY_EXEC_QUIET
 	if not t.startswith("---\n"):
 		return dict(), t, 0
 	y = t.split("---\n")[1]
 	meta_lines = len(y.split("\n")) + 2
 	mark = "---\n".join(t.split("---\n")[2:])
-	print("---\n" + y + "---", flush=True)
+	if not _MARKY_EXEC_QUIET: print("---\n" + y + "---", flush=True)
 	data = dict()
 	try:
 		data = yaml.safe_load(y)
@@ -637,7 +638,7 @@ def _marky_mdtext_print(*args, sep=" ", shift="", crop=False, ret=False, code=Fa
 				sys.exit(1)
 			___(open(file, "r").read(), ___)
 		else:
-			_marky_run(_MARKY_MD_DIR + file, "/".join(file.split("/")[0:-1]), __marky__)
+			_marky_run(_MARKY_MD_DIR + file, "/".join(file.split(".")[0:-1]), __marky__)
 		return
 	if len(args) == 0:
 		if _MARKY_EXEC_APPEND == False: _MARKY_EXEC_TEXT += "\n"
@@ -866,6 +867,7 @@ def _marky_run(fname, inbase, run=True):
 	try:
 		old_val = _MARKY_EXEC_GLOBALS["__marky__"]
 		_MARKY_EXEC_GLOBALS["__marky__"] = run
+		print("<!-- run %s --!>" % (_MARKY_BUILD_DIR + inbase + ".py"))
 		exec(r, _MARKY_EXEC_GLOBALS, None)
 		_MARKY_EXEC_GLOBALS["__marky__"] = old_val
 	except Exception as ex:
