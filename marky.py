@@ -593,7 +593,7 @@ def _marky_front_split(t):
 	y = t.split("---\n")[1]
 	meta_lines = len(y.split("\n")) + 2
 	mark = "---\n".join(t.split("---\n")[2:])
-	if not _MARKY_EXEC_QUIET: print("---\n" + y + "---", flush=True)
+	_marky_print_mark("---\n" + y + "---")
 	data = dict()
 	try:
 		data = yaml.safe_load(y)
@@ -604,11 +604,33 @@ def _marky_front_split(t):
 
 ########################################################################
 
+def _marky_print_mesg(*args):
+	print("<!--", *args, "--!>")
+
+def _marky_print_mark(*args, end="\n"):
+	if not _MARKY_EXEC_QUIET: print(*args, end=end, flush=True)
+
+def _marky_print_trace(ex, mlines, code):
+	print("# TRACEBACK")
+	import traceback
+	traceback.print_tb(ex.__traceback__)
+	if hasattr(ex, "filename") and ex.filename == "<string>":
+		print("# ERROR LOCATION")
+		code = code.split("\n")
+		print(len(code))
+		for i in range(max(0, ex.lineno-5), min(len(code), ex.lineno+5)):
+			print("*" if i + 1 == ex.lineno else " ", "%03d" % i, code[i])
+	print("# PYTHON ERROR")
+	print(type(ex), str(ex))
+
 def _marky_file_mtime_older(f1, f2):
 	return os.path.getmtime(f1) < os.path.getmtime(f2)
 
 def _marky_file_mtime_newer(f1, f2):
 	return os.path.getmtime(f1) > os.path.getmtime(f2)
+
+def _marky_file_make_basename(f):
+	return "/".join(".".join(f.split(".")[0:-1]).split("/")[1:])
 
 def _marky_mdtext_print(*args, sep=" ", shift="", crop=False, ret=False, code=False, text=False, pop=True,
 	file=None, __marky__=False, raw=False, aux=False):
@@ -631,14 +653,14 @@ def _marky_mdtext_print(*args, sep=" ", shift="", crop=False, ret=False, code=Fa
 		return _marky_mdtext_print(code, shift=shift, crop=crop, ret=True)
 	if not file is None:
 		if aux:
-			_MARKY_INCLUDE_LIST.append(_MARKY_MD_DIR + file)
+			_MARKY_INCLUDE_LIST.append(file)
 		elif raw:
 			if not os.path.exists(file):
 				print("# ERROR", "no such file", file)
 				sys.exit(1)
-			___(open(file, "r").read(), ___)
+			_marky_mdtext_print(open(file, "r").read(), _marky_mdtext_print)
 		else:
-			_marky_run(_MARKY_MD_DIR + file, "/".join(file.split(".")[0:-1]), __marky__)
+			_marky_run(file, _marky_file_make_basename(file), __marky__)
 		return
 	if len(args) == 0:
 		if _MARKY_EXEC_APPEND == False: _MARKY_EXEC_TEXT += "\n"
@@ -660,7 +682,7 @@ def _marky_mdtext_print(*args, sep=" ", shift="", crop=False, ret=False, code=Fa
 		else:
 			_MARKY_EXEC_TEXT += "\n" + text
 		_MARKY_EXEC_APPEND = exec_append_new
-		if not _MARKY_EXEC_QUIET: print(text, end="" if _MARKY_EXEC_APPEND else "\n", flush=True)
+		_marky_print_mark(text, end="" if _MARKY_EXEC_APPEND else "\n")
 
 def _marky_mdtext_crop(arg, shift, crop):
 	global _MARKY_EXEC_TEXT
@@ -792,27 +814,27 @@ def _marky_meta_merge(old, front):
 			if "--" in k and x[-1] in _MARKY_FORMAT:
 				if k in meta:
 					if type(v) is list:
-						print("<!-- field link, merge yaml list %s --!>" % k)
+						_marky_print_mesg("field link, merge yaml list %s" % k)
 						meta[k].extend(v)
 					if type(v) is dict:
-						print("<!-- field link, merge yaml dict %s --!>" % k)
+						_marky_print_mesg("field link, merge yaml dict %s" % k)
 						meta[k].update(v)
 					if type(v) is str:
-						print("<!-- field link, merge yaml str %s --!>" % k)
+						_marky_print_mesg("field link, merge yaml str %s" % k)
 						meta[k] += " " + v
 					else:
-						print("<!-- field exists, skip yaml %s %s --!>" % (str(type(v)), k))
+						_marky_print_mesg("field exists, skip yaml %s %s" % (str(type(v)), k))
 				else:
-					print("<!-- field link, set yaml %s --!>" % k)
+					_marky_print_mesg("field link, set yaml %s" % k)
 					meta[k] = v
 			else:
 				if k in meta:
-					print("<!-- field exists, skip yaml %s --!>" % k)
+					_marky_print_mesg("field exists, skip yaml %s" % k)
 				else:
 					meta[k] = v
 				k = k.replace("-", "_")
 				if k in _MARKY_EXEC_GLOBALS:
-					print("<!-- field exists, skip local %s --!>" % k)
+					_marky_print_mesg("field exists, skip local %s" % k)
 				else:
 					_MARKY_EXEC_GLOBALS[k] = v
 	except Exception as ex:
@@ -825,6 +847,7 @@ def _marky_run(fname, inbase, run=True):
 	global _MARKY_META_DICT
 	global _MARKY_INCLUDE_LIST
 	_MARKY_INCLUDE_LIST.append(fname)
+	_marky_print_mesg("run %s" % fname)
 	with open(fname, "r") as h:
 		front, t, meta_lines = _marky_front_split(h.read())
 	_MARKY_META_DICT = _marky_meta_merge(_MARKY_META_DICT, front)
@@ -867,25 +890,12 @@ def _marky_run(fname, inbase, run=True):
 	try:
 		old_val = _MARKY_EXEC_GLOBALS["__marky__"]
 		_MARKY_EXEC_GLOBALS["__marky__"] = run
-		print("<!-- run %s --!>" % (_MARKY_BUILD_DIR + inbase + ".py"))
+		_marky_print_mesg("run %s" % (_MARKY_BUILD_DIR + inbase + ".py"))
 		exec(r, _MARKY_EXEC_GLOBALS, None)
 		_MARKY_EXEC_GLOBALS["__marky__"] = old_val
 	except Exception as ex:
 		_marky_print_trace(ex, meta_lines, r)
 		sys.exit(1)
-
-def _marky_print_trace(ex, mlines, code):
-	print("# TRACEBACK")
-	import traceback
-	traceback.print_tb(ex.__traceback__)
-	if hasattr(ex, "filename") and ex.filename == "<string>":
-		print("# ERROR LOCATION")
-		code = code.split("\n")
-		print(len(code))
-		for i in range(max(0, ex.lineno-5), min(len(code), ex.lineno+5)):
-			print("*" if i + 1 == ex.lineno else " ", "%03d" % i, code[i])
-	print("# PYTHON ERROR")
-	print(type(ex), str(ex))
 
 ########################################################################
 
@@ -897,7 +907,7 @@ def _marky_meta_link(front, link):
 			if not k in flink:
 				flink[k] = v
 			else:
-				print("<!-- field exists, skip yaml %s --!>" % k)
+				_marky_print_mesg(" exists, skip yaml %s" % k)
 		for k, v in front.items():
 			if not "--" in k: continue
 			x = k.split("--")
@@ -905,13 +915,13 @@ def _marky_meta_link(front, link):
 				if x[-1] == link:
 					k = "--".join(x[0:-1])
 					if k in flink:
-						print("<!-- field link, merge yaml %s --!>" % k)
+						_marky_print_mesg("field link, merge yaml %s" % k)
 						if type(v) is list: flink[k].extend(v)
 						if type(v) is dict: flink[k].update(v)
 						if type(v) is str: flink[k] += " " + v
 						else: flink[k] = v
 					else:
-						print("<!-- field link, set yaml %s --!>" % k)
+						_marky_print_mesg("field link, set yaml %s" % k)
 						flink[k] = v
 	except Exception as ex:
 		print("# META LINK ERROR", type(ex), str(ex))
@@ -1129,7 +1139,7 @@ if __name__ == "__main__":
 	if not os.path.exists(infile):
 		print("# ERROR", "wrong base %s: file not found %s" % (args.base, infile))
 		sys.exit(1)
-	inbase = args.base if not "." in args.base.split("/")[-1] else ".".join(args.base.split(".")[0:-1])
+	inbase = _marky_file_make_basename(infile)
 	outdir = "/".join(inbase.split("/")[0:-1])
 
 	if os.path.exists(_MARKY_BUILD_DIR):
