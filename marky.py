@@ -614,6 +614,7 @@ def _marky_print_trace(ex, mlines, code):
 	print("# TRACEBACK")
 	import traceback
 	traceback.print_tb(ex.__traceback__)
+	print(dir(ex), ex.args, ex.__dict__)
 	if hasattr(ex, "filename") and ex.filename == "<string>":
 		print("# ERROR LOCATION")
 		code = code.split("\n")
@@ -852,7 +853,7 @@ def _marky_run(fname, inbase, run=True):
 		front, t, meta_lines = _marky_front_split(h.read())
 	_MARKY_META_DICT = _marky_meta_merge(_MARKY_META_DICT, front)
 	p = 0
-	r = ""
+	r = "\n"*(meta_lines-1)
 	while True:
 		p0 = t.find("<?", p)
 		p1 = t.find("?>", p)
@@ -887,15 +888,23 @@ def _marky_run(fname, inbase, run=True):
 				Y = "\\"*(i + 0)
 				r = r.replace(a + (b % X)*j + c, a + (b % Y)*j + c)
 	open(_MARKY_BUILD_DIR + inbase + ".py", "w").write(r)
+	old_MARKY_EXEC_GLOBALS = _MARKY_EXEC_GLOBALS["__marky__"]
+	_MARKY_EXEC_GLOBALS["__marky__"] = run
+	_marky_print_mesg("run %s" % (_MARKY_BUILD_DIR + inbase + ".py"))
 	try:
-		old_val = _MARKY_EXEC_GLOBALS["__marky__"]
-		_MARKY_EXEC_GLOBALS["__marky__"] = run
-		_marky_print_mesg("run %s" % (_MARKY_BUILD_DIR + inbase + ".py"))
 		exec(r, _MARKY_EXEC_GLOBALS, None)
-		_MARKY_EXEC_GLOBALS["__marky__"] = old_val
 	except Exception as ex:
-		_marky_print_trace(ex, meta_lines, r)
+		import traceback
+		exc_type, exc_value, exc_traceback = sys.exc_info()
+		lineno = traceback.extract_tb(exc_traceback)[1].lineno
+		tbstr = traceback.format_tb(exc_traceback)[1:]
+		tbstr[0] = tbstr[0].replace("<string>", fname) + ("    %s\n" % (t.split("\n")[lineno-meta_lines]))
+		print("<!-- PYTHON ERROR\n")
+		print("\n".join(tbstr))
+		print("  Error", type(ex), ":", str(ex), "\n")
+		print("--!>")
 		sys.exit(1)
+	_MARKY_EXEC_GLOBALS["__marky__"] = old_MARKY_EXEC_GLOBALS
 
 ########################################################################
 
@@ -969,7 +978,7 @@ all_md:=$(all_md) {_MARKY_MD_DIR+inbase}.md
 	mkdir -p "{_MARKY_BUILD_DIR+outdir}"
 	ln -snf ../{_MARKY_DATA_DIR} {_MARKY_BUILD_DIR+_MARKY_DATA_DIR}
 	ln -snf ../{_MARKY_DATA_DIR} {_MARKY_MD_DIR+_MARKY_DATA_DIR}
-	./marky.py --base="{inbase}.md"
+	./marky.py --base="{inbase}.md" $(if $(all_quiet),--quiet,)
 
 .PHONY: build/{inbase}
 build/{inbase}: {_MARKY_BUILD_DIR+inbase}.md
@@ -1055,6 +1064,7 @@ _MARKY_META_DICT = dict()
 _MARKY_INCLUDE_LIST = list()
 _MARKY_PASTE_CODE = list()
 _MARKY_PASTE_TEXT = 0
+_MARKY_BUILD_PYTHON = None
 
 ########################################################################
 
@@ -1074,7 +1084,7 @@ if __name__ == "__main__":
 	# ~ args, uargs = parser.parse_known_args()
 	args = parser.parse_args()
 
-	sys.path.append("/".join(sys.argv[0].split("/")[0:-1]) + "/lib")
+	# ~ sys.path.append("/".join(sys.argv[0].split("/")[0:-1]))
 
 ########################################################################
 

@@ -380,6 +380,7 @@ marky UTILS
 * make tree            - show the *Project Tree*
 * make httpd           - run python -m httpd.server in `html/`
 * make clean           - delete: `build/*`, `html/*`, `pdf/*`
+* make quiet [...]     - build with `./marky --quiet [...]`
 * make scan            - build make deps: `build/*.make`
 * make list            - list all scanned files and targets
 
