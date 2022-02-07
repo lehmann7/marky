@@ -25,23 +25,28 @@ help:
 	# * make httpd           - run python -m httpd.server in `html/`
 	# * make clean           - delete: `build/*`, `html/*`, `pdf/*`
 	# * make quiet [...]     - build with `./marky --quiet [...]`
-	# * make scan            - build make deps: `build/*.make`
 	# * make list            - list all scanned files and targets
 	#
 	# marky BUILD ALL
 	#################
+	# * make scan            -> `build/*.make`
 	# * make build           -> `build/*.{html,pdf}.md`
 	# * make tex             -> `build/*.tex`
 	# * make html            -> `html/*.html`
 	# * make pdf             -> `pdf/*.pdf`
+	# * make tex             -> `build/*.tex`
+	# * make aux             -> run all aux commands
 	# * make all             -> `html/*.html`, `pdf/*.pdf`
 	#
 	# marky BUILD FILE
 	##################
-	# * make build/file      -> `build/file.{html,pdf}.md`
-	# * make build/file.tex  -> `build/file.tex`
+	# * make scan/file       -> `build/file.make`
+	# * make build/file      -> `build/file.{html,pdf}.md,py`
+	# * make tex/file        -> `build/file.tex`
 	# * make html/file       -> `html/file.html`
-	# * make pdf/file        -> `pdf/pdf.html`
+	# * make pdf/file        -> `pdf/pdf.pdf`
+	# * make aux/file        -> run aux commands for file
+	# * make clean/file      -> clean, but keep `make,pdf,html,tex`
 	#
 	# EXAMPLE
 	#########
@@ -52,6 +57,7 @@ help:
 	# 2. run `make scan; make pdf/file.pdf`
 	#    * generate `build/file.make`
 	#    * transform `md/file.md` -> `pdf/file.pdf`
+	# 3. run `make scan list`: list all targets
 	#
 
 .PHONY: tree
@@ -125,7 +131,7 @@ list:
 	# marky TARGETS
 	###############
 	# make scan/<ALIAS>  - create Makefile `build/<ALIAS>.make`
-	# make build/<ALIAS> - build `build/<ALIAS>.*md,py`
+	# make build/<ALIAS> - build `build/<ALIAS>.{html,pdf}.md,py`
 	# make html/<ALIAS>  - build `html/<ALIAS>.html`
 	# make pdf/<ALIAS>   - build `pdf/<ALIAS>.pdf`
 	# make tex/<ALIAS>   - build `pdf/<ALIAS>.tex`
