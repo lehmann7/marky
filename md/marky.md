@@ -367,6 +367,16 @@ data files go into `data/*`.
 directory `md/*`. Invoking `make clean` will **delete all files**
 in `html/`, `build/` and `pdf/`.
 
+## `marky` Makefile Targets
+
+`marky` manages all files using Makefile targets. Makefile targets
+are initialized using `make scan` and shown using `make list`.
+```bash
+<?
+___(text_proc("make list"))
+?>
+```
+
 ## Integrated Documentation
 
 `marky` has an integrated environment. Using `make help` displays

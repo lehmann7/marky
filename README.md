@@ -352,6 +352,28 @@ data files go into `data/*`.
 directory `md/*`. Invoking `make clean` will **delete all files**
 in `html/`, `build/` and `pdf/`.
 
+## `marky` Makefile Targets
+
+`marky` manages all files using Makefile targets. Makefile targets
+are initialized using `make scan` and shown using `make list`.
+```bash
+marky TARGETS
+###############
+make scan/<ALIAS>  - create Makefile `build/<ALIAS>.make`
+make build/<ALIAS> - build `build/<ALIAS>.*md,py`
+make html/<ALIAS>  - build `html/<ALIAS>.html`
+make pdf/<ALIAS>   - build `pdf/<ALIAS>.pdf`
+make tex/<ALIAS>   - build `pdf/<ALIAS>.tex`
+make aux/<ALIAS>   - run aux commands for <ALIAS>
+make clean/<ALIAS> - clean files, keep:`make,html,pdf,tex`
+
+<ALIAS>
+#########
+fmtplot marky
+
+
+```
+
 ## Integrated Documentation
 
 `marky` has an integrated environment. Using `make help` displays

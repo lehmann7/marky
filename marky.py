@@ -660,14 +660,14 @@ def _marky_mdtext_print(*args, sep=" ", shift="", crop=False, ret=False, code=Fa
 					_marky_print_mesg("aux file not found:", file)
 					sys.exit(1)
 				_marky_print_mesg("run aux cmd for", file, ":", cmd)
-				os.system(cmd)
+				os.system(str(cmd))
 				if not os.path.exists(file):
 					_marky_print_mesg("aux file not found:", file)
 					sys.exit(1)
 			else:
 				_marky_print_mesg("aux file exists:", file)
 			_MARKY_INCLUDE_LIST.append(file)
-			_MARKY_COMMAND_LIST.append("" if len(cmd.strip()) == 0 else cmd)
+			_MARKY_COMMAND_LIST.append("" if cmd is None or len(str(cmd).strip()) == 0 else cmd)
 		elif raw:
 			if not os.path.exists(file):
 				print("# ERROR", "no such file", file)
@@ -990,11 +990,11 @@ def _marky_write_build(inbase, outdir, front, mark):
 	newltab = "\n\t"
 	with open(_MARKY_BUILD_DIR + inbase + ".make", "w") as fhnd:
 		fhnd.write(f"""# auto-generated
-dep_{inname}:={" ".join(list(set(_MARKY_INCLUDE_LIST[1:])))}
+marky_dep_{inname}:={" ".join(list(set(_MARKY_INCLUDE_LIST[1:])))}
 
-all_md:=$(all_md) {_MARKY_MD_DIR+inbase}.md
+marky_alias:=$(marky_alias) {inbase}
 
-{_MARKY_BUILD_DIR+inbase}.md: {_MARKY_MD_DIR+inbase}.md $(dep_{inname})
+{_MARKY_BUILD_DIR+inbase}.md: {_MARKY_MD_DIR+inbase}.md $(marky_dep_{inname})
 	mkdir -p "{_MARKY_BUILD_DIR+outdir}"
 	ln -snf ../{_MARKY_DATA_DIR} {_MARKY_BUILD_DIR+_MARKY_DATA_DIR}
 	ln -snf ../{_MARKY_DATA_DIR} {_MARKY_MD_DIR+_MARKY_DATA_DIR}
@@ -1003,13 +1003,17 @@ all_md:=$(all_md) {_MARKY_MD_DIR+inbase}.md
 .PHONY: build/{inbase}
 build/{inbase}: {_MARKY_BUILD_DIR+inbase}.md
 
-all_build:=$(all_build) build/{inbase}
-
 .PHONY: aux/{inbase}
 aux/{inbase}:
 	{newltab.join([i for i in _MARKY_COMMAND_LIST if i != ""])}
 
-all_aux:=$(all_aux) aux/{inbase}
+.PHONY: clean/{inbase}
+clean/{inbase}:
+	rm -rf "{_MARKY_BUILD_DIR+inbase}.md"
+	rm -rf "{_MARKY_BUILD_DIR+inbase}.html.md"
+	rm -rf "{_MARKY_BUILD_DIR+inbase}.pdf.md"
+	rm -rf "{_MARKY_BUILD_DIR+inbase}.py"
+	rm -rf "{_MARKY_BUILD_DIR+inbase}.tex"
 """
 		)
 		if "pdf" in _MARKY_FORMAT:
@@ -1018,7 +1022,8 @@ all_aux:=$(all_aux) aux/{inbase}
 	mkdir -p "{_MARKY_BUILD_DIR+outdir}"
 	./pandoc-run tex {_MARKY_BUILD_DIR+inbase}.pdf.md {_MARKY_BUILD_DIR+inbase}.tex
 
-all_tex:=$(all_tex) {_MARKY_BUILD_DIR+inbase}.tex
+.PHONY: tex/{inbase}
+tex/{inbase}: {_MARKY_BUILD_DIR+inbase}.tex
 """
 			)
 		for fmt in _MARKY_FORMAT:
@@ -1031,8 +1036,6 @@ all_tex:=$(all_tex) {_MARKY_BUILD_DIR+inbase}.tex
 
 .PHONY: {fmt}/{inbase}
 {fmt}/{inbase}: {fmt}/{inbase}.{fmt}
-
-all_{fmt}:=$(all_{fmt}) {fmt}/{inbase}.{fmt}
 """
 			)
 

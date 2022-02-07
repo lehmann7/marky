@@ -78,10 +78,6 @@ tree:
 	#    `./marky.py --init; make scan; make all´
 	#
 
-.PHONY: clean
-clean:
-	rm -rf ./build/* ./html/* ./pdf/*
-
 .PHONY: httpd
 httpd:
 	cd html && python -m http.server
@@ -93,34 +89,33 @@ scan:
 all_quiet := $(filter quiet,$(MAKECMDGOALS))
 .PHONY: quiet
 quiet:
+	# enable ./marky --quiet [...]
 
 ########################################################################
 
-all_md:=
-all_build:=
-all_html:=
-all_pdf:=
-all_tex:=
-all_aux:=
-
+marky_alias:=
 -include build/*.make build/**/*.make
 
 ########################################################################
 
 .PHONY: link
-build: $(all_build)
+build: $(foreach i,$(marky_alias),build/$(i))
 
 .PHONY: html
-html: $(all_html)
+html: $(foreach i,$(marky_alias),html/$(i))
 
 .PHONY: pdf
-pdf: $(all_pdf)
+pdf: $(foreach i,$(marky_alias),pdf/$(i))
 
 .PHONY: tex
-tex: $(all_tex)
+tex: $(foreach i,$(marky_alias),tex/$(i))
 
 .PHONY: aux
-aux: $(all_aux)
+aux: $(foreach i,$(marky_alias),aux/$(i))
+
+.PHONY: clean
+clean:
+	rm -rf ./build/* ./html/* ./pdf/*
 
 .PHONY: all
 all: html pdf
@@ -129,10 +124,14 @@ all: html pdf
 list:
 	# marky TARGETS
 	###############
-	# * `make scan` -- FILES:$(all_md)
-	# * `make build` -- `make$(all_build)`
-	# * `make html` -- `make$(all_html)`
-	# * `make pdf` -- `make$(all_pdf)`
-	# * `make tex` -- `make$(all_tex)`
-	# * `make aux` -- `make$(all_aux)`
+	# make scan/<ALIAS>  - create Makefile `build/<ALIAS>.make`
+	# make build/<ALIAS> - build `build/<ALIAS>.*md,py`
+	# make html/<ALIAS>  - build `html/<ALIAS>.html`
+	# make pdf/<ALIAS>   - build `pdf/<ALIAS>.pdf`
+	# make tex/<ALIAS>   - build `pdf/<ALIAS>.tex`
+	# make aux/<ALIAS>   - run aux commands for <ALIAS>
+	# make clean/<ALIAS> - clean files, keep:`make,html,pdf,tex`
 	#
+	# <ALIAS>
+	#########
+	#$(marky_alias)
