@@ -481,22 +481,40 @@ All meta data keys will be exposed into the python scope as a local
 variable, unless the variable already exists.
 
 #### Example 
-```markdown
+```php
 ---
-title: "`marky` Documentation "
+title: "Prime Numbers"
 author: ...
-date: 2022-01-01
+date: ...
+nmax: 20
 ---
 The title of this document is {{title}}.
+<?
+for i in range(2, nmax):
+	prim = True
+	for j in range(2, i):
+		if i % j == 0:
+			prim = False
+			break
+	if prim:
+		?>* prime number: {{i}}
 ```
 #### Output 
 ```markdown
 ---
-title: "`marky` Documentation "
+title: "Prime Numbers"
 author: ...
-date: 2022-01-01
+date: ...
+nmax: 20
 ---
-The title of this document is `marky` Documentation .
+The title of this document is Prime Numbers.
+* prime number: 2
+* prime number: 3
+* prime number: 5
+* prime number: 7
+* prime number: 11
+* prime number: 13
+* prime number: 17
 ```
 
 ## Inline Formatted Output
