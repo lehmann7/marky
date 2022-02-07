@@ -101,6 +101,7 @@ all_build:=
 all_html:=
 all_pdf:=
 all_tex:=
+all_aux:=
 
 -include build/*.make build/**/*.make
 
@@ -118,6 +119,9 @@ pdf: $(all_pdf)
 .PHONY: tex
 tex: $(all_tex)
 
+.PHONY: aux
+aux: $(all_aux)
+
 .PHONY: all
 all: html pdf
 
@@ -130,4 +134,5 @@ list:
 	# * `make html` -- `make$(all_html)`
 	# * `make pdf` -- `make$(all_pdf)`
 	# * `make tex` -- `make$(all_tex)`
+	# * `make aux` -- `make$(all_aux)`
 	#

@@ -634,7 +634,7 @@ def _marky_file_make_basename(f):
 	return "/".join(".".join(f.split(".")[0:-1]).split("/")[1:])
 
 def _marky_mdtext_print(*args, sep=" ", shift="", crop=False, ret=False, code=False, text=False, pop=True,
-	file=None, __marky__=False, raw=False, aux=False):
+	file=None, __marky__=False, raw=False, aux=False, cmd=None):
 	# MD output: args, sep=" ", shift="", crop=False, ret=False
 	# MD code output: code=False, pop=True
 	# MD include: file, __marky__, raw, aux
@@ -643,6 +643,7 @@ def _marky_mdtext_print(*args, sep=" ", shift="", crop=False, ret=False, code=Fa
 	global _MARKY_EXEC_APPEND
 	global _MARKY_PASTE_CODE
 	global _MARKY_PASTE_TEXT
+	global _MARKY_COMMAND_LIST
 	if text:
 		text = _MARKY_EXEC_TEXT[_MARKY_PASTE_TEXT:]
 		if pop: _MARKY_PASTE_TEXT = len(_MARKY_EXEC_TEXT)
@@ -654,7 +655,19 @@ def _marky_mdtext_print(*args, sep=" ", shift="", crop=False, ret=False, code=Fa
 		return _marky_mdtext_print(code, shift=shift, crop=crop, ret=True)
 	if not file is None:
 		if aux:
+			if not os.path.exists(file):
+				if cmd is None or len(cmd.strip()) == 0:
+					_marky_print_mesg("aux file not found:", file)
+					sys.exit(1)
+				_marky_print_mesg("run aux cmd for", file, ":", cmd)
+				os.system(cmd)
+				if not os.path.exists(file):
+					_marky_print_mesg("aux file not found:", file)
+					sys.exit(1)
+			else:
+				_marky_print_mesg("aux file exists:", file)
 			_MARKY_INCLUDE_LIST.append(file)
+			_MARKY_COMMAND_LIST.append("" if len(cmd.strip()) == 0 else cmd)
 		elif raw:
 			if not os.path.exists(file):
 				print("# ERROR", "no such file", file)
@@ -896,12 +909,18 @@ def _marky_run(fname, inbase, run=True):
 	except Exception as ex:
 		import traceback
 		exc_type, exc_value, exc_traceback = sys.exc_info()
-		lineno = traceback.extract_tb(exc_traceback)[1].lineno
-		tbstr = traceback.format_tb(exc_traceback)[1:]
-		tbstr[0] = tbstr[0].replace("<string>", fname) + ("    %s\n" % (t.split("\n")[lineno-meta_lines]))
+		tblist = traceback.extract_tb(exc_traceback)
+		if len(tblist) > 1:
+			tbstr = traceback.format_tb(exc_traceback)
+			tbstr[0] = tbstr[0].replace("<string>", fname) + ("    %s\n" % (t.split("\n")[lineno-meta_lines]))
+			exstr = str(ex)
+		else:
+			tbstr = []
+			exstr = str(ex).replace("<string>", fname)
+			if hasattr(ex, "lineno"): exstr += ("\n    %s" % (t.split("\n")[ex.lineno-meta_lines]))
 		print("<!-- PYTHON ERROR\n")
-		print("\n".join(tbstr))
-		print("  Error", type(ex), ":", str(ex), "\n")
+		if len(tbstr) > 0: print("\n".join(tbstr))
+		print("  Error", type(ex), ":", exstr, "\n")
 		print("--!>")
 		sys.exit(1)
 	_MARKY_EXEC_GLOBALS["__marky__"] = old_MARKY_EXEC_GLOBALS
@@ -968,6 +987,7 @@ def _marky_write_build(inbase, outdir, front, mark):
 		for fmt in _MARKY_FORMAT:
 			open(_MARKY_BUILD_DIR + inbase + "." + fmt + ".md", "w").write(_marky_link(front, mark, fmt))
 	inname = inbase.replace(".", "__").replace("/", "__")
+	newltab = "\n\t"
 	with open(_MARKY_BUILD_DIR + inbase + ".make", "w") as fhnd:
 		fhnd.write(f"""# auto-generated
 dep_{inname}:={" ".join(list(set(_MARKY_INCLUDE_LIST[1:])))}
@@ -984,6 +1004,12 @@ all_md:=$(all_md) {_MARKY_MD_DIR+inbase}.md
 build/{inbase}: {_MARKY_BUILD_DIR+inbase}.md
 
 all_build:=$(all_build) build/{inbase}
+
+.PHONY: aux/{inbase}
+aux/{inbase}:
+	{newltab.join([i for i in _MARKY_COMMAND_LIST if i != ""])}
+
+all_aux:=$(all_aux) aux/{inbase}
 """
 		)
 		if "pdf" in _MARKY_FORMAT:
@@ -1065,6 +1091,7 @@ _MARKY_INCLUDE_LIST = list()
 _MARKY_PASTE_CODE = list()
 _MARKY_PASTE_TEXT = 0
 _MARKY_BUILD_PYTHON = None
+_MARKY_COMMAND_LIST = list()
 
 ########################################################################
 
