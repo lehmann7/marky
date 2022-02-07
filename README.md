@@ -590,10 +590,10 @@ inside the resulting Markdown text **and not** on the console.
 
 `marky` shows error messages directly inside the Markdown text.
 
-#### Example: `md/file.md` 
+#### Example 1: `md/file.md` 
 ```scala
    1  ---
-   2  title: "My Document"
+   2  title: "Syntax Error"
    3  ---
    4  <?
    5  x = 1
@@ -608,6 +608,29 @@ inside the resulting Markdown text **and not** on the console.
   File "md/file.md", line 7, in <module>
     The value x is {{y}}.
   Error <class 'NameError'> : name 'y' is not defined
+--!>
+```
+
+#### Example 2: `md/file.md` 
+```scala
+   1  ---
+   2  title: "Intendation Error"
+   3  ---
+   4  <?
+   5  for i in range(3):
+   6      if i % 2:
+   7      ?>* even list item
+   8  <?
+   9      else:
+  10          ?>* odd list item
+```
+#### Run and Output: `make build/file` 
+```bash
+<!-- run md/file.md --!>
+<!-- run build/file.py --!>
+<!-- PYTHON ERROR
+  Error <class 'IndentationError'> : expected an indented block
+        ?>* even list item         (md/file.md, line 7)
 --!>
 ```
 

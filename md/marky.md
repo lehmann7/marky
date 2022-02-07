@@ -563,13 +563,13 @@ inside the resulting Markdown text **and not** on the console.
    1  ---
    2  title: "Intendation Error"
    3  ---
-   4  <?
+   4  <\?
    5  for i in range(3):
    6      if i % 2:
-   7      ?>* even list item
-   8  <?
+   7      ?\>* even list item
+   8  <\?
    9      else:
-  10          ?>* odd list item
+  10          ?\>* odd list item
 ```
 #### Run and Output: `make build/file` {-}
 ```bash
@@ -577,7 +577,7 @@ inside the resulting Markdown text **and not** on the console.
 <!-- run build/file.py --!>
 <!-- PYTHON ERROR
   Error <class 'IndentationError'> : expected an indented block
-        ?>* even list item         (md/file.md, line 7)
+        ?\>* even list item         (md/file.md, line 7)
 --!>
 ```
 
