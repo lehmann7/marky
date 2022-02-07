@@ -410,7 +410,8 @@ marky UTILS
 
 marky BUILD ALL
 #################
-* make scan            -> `build/*.make`
+* make rescan          -> `build/*.make`, overwrite all
+* make scan            -> `build/*.make`, only new files
 * make build           -> `build/*.{html,pdf}.md`
 * make tex             -> `build/*.tex`
 * make html            -> `html/*.html`
@@ -421,7 +422,7 @@ marky BUILD ALL
 
 marky BUILD FILE
 ##################
-* make scan/file       -> `build/file.make`
+* make scan/file       -> `build/file.make`, overwrite
 * make build/file      -> `build/file.{html,pdf}.md,py`
 * make tex/file        -> `build/file.tex`
 * make html/file       -> `html/file.html`

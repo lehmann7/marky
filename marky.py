@@ -1169,12 +1169,15 @@ if __name__ == "__main__":
 			for i in glob.glob("md/**/*.md", recursive=True):
 				inbase = i[3:-3]
 				outdir = "/".join(inbase.split("/")[0:-1])
-				print("# WRITE", _MARKY_BUILD_DIR + inbase + ".make")
-				_marky_write_build(inbase, outdir, None, None)
+				if os.path.exists(_MARKY_BUILD_DIR + inbase + ".make") and not args.force:
+					print("# EXISTS", _MARKY_BUILD_DIR + inbase + ".make")
+				else:
+					print("# WRITE", _MARKY_BUILD_DIR + inbase + ".make")
+					_marky_write_build(inbase, outdir, None, None)
 		sys.exit(0)
 		pass
 	elif args.force:
-		print("# ERROR", "--force can only be used with --pack/--init")
+		print("# ERROR", "--force can only be used with --pack/--init/--scan")
 		sys.exit(1)
 	elif args.quiet:
 		_MARKY_EXEC_QUIET = True
