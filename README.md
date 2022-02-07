@@ -555,6 +555,31 @@ Output to Markdown. x = 41!
 **ATTENTION:** Using the `___()` function the text will be printed
 inside the resulting Markdown text **and not** on the console.
 
+### Error Messages
+
+`marky` shows error messages directly inside the Markdown text.
+
+#### Example: `md/file.md` 
+```scala
+   1  ---
+   2  title: "My Document"
+   3  ---
+   4  <?
+   5  x = 1
+   6  ?>
+   7  The value x is {{y}}.
+```
+#### Run and Output: `make build/file` 
+```bash
+<!-- run md/file.md --!>
+<!-- run build/file.py --!>
+<!-- PYTHON ERROR
+  File "md/file.md", line 7, in <module>
+    The value x is {{y}}.
+  Error <class 'NameError'> : name 'y' is not defined
+--!>
+```
+
 ## The `___()` Function
 
 Using the `print()` statement the text will be printed to the console.
