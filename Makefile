@@ -135,9 +135,9 @@ list:
 	###############
 	# make scan/<ALIAS>  - create Makefile `build/<ALIAS>.make`
 	# make build/<ALIAS> - build `build/<ALIAS>.{html,pdf}.md,py`
+	# make tex/<ALIAS>   - build `build/<ALIAS>.tex`
 	# make html/<ALIAS>  - build `html/<ALIAS>.html`
 	# make pdf/<ALIAS>   - build `pdf/<ALIAS>.pdf`
-	# make tex/<ALIAS>   - build `pdf/<ALIAS>.tex`
 	# make aux/<ALIAS>   - run aux commands for <ALIAS>
 	# make clean/<ALIAS> - clean files, keep:`make,html,pdf,tex`
 	#
