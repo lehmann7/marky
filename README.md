@@ -489,6 +489,7 @@ date: ...
 nmax: 20
 ---
 The title of this document is {{title}}.
+List of prime numbers smaller than {{nmax}}:
 <?
 for i in range(2, nmax):
 	prim = True
@@ -508,6 +509,7 @@ date: ...
 nmax: 20
 ---
 The title of this document is Prime Numbers.
+List of prime numbers smaller than 20:
 * prime number: 2
 * prime number: 3
 * prime number: 5
