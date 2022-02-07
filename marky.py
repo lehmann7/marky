@@ -994,11 +994,15 @@ marky_dep_{inname}:={" ".join(list(set(_MARKY_INCLUDE_LIST[1:])))}
 
 marky_alias:=$(marky_alias) {inbase}
 
+.PHONY: scan/{inbase}
+scan/{inbase}:
+	./marky.py --base="{inbase}" --scan
+
 {_MARKY_BUILD_DIR+inbase}.md: {_MARKY_MD_DIR+inbase}.md $(marky_dep_{inname})
 	mkdir -p "{_MARKY_BUILD_DIR+outdir}"
 	ln -snf ../{_MARKY_DATA_DIR} {_MARKY_BUILD_DIR+_MARKY_DATA_DIR}
 	ln -snf ../{_MARKY_DATA_DIR} {_MARKY_MD_DIR+_MARKY_DATA_DIR}
-	./marky.py --base="{inbase}.md" $(if $(all_quiet),--quiet,)
+	./marky.py --base="{inbase}" $(if $(all_quiet),--quiet,)
 
 .PHONY: build/{inbase}
 build/{inbase}: {_MARKY_BUILD_DIR+inbase}.md
@@ -1157,11 +1161,16 @@ if __name__ == "__main__":
 			print("chmod +x marky.py")
 		sys.exit(0)
 	elif args.scan:
-		for i in glob.glob("md/**/*.md", recursive=True):
-			inbase = i[3:-3]
-			outdir = "/".join(inbase.split("/")[0:-1])
-			print("# WRITE", _MARKY_BUILD_DIR + inbase + ".make")
-			_marky_write_build(inbase, outdir, None, None)
+		if len(args.base.strip()) > 0:
+			outdir = "/".join(args.base.split("/")[0:-1])
+			print("# WRITE", _MARKY_BUILD_DIR + args.base + ".make")
+			_marky_write_build(args.base, outdir, None, None)
+		else:
+			for i in glob.glob("md/**/*.md", recursive=True):
+				inbase = i[3:-3]
+				outdir = "/".join(inbase.split("/")[0:-1])
+				print("# WRITE", _MARKY_BUILD_DIR + inbase + ".make")
+				_marky_write_build(inbase, outdir, None, None)
 		sys.exit(0)
 		pass
 	elif args.force:
@@ -1172,14 +1181,14 @@ if __name__ == "__main__":
 
 ########################################################################
 
-	infile = _MARKY_MD_DIR + args.base
+	infile = _MARKY_MD_DIR + args.base + ".md"
 	if len(args.base) == 0:
 		print("# ERROR", "empty base: use --base file.md")
 		sys.exit(1)
 	if not os.path.exists(infile):
 		print("# ERROR", "wrong base %s: file not found %s" % (args.base, infile))
 		sys.exit(1)
-	inbase = _marky_file_make_basename(infile)
+	inbase = args.base
 	outdir = "/".join(inbase.split("/")[0:-1])
 
 	if os.path.exists(_MARKY_BUILD_DIR):
