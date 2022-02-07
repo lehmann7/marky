@@ -2,6 +2,7 @@
 
 .PHONY: help
 help:
+	#
 	# marky DEPENDENCIES
 	####################
 	# * pandoc >= 2.10
@@ -57,11 +58,12 @@ help:
 	# 2. run `make scan; make pdf/file.pdf`
 	#    * generate `build/file.make`
 	#    * transform `md/file.md` -> `pdf/file.pdf`
-	# 3. run `make scan list`: list all targets
+	# 3. run `make scan; make list`: list all targets
 	#
 
 .PHONY: tree
 tree:
+	#
 	# PROJECT TREE
 	##############
 	# <working_dir>
@@ -128,6 +130,7 @@ all: html pdf
 
 .PHONY: list
 list:
+	#
 	# marky TARGETS
 	###############
 	# make scan/<ALIAS>  - create Makefile `build/<ALIAS>.make`

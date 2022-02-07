@@ -310,6 +310,7 @@ After initialization, the following structure is auto-generated
 in the project directory. `marky` shows the project structure
 when invoking `make tree`.
 ```bash
+
 PROJECT TREE
 ##############
 <working_dir>
@@ -357,6 +358,7 @@ in `html/`, `build/` and `pdf/`.
 `marky` manages all files using Makefile targets. Makefile targets
 are initialized using `make scan` and shown using `make list`.
 ```bash
+
 marky TARGETS
 ###############
 make scan/<ALIAS>  - create Makefile `build/<ALIAS>.make`
@@ -380,6 +382,7 @@ fmtplot marky
 a short info about the `marky` dependencies, make targets and
 examples.
 ```bash
+
 marky DEPENDENCIES
 ####################
 * pandoc >= 2.10
@@ -435,6 +438,7 @@ EXAMPLE
 2. run `make scan; make pdf/file.pdf`
    * generate `build/file.make`
    * transform `md/file.md` -> `pdf/file.pdf`
+3. run `make scan; make list`: list all targets
 
 
 
