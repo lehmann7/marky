@@ -60,6 +60,7 @@ help:
 	#    * generate `build/file.make`
 	#    * transform `md/file.md` -> `pdf/file.pdf`
 	# 3. run `make scan; make list`: list all targets
+	# 4. run `make rescan`: clear all aux file make deps
 	#
 
 .PHONY: tree
