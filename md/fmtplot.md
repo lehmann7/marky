@@ -1,5 +1,5 @@
 ---
-title: "`fmtplot`: Format Code for Plots in `pdf` and `html` Output"
+title: "`fmtplot`: Plots for `pdf` and `html` Output using Matplotlib and Flot.js"
 date: 2021-09-07
 author: lehmann7
 fontsize: 11pt

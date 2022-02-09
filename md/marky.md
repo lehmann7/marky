@@ -768,7 +768,7 @@ The `marky` include statement `___(file)` For inclusion of text from
 other files can be used to include text into `html` and `pdf` documents.
 ```python
 <\?
-___(file="include.md", __marky__=False, raw=False, aux=False)
+___(file="include.md", __marky__=False, raw=False, aux=False, cmd=None)
 ?\>
 ```
 
@@ -778,10 +778,16 @@ script (`True`) or as a `marky` module (`False`, default).
 * `raw`: controls whether the include file is included as-is (`True`)
 or processed via `marky` (`False`, default).
 * `aux`: disables processing of the file if `True`, (default: `False`).
+* `cmd`: command or callable for buildung aux file, which will be invoked
+only if aux file does not exist.
+
+Include files and aux files must exist during processing, otherwise
+`marky` will fail. Commands for making aux files also can be accessed
+via Makefile targets, see `make help` or `make list`.
 
 When script mode is activated (`__marky__=True`) then the *module code*
 as well as the *script code* are executed. However, if module mode is
-activated  (`__marky__=False`), only the *module code* is processed.
+activated (`__marky__=False`), only the *module code* is processed.
 
 ```php
 ---

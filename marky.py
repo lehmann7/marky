@@ -738,7 +738,13 @@ def _marky_mdtext_print(*args, sep=" ", shift="", crop=False, ret=False, code=Fa
 					_marky_print_mesg("aux file not found:", file)
 					sys.exit(1)
 				_marky_print_mesg("run aux cmd for", file, ":", cmd)
-				os.system(str(cmd))
+				if callable(cmd):
+					cmd()
+				elif type(cmd) is str:
+					os.system(cmd)
+				else:
+					_marky_print_mesg("ERROR", "___(file, cmd=...) has wrong value:", cmd)
+					sys.exit(1)
 				if not os.path.exists(file):
 					_marky_print_mesg("aux file not found:", file)
 					sys.exit(1)
@@ -990,7 +996,9 @@ def _marky_run(fname, inbase, run=True):
 		tblist = traceback.extract_tb(exc_traceback)
 		if len(tblist) > 1:
 			tbstr = traceback.format_tb(exc_traceback)
-			tbstr[0] = tbstr[0].replace("<string>", fname) + ("    %s\n" % (t.split("\n")[lineno-meta_lines]))
+			tblist = tblist[1:]
+			tbstr = tbstr[1:]
+			tbstr[0] = tbstr[0].replace("<string>", fname) + ("    %s\n" % (t.split("\n")[tblist[0].lineno-meta_lines]))
 			exstr = str(ex)
 		else:
 			tbstr = []
@@ -1120,6 +1128,12 @@ tex/{inbase}: {_MARKY_BUILD_DIR+inbase}.tex
 {fmt}/{inbase}: {fmt}/{inbase}.{fmt}
 """
 			)
+		fmt_list = [f"{i}/{inbase}" for i in _MARKY_FORMAT]
+		fhnd.write(f"""
+.PHONY: all/{inbase}
+all/{inbase}: {" ".join(fmt_list)}
+"""
+		)
 
 ########################################################################
 
