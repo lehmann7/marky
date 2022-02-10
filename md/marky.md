@@ -2,6 +2,7 @@
 title: "`marky` Documentation "
 title--pdf: "-- `pdf`"
 title--html: "-- `html`"
+date: unknown
 author: lehmann7
 bibliography: data/marky.bib
 header-includes--pdf: >
