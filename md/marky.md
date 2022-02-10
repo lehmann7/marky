@@ -9,7 +9,7 @@ header-includes--pdf: >
    allbordercolors={0 0 0},
    pdfborderstyle={/S/U/W 1}}
 header-includes--html: >
-   <style>* { box-sizing: border-box; }</style>
+   <style>* { box-sizing: border-box; } body { max-width: 90vw !important; }</style>
 xnos-cleveref: true
 xnos-capitalise: true
 fontsize: 11pt

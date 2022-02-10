@@ -31,6 +31,7 @@ footnotes
 
 PDOPT="""
 --table-of-contents
+--number-sections
 """
 
 if [ $1 == html ] ; then
@@ -65,6 +66,5 @@ $PANDOC "$2" \
 --to=latex \
 --output="$3" \
 --resource-path="./build/" \
---number-sections
 $PDOPT
 fi
