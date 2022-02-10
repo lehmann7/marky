@@ -15,8 +15,7 @@ import os
 import base64
 import datetime
 
-today = datetime.date.today().strftime("%B %d, %Y")
-___(meta=dict(date=today))
+___(meta=True)["date"] = datetime.date.today().strftime("%B %d, %Y")
 
 class fmtplotly(fmtcode):
 	def __init__(self, width=500, height=400, figdir=".",

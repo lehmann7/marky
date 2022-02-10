@@ -865,7 +865,8 @@ date: "unknown"
 <?!
 import datetime
 today = datetime.date.today().strftime("%B %d, %Y")
-___(meta=dict(date=today, version="1.0"))
+data = ___(meta=True)
+data["date"] = today
 ?>
 #### Output {-}
 ```php
