@@ -847,6 +847,34 @@ extensions for referencing
 [sections](https://github.com/tomduck/pandoc-secnos#customization) and
 [equations](https://github.com/tomduck/pandoc-eqnos#customization).
 
+## Update Meta Data
+
+The front matter section contains meta data of the document.
+meta data keys can be updated from code blocks using
+`___(meta=dict())`.
+
+#### Example: `md/file.md` {-}
+```php
+---
+title: My Document
+date: "unknown"
+---
+<\?{{___(code=True)}}?\>
+```
+<?!
+import datetime
+today = datetime.date.today().strftime("%B %d, %Y")
+___(meta=dict(date=today, version="1.0"))
+?>
+#### Output {-}
+```php
+---
+title: My Document
+date: "{{today}}"
+version: "1.0"
+---
+```
+
 ## `marky` Format Fields
 
 #### Example: `md/file.md` {-}
@@ -912,16 +940,20 @@ writing scientific documents is reflected using Markdown syntax.
 * styling extensions
 	* [inline_code_attributes](https://pandoc.org/MANUAL.html#extension-inline_code_attributes)
 	* [strikeout](https://pandoc.org/MANUAL.html#extension-strikeout)
+	* [bracketed_spans](https://pandoc.org/MANUAL.html#extension-bracketed_spans)
 * structuring extensions
 	* [yaml_metadata_block](https://pandoc.org/MANUAL.html#extension-yaml_metadata_block)
 	* [pipe_tables](https://pandoc.org/MANUAL.html#extension-pipe_tables)
 	* [line_blocks](https://pandoc.org/MANUAL.html#extension-line_blocks)
 	* [implicit_figures](https://pandoc.org/MANUAL.html#extension-implicit_figures)
+	* [footnotes](https://pandoc.org/MANUAL.html#extension-footnotes)
 	* [abbreviations](https://pandoc.org/MANUAL.html#extension-abbreviations)
 	* [inline_notes](https://pandoc.org/MANUAL.html#extension-inline_notes)
 * code injection
 	* [raw_html](https://pandoc.org/MANUAL.html#extension-raw_html)
 	* [raw_tex](https://pandoc.org/MANUAL.html#extension-raw_tex)
+	* [native_divs](https://pandoc.org/MANUAL.html#extension-native_divs)
+	* [native_spans](https://pandoc.org/MANUAL.html#extension-native_spans)
 
 `pandoc` supports
 [equations](https://pandoc.org/MANUAL.html#extension-tex_math_dollars)

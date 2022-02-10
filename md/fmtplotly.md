@@ -1,6 +1,6 @@
 ---
 title: "`fmtplotly`: Exporting Plotly plots into `pdf` and `html` Output"
-date: 2021-09-07
+date: none
 author: lehmann7
 fontsize: 11pt
 xnos-cleveref: true
@@ -13,6 +13,8 @@ header-includes--html: >
 <?
 import os
 import base64
+
+___(meta=dict(date="today"))
 
 class fmtplotly(fmtcode):
 	def __init__(self, width=500, height=400, figdir=".",
