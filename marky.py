@@ -137,19 +137,20 @@ eW1ib2xzX2VzY2FwYWJsZStcCmludHJhd29yZF91bmRlcnNjb3JlcytcCmVzY2FwZWRfbGlu
 ZV9icmVha3MrXApzcGFjZV9pbl9hdHhfaGVhZGVyK1wKbGlzdHNfd2l0aG91dF9wcmVjZWRp
 bmdfYmxhbmtsaW5lK1wKaW5saW5lX2NvZGVfYXR0cmlidXRlcytcCnN0cmlrZW91dCtcCnlh
 bWxfbWV0YWRhdGFfYmxvY2srXApwaXBlX3RhYmxlcytcCmxpbmVfYmxvY2tzK1wKaW1wbGlj
-aXRfZmlndXJlcytcCmFiYnJldmlhdGlvbnMrXAppbmxpbmVfbm90ZXMKClBET1BUPSIiIgot
-LXRhYmxlLW9mLWNvbnRlbnRzCi0tbnVtYmVyLXNlY3Rpb25zCiIiIgoKaWYgWyAkMSA9PSBo
-dG1sIF0gOyB0aGVuCiRQQU5ET0MgIiQyIiBcCi0tZmlsdGVyIHBhbmRvYy14bm9zIFwKLS1j
-aXRlcHJvYyBcCi0tZnJvbT1tYXJrZG93bityYXdfaHRtbCskTURFWFQgXAotLXRvPWh0bWw1
-IFwKLS1zZWxmLWNvbnRhaW5lZCBcCi0tb3V0cHV0PSIkMyIgXAotLXJlc291cmNlLXBhdGg9
-Ii4vYnVpbGQvIiBcCiRQRE9QVApmaQoKaWYgWyAkMSA9PSBwZGYgXSA7IHRoZW4KJFBBTkRP
-QyAiJDIiIFwKLS1maWx0ZXIgcGFuZG9jLXhub3MgXAotLWNpdGVwcm9jIFwKLS1mcm9tPW1h
-cmtkb3duK3Jhd190ZXgrJE1ERVhUIFwKLS10bz1sYXRleCBcCi0tb3V0cHV0PSIkMyIgXAot
-LXJlc291cmNlLXBhdGg9Ii4vYnVpbGQvIiBcCi0tcGRmLWVuZ2luZT14ZWxhdGV4IFwKJFBE
-T1BUCmZpCgppZiBbICQxID09IHRleCBdIDsgdGhlbgokUEFORE9DICIkMiIgXAotLWZpbHRl
-ciBwYW5kb2MteG5vcyBcCi0tY2l0ZXByb2MgXAotLWZyb209bWFya2Rvd24rcmF3X3RleCsk
-TURFWFQgXAotLXRvPWxhdGV4IFwKLS1vdXRwdXQ9IiQzIiBcCi0tcmVzb3VyY2UtcGF0aD0i
-Li9idWlsZC8iIFwKJFBET1BUCmZpCg==
+aXRfZmlndXJlcytcCmFiYnJldmlhdGlvbnMrXAppbmxpbmVfbm90ZXMrXApicmFja2V0ZWRf
+c3BhbnMrXApuYXRpdmVfZGl2cytcCm5hdGl2ZV9zcGFucytcCmZvb3Rub3RlcwoKClBET1BU
+PSIiIgoiIiIKCmlmIFsgJDEgPT0gaHRtbCBdIDsgdGhlbgokUEFORE9DICIkMiIgXAotLWZp
+bHRlciBwYW5kb2MteG5vcyBcCi0tY2l0ZXByb2MgXAotLWZyb209bWFya2Rvd24rJE1ERVhU
+IFwKLS10bz1odG1sNSBcCi0tc2VsZi1jb250YWluZWQgXAotLW91dHB1dD0iJDMiIFwKLS1y
+ZXNvdXJjZS1wYXRoPSIuL2J1aWxkLyIgXAokUERPUFQKZmkKCmlmIFsgJDEgPT0gcGRmIF0g
+OyB0aGVuCiRQQU5ET0MgIiQyIiBcCi0tZmlsdGVyIHBhbmRvYy14bm9zIFwKLS1jaXRlcHJv
+YyBcCi0tZnJvbT1tYXJrZG93bityYXdfaHRtbCskTURFWFQgXAotLXRvPWxhdGV4IFwKLS1v
+dXRwdXQ9IiQzIiBcCi0tcmVzb3VyY2UtcGF0aD0iLi9idWlsZC8iIFwKLS1wZGYtZW5naW5l
+PXhlbGF0ZXggXAokUERPUFQKZmkKCmlmIFsgJDEgPT0gdGV4IF0gOyB0aGVuCiRQQU5ET0Mg
+IiQyIiBcCi0tZmlsdGVyIHBhbmRvYy14bm9zIFwKLS1jaXRlcHJvYyBcCi0tZnJvbT1tYXJr
+ZG93bityYXdfdGV4KyRNREVYVCBcCi0tdG89bGF0ZXggXAotLW91dHB1dD0iJDMiIFwKLS1y
+ZXNvdXJjZS1wYXRoPSIuL2J1aWxkLyIgXAotLXRhYmxlLW9mLWNvbnRlbnRzCi0tbnVtYmVy
+LXNlY3Rpb25zCiRQRE9QVApmaQo=
 '''
 pack_marky_md = '''
 LS0tCnRpdGxlOiAiYG1hcmt5YCBEb2N1bWVudGF0aW9uICIKdGl0bGUtLXBkZjogIi0tIGBw
@@ -1106,6 +1107,7 @@ aux/{inbase}:
 
 .PHONY: clean/{inbase}
 clean/{inbase}:
+	rm -rf "{_MARKY_BUILD_DIR+inbase}.make"
 	rm -rf "{_MARKY_BUILD_DIR+inbase}.md"
 	rm -rf "{_MARKY_BUILD_DIR+inbase}.html.md"
 	rm -rf "{_MARKY_BUILD_DIR+inbase}.pdf.md"
@@ -1283,7 +1285,8 @@ if __name__ == "__main__":
 				inbase = i[3:-3]
 				outdir = "/".join(inbase.split("/")[0:-1])
 				if os.path.exists(_MARKY_BUILD_DIR + inbase + ".make") and not args.force:
-					print("# EXISTS", _MARKY_BUILD_DIR + inbase + ".make")
+					# ~ print("# EXISTS", _MARKY_BUILD_DIR + inbase + ".make")
+					pass
 				else:
 					print("# WRITE", _MARKY_BUILD_DIR + inbase + ".make")
 					_marky_write_build(inbase, outdir, None, None)

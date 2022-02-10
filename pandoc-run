@@ -22,18 +22,21 @@ pipe_tables+\
 line_blocks+\
 implicit_figures+\
 abbreviations+\
-inline_notes
+inline_notes+\
+bracketed_spans+\
+native_divs+\
+native_spans+\
+footnotes
+
 
 PDOPT="""
---table-of-contents
---number-sections
 """
 
 if [ $1 == html ] ; then
 $PANDOC "$2" \
 --filter pandoc-xnos \
 --citeproc \
---from=markdown+raw_html+$MDEXT \
+--from=markdown+$MDEXT \
 --to=html5 \
 --self-contained \
 --output="$3" \
@@ -45,7 +48,7 @@ if [ $1 == pdf ] ; then
 $PANDOC "$2" \
 --filter pandoc-xnos \
 --citeproc \
---from=markdown+raw_tex+$MDEXT \
+--from=markdown+raw_html+$MDEXT \
 --to=latex \
 --output="$3" \
 --resource-path="./build/" \
@@ -61,5 +64,7 @@ $PANDOC "$2" \
 --to=latex \
 --output="$3" \
 --resource-path="./build/" \
+--table-of-contents
+--number-sections
 $PDOPT
 fi

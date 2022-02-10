@@ -4,9 +4,13 @@
 > **`marky` Dynamic Markdown**-- `marky` Markdown Text (*Left*) is rendered
 > into PDF (*Middle*) and HTML (*Right*) by just calling `make scan; make all`.
 
+![*Left*: Marky Markdown, rendered in *Middle*: PDF and *Right:* HTML](data/fmtplotly.png)
+
+> [**`fmtplotly`**](fmtplotly.md) Plot Generation for `pdf` and `html` using `plotly` -- `marky` Markdown Text (*Left*) is rendered in PDF (*Middle*) and HTML (*Right*)
+
 ![*Left*: Marky Markdown, rendered in *Middle*: PDF and *Right:* HTML](data/fmtplot.png)
 
-> [**`fmtplot`**](fmtplot.md) Plot Generation for `pdf` and `html` -- `marky` Markdown Text (*Left*) is rendered in PDF (*Middle*) and HTML (*Right*)
+> [**`fmtplot`**](fmtplot.md) Plot Generation for `pdf` and `html` using `flot` and `matplotlib` -- `marky` Markdown Text (*Left*) is rendered in PDF (*Middle*) and HTML (*Right*)
 
 
 

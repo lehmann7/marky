@@ -1,0 +1,13 @@
+#!/bin/bash
+
+cd $(dirname $0)
+mkdir -p fmtplotlyjs
+cd fmtplotlyjs && \
+for i in                                                            \
+https://cdn.plot.ly/plotly-2.8.3.min.js \
+#
+do
+
+[ ! -e $(basename $i) ] && wget $i
+
+done
