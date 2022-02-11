@@ -734,8 +734,11 @@ def _marky_file_mtime_newer(f1, f2):
 def _marky_file_make_basename(f):
 	return "/".join(".".join(f.split(".")[0:-1]).split("/")[1:])
 
-def _marky_mdtext_print(*args, sep=" ", shift="", crop=False, ret=False, code=False, text=False, pop=True,
-	file=None, __marky__=False, raw=False, aux=False, cmd=None, meta=False):
+def _marky_mdtext_print(*args, sep=" ",
+	shift="", join="\n", crop=False, ret=False,
+	code=False, text=False, pop=True, meta=False,
+	file=None, __marky__=False, raw=False, aux=False, cmd=None
+	):
 	# MD output: args, sep=" ", shift="", crop=False, ret=False
 	# MD code output: code=False, pop=True
 	# MD include: file, __marky__, raw, aux
@@ -786,13 +789,13 @@ def _marky_mdtext_print(*args, sep=" ", shift="", crop=False, ret=False, code=Fa
 		else:
 			_marky_run(file, _marky_file_make_basename(file), __marky__)
 		return
-	if len(args) == 0:
+	if len(args) == 0 or (len(args) == 1 and args[0] == _marky_mdtext_print):
 		if _MARKY_EXEC_APPEND == False: _MARKY_EXEC_TEXT += "\n"
 		_MARKY_EXEC_APPEND = False
 	else:
-		if ret: return _marky_mdtext_ret(args[0], shift, crop)
-		if crop or shift != "":
-			_marky_mdtext_crop(args[0], shift, crop)
+		if ret: return _marky_mdtext_ret(args[0], shift, crop, join)
+		if crop or shift != "" or join != "\n":
+			_marky_mdtext_crop(args[0], shift, crop, join)
 			if args[-1] == _marky_mdtext_print:
 				_MARKY_EXEC_APPEND = True
 			return
@@ -808,7 +811,7 @@ def _marky_mdtext_print(*args, sep=" ", shift="", crop=False, ret=False, code=Fa
 		_MARKY_EXEC_APPEND = exec_append_new
 		_marky_print_mark(text, end="" if _MARKY_EXEC_APPEND else "\n")
 
-def _marky_mdtext_crop(arg, shift, crop):
+def _marky_mdtext_crop(arg, shift, crop, join):
 	global _MARKY_EXEC_TEXT
 	global _MARKY_EXEC_APPEND
 	if not type(arg) is str:
@@ -820,12 +823,16 @@ def _marky_mdtext_crop(arg, shift, crop):
 		if len(arg[-1].strip()) == 0:
 			arg = arg[:-1]
 	n = len(arg[0]) - len(arg[0].lstrip())
+	newtext = ""
 	for i in arg:
 		if crop and len(i[0:n].lstrip()) == 0:
 			i = i[n:]
-		_MARKY_EXEC_TEXT += "\n" + shift + i
+		newtext += join + shift + i
+	if join != "\n" and "\n" in newtext:
+		newtext = join.join(newtext.split("\n"))
+	_MARKY_EXEC_TEXT += newtext
 
-def _marky_mdtext_ret(arg, shift="", crop=True):
+def _marky_mdtext_ret(arg, shift, crop, join):
 	if not type(arg) is str:
 		arg = str(arg)
 	text = []
@@ -836,11 +843,14 @@ def _marky_mdtext_ret(arg, shift="", crop=True):
 		if len(arg[-1].strip()) == 0:
 			arg = arg[:-1]
 	n = len(arg[0]) - len(arg[0].lstrip())
+	newtext = ""
 	for i in arg:
 		if crop and len(i[0:n].lstrip()) == 0:
 			i = i[n:]
-		text.append(shift + i)
-	return "\n".join(text)
+		newtext += join + shift + i
+	if join != "\n" and "\n" in newtext:
+		newtext = join.join(newtext.split("\n"))
+	return newtext
 
 ########################################################################
 
@@ -849,22 +859,22 @@ class _marky_fmtcall:
 		self.name = name
 		self.fmtc = fmtc
 	def __call__(self, *args, **kwargs):
-		text = "<<?html "
+		text = "<<!html"
 		f = getattr(self.fmtc.html, self.name)
 		if callable(f):
 			v = f(*args, **kwargs)
 			if type(v) is str: text += v
 		elif type(f) is str:
 			text += f.format(*args, **kwargs)
-		text += " html?>>"
-		text += "<<?pdf "
+		text += "!>>"
+		text += "<<!pdf"
 		f = getattr(self.fmtc.pdf, self.name)
 		if callable(f):
 			v = f(*args, **kwargs)
 			if type(v) is str: text += v
 		elif type(f) is str:
 			text += f.format(*args, **kwargs)
-		text += " pdf?>>"
+		text += "!>>"
 		return text
 
 class _marky_fmtcode:
@@ -872,22 +882,22 @@ class _marky_fmtcode:
 		if not html is None: self.html = html
 		if not pdf is None: self.pdf = pdf
 	def __call__(self, *args, **kwargs):
-		text = "<<?html "
+		text = "<<!html"
 		f = self.html
 		if callable(f):
 			v = f(*args, **kwargs)
 			if type(v) is str: text += v
 		elif type(f) is str:
 			text += f.format(*args, **kwargs)
-		text += " html?>>"
-		text += "<<?pdf "
+		text += "!>>"
+		text += "<<!pdf"
 		f = self.pdf
 		if callable(f):
 			v = f(*args, **kwargs)
 			if type(v) is str: text += v
 		elif type(f) is str:
 			text += f.format(*args, **kwargs)
-		text += " pdf?>>"
+		text += "!>>"
 		return text
 	def __getattr__(self, name):
 		return _marky_fmtcall(name, self)
@@ -984,8 +994,8 @@ def _marky_run(fname, inbase, run=True):
 			if p1 < p0:
 				print(t[max(0, p0-250):p0+2])
 				print("# ERROR", "?> before <?", r"... (can use <\? and ?\> for escaping)")
-				if "<!?" in t:
-					print("# there is <!? in text, did you mean: <?!")
+				if "<<!?" in t:
+					print("# there is <<!? in text, did you mean: <?!")
 				sys.exit(1)
 			if p0 > 0: r += _marky_code_text(t[p:p0])
 			p1 = t.find("?>", p0)
@@ -1073,21 +1083,20 @@ def _marky_link(front, md_text, link):
 	md_text = md_text.replace(r".\???", r".???")
 	md_text = md_text.replace(r".\\???", r".\???")
 	lsep = 3
-	len_args = len(link) + 1
 	c = 0
 	newtext = ""
-	p = md_text.find("<<?")
+	p = md_text.find("<<!")
 	while p >= 0:
-		q = md_text.find("?>>", p + lsep)
+		q = md_text.find("!>>", p + lsep)
 		if q > 0:
 			newtext += md_text[c:p]
 			expr = md_text[p+lsep:q]
-			if expr.startswith(link) and expr.endswith(link):
-				newtext += expr[len_args:-len_args]
+			if expr.startswith(link):
+				newtext += expr[len(link):]
 			c = q + lsep
-			p = md_text.find("<<?", c)
+			p = md_text.find("<<!", c)
 		else:
-			p = md_text.find("<<?", p + lsep)
+			p = md_text.find("<<!", p + lsep)
 	newtext += md_text[c:]
 	flink = _marky_meta_link(front, link)
 	return _marky_front_join(flink, newtext)

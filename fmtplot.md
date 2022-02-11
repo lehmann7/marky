@@ -77,6 +77,7 @@ The format code has the following arguments.
 
 ```python
 <?
+
 pltdat = fmtplot(
 	html=fmtplot_flot(aspect=(16, 9)),
 	pdf=fmtplot_mplt(figdir="data", figsize=(16, 9),
@@ -116,6 +117,7 @@ Plot `data` is specified in two sequences containing `x` and `y` values
 of point coordinates.
 ```python
 <?
+
 import numpy as np
 x1 = np.array(range(10)) + 0
 x2 = np.array(range(10)) + 1
@@ -148,6 +150,7 @@ A sequence with the label `None` does not appear in the legend and
 in the `html` choices.
 ```python
 <?
+
 label=[
 	"Label for (x1, y1)",
 	"Label for (x2, y2)",
@@ -172,6 +175,7 @@ is the `styleid` identifier string and the other elements are arguments
 
 ```python
 <?
+
 style=[
 	( "^", 11),
 	( "o", 11),
@@ -214,6 +218,7 @@ For each data sequence `(x, y)` the color for lines and points is
 specified in a list.
 ```python
 <?
+
 color=[
 	"#ff0000",
 	"#00ff00",
@@ -237,6 +242,7 @@ the keyword @`fig:plot1`.
 
 ```python
 <?
+
 ___(pltdat.setup("plot1", data, label=label, style=style, color=color))
 ___(pltdat.show("plot1", """This figure is generated using the format code
 fmtplot.plot(...) with the arguments data, label, style, color
@@ -244,8 +250,10 @@ described above. The figure caption is set using the argument caption.
 """))
 ?>
 ```
+
 <div class="flot-plot" id="flot-plot1-dummy">
 </div>
+
 <div id="fig:plot1" class="fignos">
 <figure>
 <div class="flot-16-9">
@@ -287,6 +295,7 @@ A legend in figures is specified using one of the keywords
 placed in the upper right corner using `nw`.
 ```python
 <?
+
 legin = fmtplot(
 	html=fmtplot_flot(legpos="nw", legcols=2),
 	pdf=fmtplot_mplt(legpos="nw", legcols=2)
@@ -297,8 +306,10 @@ the plot using legpos as one of nw, ne, sw, se and with 2 columns
 using legcols=2."""))
 ?>
 ```
+
 <div class="flot-plot" id="flot-plot2-dummy">
 </div>
+
 <div id="fig:plot2" class="fignos">
 <figure>
 <div class="flot-16-9">
@@ -321,6 +332,7 @@ A legend in a separate image is specified using the keyword `out`.
 @fig:plot3 has a separate legend given in @fig:plot3-legend.
 ```python
 <?
+
 legout = fmtplot(
 	html=fmtplot_flot(legpos="out", legcols=2),
 	pdf=fmtplot_mplt(legpos="out", legcols=2)
@@ -330,8 +342,10 @@ ___(legout.show("plot3", """This plot is generated with separate legend
 using legpos=out and with 2 columns using legcols=2."""))
 ?>
 ```
+
 <div class="flot-plot" id="flot-plot3-dummy">
 </div>
+
 <div id="fig:plot3" class="fignos">
 <figure>
 <div class="flot-16-9">
@@ -357,10 +371,12 @@ format code is called. The figure @fig:plot3 is referenced by appending
 `-legend` using the keyword @`fig:plot3-legend`.
 ```python
 <?
+
 ___(legout.legend("plot3", caption="""This is the legend for @fig:plot3.
 It was placed using the format code fmtplot.legend(figid, caption)."""))
 ?>
 ```
+
 <div id="fig:plot3-legend" class="fignos">
 <figure>
 <div class="flot-legend" id="flot-plot3-legend"></div>
@@ -378,6 +394,7 @@ It was placed using the format code fmtplot.legend(figid, caption)."""))
 
 ```python
 <?
+
 ex = fmtplot(
 	html=fmtplot_flot(legpos="out", legcols=2),
 	pdf=fmtplot_mplt(legpos="out", legcols=2)
@@ -409,15 +426,18 @@ ___(ex.setup(
 ))
 ?>
 ```
+
 <div class="flot-plot" id="flot-plotex-dummy">
 </div>
 
 
  ```python
 <?
+
 ___(ex.show("plotex", """This plot is generated."""))
 ?>
 ```
+
 <div id="fig:plotex" class="fignos">
 <figure>
 <div class="flot-16-9">
@@ -434,9 +454,11 @@ ___(ex.show("plotex", """This plot is generated."""))
 
 ```python
 <?
+
 ___(ex.legend("plotex", caption="""This is the legend for @fig:plotex."""))
 ?>
 ```
+
 <div id="fig:plotex-legend" class="fignos">
 <figure>
 <div class="flot-legend" id="flot-plotex-legend"></div>
@@ -457,6 +479,7 @@ The is feature is demonstrated in @fig:plot4. The checkboxes are
 located below the figure.
 ```python
 <?
+
 choice = fmtplot(
 	html=fmtplot_flot(legpos="ne", legcols=2),
 	pdf=fmtplot_mplt(legpos="ne", legcols=2)
@@ -467,8 +490,10 @@ code fmtplot.choice(figid). For html output, a list of checkboxes is
 generated inside a div-tag. For pdf no output is generated."""))
 ?>
 ```
+
 <div class="flot-plot" id="flot-plot4-dummy">
 </div>
+
 <div id="fig:plot4" class="fignos">
 <figure>
 <div class="flot-16-9">
@@ -491,6 +516,7 @@ are placed inside a `<div>` tag.
 For `pdf` output there no choice is displayed.
 ```python
 <?
+
 ___(choice.choice("plot4"))
 ?>
 ```
@@ -507,6 +533,7 @@ JavaScripts have to be placed at the end of the document.
 For `pdf` no output is generated.
 ```python
 <?
+
 ___(pltdat.script())
 ___(ex.script())
 ___(legin.script())

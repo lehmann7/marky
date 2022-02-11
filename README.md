@@ -40,6 +40,7 @@ are embedded directly inside the Markdown text.
 
 ```php
 <?
+
 x = 123.45
 LEG = lambda v, w: "lesser" if v < w else "equal or greater"
 ?>
@@ -60,6 +61,7 @@ algorithms and dynamically inserted into the resulting Markdown.
 #### Example 2: Dynamic Text from Code 
 ```php
 <?
+
 for i in range(3):
 	___(f"{i+1}. `i = {i}`", "abcdefghij"[0:(i+1)*3])
 ?>
@@ -120,6 +122,7 @@ of text. In the following, two in-depth examples of `marky` are presented.
 
 ```php
 <?
+
 x = 123
 y = 45
 def abc_fun(v, a, b, c):
@@ -545,6 +548,7 @@ Title of this document is {{title}} and font size is {{fontsize}}.
 #### Example 2 
 
 ```python
+
 x = int(1)
 y = float(2.3)
 z = 0
@@ -585,6 +589,7 @@ print("Hello console!")
 #### Run and Output 
 
 ```python
+
 x = 42 # visible code
 print("Hello console!")
 ```
@@ -599,6 +604,7 @@ Using `<?...?>` code is executed but not shown in Markdown.
 #### Example 
 ```python
 <?
+
 x = 41 # hidden code
 ___(f"Output to Markdown. x = {x}!")
 ?>
@@ -669,6 +675,7 @@ inserted dynamically into the document during preprocessing.
 #### Example: Line Break 
 ```python
 <?
+
 x = 40 # hidden code
 ___("Output in ", ___)
 ___("single line! ", ___)
@@ -684,6 +691,7 @@ Output in single line! x = 40
 #### Example: Shift, Crop, Return 
 ```python
 <?
+
 result = ___("""
    * text is cropped and shifted
          * shift and crop
@@ -695,6 +703,7 @@ ___(result)
 ```
 #### Run and Output 
 ```bash
+
 ########* text is cropped and shifted
 ########      * shift and crop
 ########         * can be combined
@@ -708,6 +717,7 @@ ___(result)
 
 
 ```python
+
 n = 5
 table = ""
 dec = ["*%s*", "**%s**", "~~%s~~", "`%s`",
@@ -771,6 +781,7 @@ JavaScript and style sheets for `html` using the meta data fields
 #### Example: `fmtcode` 
 
 ```python
+
 F = fmtcode(html="H<sup>T</sup><sub>M</sub>L", pdf=r"\LaTeX")
 ```
 ```markdown
@@ -782,6 +793,7 @@ Invocation of format code results in: {{F()}}.
 #### Example: Color 
 
 ```python
+
 C = lambda color: fmtcode(
 	html="<span style='color:%s;'>{0}</span>" % color,
 	pdf=r"\textcolor{{%s}}{{{0}}}" % color
@@ -799,6 +811,7 @@ Text with {{B("blue")}} and {{R("RED")}}.
 #### Example: Classes 
 
 ```python
+
 class color:
 	def __init__(self, color):
 		self.color = color
@@ -923,6 +936,7 @@ title: My Document
 date: "unknown"
 ---
 <?
+
 import datetime
 today = datetime.date.today().strftime("%B %d, %Y")
 data = ___(meta=True)
@@ -934,7 +948,7 @@ data["date"] = today
 ```php
 ---
 title: My Document
-date: "February 10, 2022"
+date: "February 11, 2022"
 version: "1.0"
 ---
 ```

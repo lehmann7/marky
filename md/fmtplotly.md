@@ -10,7 +10,13 @@ header-includes--html: >
    <style>* { box-sizing: border-box; } body { max-width: 90vw !important; }</style>
    <script src="data/fmtplotlyjs/plotly-2.8.3.min.js"></script>
 ---
-<?
+<?!
+import plotly as py
+import plotly.subplots as sp
+import plotly.graph_objs as go
+import plotly.figure_factory as ff
+import plotly.express as px
+?><?
 import os
 import base64
 import datetime
@@ -96,13 +102,6 @@ pip install plotly
 ```python
 {{___(code=True, crop=True)}}
 ```
-<?!
-	import plotly as py
-	import plotly.subplots as sp
-	import plotly.graph_objs as go
-	import plotly.figure_factory as ff
-	import plotly.express as px
-	?>
 
 # Documentation
 
