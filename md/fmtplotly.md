@@ -77,7 +77,7 @@ class fmtplotly(fmtcode):
 			![{caption}](data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8z/C/HgAGgwJ/lK3Q6wAAAABJRU5ErkJggg==){{#fig:{figid}}}
 
 			{htmltext}
-			<script>(function(figure){{ figure.replaceChild(document.getElementById('fmtplotly:{figid}'), figure.firstElementChild); }})(document.getElementById('fig:{figid}').firstElementChild);</script>
+			<script>(function(figure){{figure.replaceChild(document.getElementById('fmtplotly:{figid}'),figure.firstElementChild);}})(document.getElementById('fig:{figid}').firstElementChild);</script>
 			{scripttext}
 		''', crop=True, ret=True)
 

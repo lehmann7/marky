@@ -948,7 +948,7 @@ data["date"] = today
 ```php
 ---
 title: My Document
-date: "February 11, 2022"
+date: "February 15, 2022"
 version: "1.0"
 ---
 ```

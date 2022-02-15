@@ -105,6 +105,11 @@ all_quiet := $(filter quiet,$(MAKECMDGOALS))
 quiet:
 	# enable ./marky --quiet [...]
 
+all_auxcmd := $(filter auxcmd,$(MAKECMDGOALS))
+.PHONY: auxcmd
+auxcmd:
+	# enable ./marky --auxcmd [...]
+
 ########################################################################
 
 marky_alias:=

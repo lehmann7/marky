@@ -107,26 +107,28 @@ CgljZCBodG1sICYmIHB5dGhvbiAtbSBodHRwLnNlcnZlcgoKLlBIT05ZOiBzY2FuCnNjYW46
 CgkuL21hcmt5LnB5IC0tc2NhbgoKLlBIT05ZOiByZXNjYW4KcmVzY2FuOgoJLi9tYXJreS5w
 eSAtLXNjYW4gLS1mb3JjZQoKYWxsX3F1aWV0IDo9ICQoZmlsdGVyIHF1aWV0LCQoTUFLRUNN
 REdPQUxTKSkKLlBIT05ZOiBxdWlldApxdWlldDoKCSMgZW5hYmxlIC4vbWFya3kgLS1xdWll
-dCBbLi4uXQoKIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMj
-IyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjCgptYXJreV9hbGlhczo9Ci1pbmNsdWRlIGJ1
-aWxkLyoubWFrZSBidWlsZC8qKi8qLm1ha2UKCiMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMj
-IyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIwoKLlBIT05Z
-OiBsaW5rCmJ1aWxkOiAkKGZvcmVhY2ggaSwkKG1hcmt5X2FsaWFzKSxidWlsZC8kKGkpKQoK
-LlBIT05ZOiBodG1sCmh0bWw6ICQoZm9yZWFjaCBpLCQobWFya3lfYWxpYXMpLGh0bWwvJChp
-KSkKCi5QSE9OWTogcGRmCnBkZjogJChmb3JlYWNoIGksJChtYXJreV9hbGlhcykscGRmLyQo
-aSkpCgouUEhPTlk6IHRleAp0ZXg6ICQoZm9yZWFjaCBpLCQobWFya3lfYWxpYXMpLHRleC8k
-KGkpKQoKLlBIT05ZOiBhdXgKYXV4OiAkKGZvcmVhY2ggaSwkKG1hcmt5X2FsaWFzKSxhdXgv
-JChpKSkKCi5QSE9OWTogY2xlYW4KY2xlYW46CglybSAtcmYgLi9idWlsZC8qIC4vaHRtbC8q
-IC4vcGRmLyoKCi5QSE9OWTogYWxsCmFsbDogaHRtbCBwZGYKCi5QSE9OWTogbGlzdApsaXN0
-OgoJIwoJIyBtYXJreSBUQVJHRVRTCgkjIyMjIyMjIyMjIyMjIyMKCSMgbWFrZSBzY2FuLzxB
-TElBUz4gIC0gY3JlYXRlIE1ha2VmaWxlIGBidWlsZC88QUxJQVM+Lm1ha2VgCgkjIG1ha2Ug
-YnVpbGQvPEFMSUFTPiAtIGJ1aWxkIGBidWlsZC88QUxJQVM+LntodG1sLHBkZn0ubWQscHlg
-CgkjIG1ha2UgdGV4LzxBTElBUz4gICAtIGJ1aWxkIGBidWlsZC88QUxJQVM+LnRleGAKCSMg
-bWFrZSBodG1sLzxBTElBUz4gIC0gYnVpbGQgYGh0bWwvPEFMSUFTPi5odG1sYAoJIyBtYWtl
-IHBkZi88QUxJQVM+ICAgLSBidWlsZCBgcGRmLzxBTElBUz4ucGRmYAoJIyBtYWtlIGF1eC88
-QUxJQVM+ICAgLSBydW4gYXV4IGNvbW1hbmRzIGZvciA8QUxJQVM+CgkjIG1ha2UgY2xlYW4v
-PEFMSUFTPiAtIGNsZWFuIGZpbGVzLCBrZWVwOmBtYWtlLGh0bWwscGRmLHRleGAKCSMKCSMg
-PEFMSUFTPgoJIyMjIyMjIyMjCgkjJChtYXJreV9hbGlhcykK
+dCBbLi4uXQoKYWxsX2F1eGNtZCA6PSAkKGZpbHRlciBhdXhjbWQsJChNQUtFQ01ER09BTFMp
+KQouUEhPTlk6IGF1eGNtZAphdXhjbWQ6CgkjIGVuYWJsZSAuL21hcmt5IC0tYXV4Y21kIFsu
+Li5dCgojIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMj
+IyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMKCm1hcmt5X2FsaWFzOj0KLWluY2x1ZGUgYnVpbGQv
+Ki5tYWtlIGJ1aWxkLyoqLyoubWFrZQoKIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMj
+IyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjCgouUEhPTlk6IGxp
+bmsKYnVpbGQ6ICQoZm9yZWFjaCBpLCQobWFya3lfYWxpYXMpLGJ1aWxkLyQoaSkpCgouUEhP
+Tlk6IGh0bWwKaHRtbDogJChmb3JlYWNoIGksJChtYXJreV9hbGlhcyksaHRtbC8kKGkpKQoK
+LlBIT05ZOiBwZGYKcGRmOiAkKGZvcmVhY2ggaSwkKG1hcmt5X2FsaWFzKSxwZGYvJChpKSkK
+Ci5QSE9OWTogdGV4CnRleDogJChmb3JlYWNoIGksJChtYXJreV9hbGlhcyksdGV4LyQoaSkp
+CgouUEhPTlk6IGF1eAphdXg6ICQoZm9yZWFjaCBpLCQobWFya3lfYWxpYXMpLGF1eC8kKGkp
+KQoKLlBIT05ZOiBjbGVhbgpjbGVhbjoKCXJtIC1yZiAuL2J1aWxkLyogLi9odG1sLyogLi9w
+ZGYvKgoKLlBIT05ZOiBhbGwKYWxsOiBodG1sIHBkZgoKLlBIT05ZOiBsaXN0Cmxpc3Q6Cgkj
+CgkjIG1hcmt5IFRBUkdFVFMKCSMjIyMjIyMjIyMjIyMjIwoJIyBtYWtlIHNjYW4vPEFMSUFT
+PiAgLSBjcmVhdGUgTWFrZWZpbGUgYGJ1aWxkLzxBTElBUz4ubWFrZWAKCSMgbWFrZSBidWls
+ZC88QUxJQVM+IC0gYnVpbGQgYGJ1aWxkLzxBTElBUz4ue2h0bWwscGRmfS5tZCxweWAKCSMg
+bWFrZSB0ZXgvPEFMSUFTPiAgIC0gYnVpbGQgYGJ1aWxkLzxBTElBUz4udGV4YAoJIyBtYWtl
+IGh0bWwvPEFMSUFTPiAgLSBidWlsZCBgaHRtbC88QUxJQVM+Lmh0bWxgCgkjIG1ha2UgcGRm
+LzxBTElBUz4gICAtIGJ1aWxkIGBwZGYvPEFMSUFTPi5wZGZgCgkjIG1ha2UgYXV4LzxBTElB
+Uz4gICAtIHJ1biBhdXggY29tbWFuZHMgZm9yIDxBTElBUz4KCSMgbWFrZSBjbGVhbi88QUxJ
+QVM+IC0gY2xlYW4gZmlsZXMsIGtlZXA6YG1ha2UsaHRtbCxwZGYsdGV4YAoJIwoJIyA8QUxJ
+QVM+CgkjIyMjIyMjIyMKCSMkKG1hcmt5X2FsaWFzKQo=
 '''
 pack_pandoc_run = '''
 IyEvYmluL2Jhc2gKClsgJCMgPT0gMCBdICYmIGVjaG8gIiIiCiMgVXNhZ2U6ICQwOiA8Rk9S
@@ -764,22 +766,19 @@ def _marky_mdtext_print(*args, sep=" ",
 		if aux:
 			if not os.path.exists(file):
 				if cmd is None or len(cmd.strip()) == 0:
-					_marky_print_mesg("aux file not found:", file)
-					sys.exit(1)
-				_marky_print_mesg("run aux cmd for", file, ":", cmd)
-				if callable(cmd):
-					cmd()
-				elif type(cmd) is str:
-					os.system(cmd)
-				else:
-					_marky_print_mesg("ERROR", "___(file, cmd=...) has wrong value:", cmd)
-					sys.exit(1)
-				if not os.path.exists(file):
-					_marky_print_mesg("aux file not found:", file)
-					sys.exit(1)
-			else:
+					pass
+				elif _MARKY_AUXCMD:
+					_marky_print_mesg("run aux cmd for", file, ":", cmd)
+					if callable(cmd):
+						cmd()
+					elif type(cmd) is str:
+						os.system(cmd)
+					else:
+						_marky_print_mesg("ERROR", "___(file, cmd=...) has wrong value:", cmd)
+						sys.exit(1)
+			if os.path.exists(file):
 				_marky_print_mesg("aux file exists:", file)
-			_MARKY_INCLUDE_LIST.append(file)
+				_MARKY_INCLUDE_LIST.append(file)
 			_MARKY_COMMAND_LIST.append("" if cmd is None or len(str(cmd).strip()) == 0 else cmd)
 		elif raw:
 			if not os.path.exists(file):
@@ -859,7 +858,7 @@ class _marky_fmtcall:
 		self.name = name
 		self.fmtc = fmtc
 	def __call__(self, *args, **kwargs):
-		text = "<<!html"
+		text = "<<!HTML"
 		f = getattr(self.fmtc.html, self.name)
 		if callable(f):
 			v = f(*args, **kwargs)
@@ -867,7 +866,7 @@ class _marky_fmtcall:
 		elif type(f) is str:
 			text += f.format(*args, **kwargs)
 		text += "!>>"
-		text += "<<!pdf"
+		text += "<<!PDF"
 		f = getattr(self.fmtc.pdf, self.name)
 		if callable(f):
 			v = f(*args, **kwargs)
@@ -882,7 +881,7 @@ class _marky_fmtcode:
 		if not html is None: self.html = html
 		if not pdf is None: self.pdf = pdf
 	def __call__(self, *args, **kwargs):
-		text = "<<!html"
+		text = "<<!HTML"
 		f = self.html
 		if callable(f):
 			v = f(*args, **kwargs)
@@ -890,7 +889,7 @@ class _marky_fmtcode:
 		elif type(f) is str:
 			text += f.format(*args, **kwargs)
 		text += "!>>"
-		text += "<<!pdf"
+		text += "<<!PDF"
 		f = self.pdf
 		if callable(f):
 			v = f(*args, **kwargs)
@@ -1079,6 +1078,7 @@ def _marky_meta_link(front, link):
 	return flink
 
 def _marky_link(front, md_text, link):
+	flink = _marky_meta_link(front, link)
 	md_text = md_text.replace(".???", "." + link)
 	md_text = md_text.replace(r".\???", r".???")
 	md_text = md_text.replace(r".\\???", r".\???")
@@ -1086,6 +1086,7 @@ def _marky_link(front, md_text, link):
 	c = 0
 	newtext = ""
 	p = md_text.find("<<!")
+	link = link.upper()
 	while p >= 0:
 		q = md_text.find("!>>", p + lsep)
 		if q > 0:
@@ -1098,7 +1099,6 @@ def _marky_link(front, md_text, link):
 		else:
 			p = md_text.find("<<!", p + lsep)
 	newtext += md_text[c:]
-	flink = _marky_meta_link(front, link)
 	return _marky_front_join(flink, newtext)
 
 def _marky_write_build(inbase, outdir, front, mark):
@@ -1122,8 +1122,7 @@ scan/{inbase}:
 {_MARKY_BUILD_DIR+inbase}.md: {_MARKY_MD_DIR+inbase}.md $(marky_dep_{inname})
 	mkdir -p "{_MARKY_BUILD_DIR+outdir}"
 	ln -snf ../{_MARKY_DATA_DIR} {_MARKY_BUILD_DIR+_MARKY_DATA_DIR}
-	ln -snf ../{_MARKY_DATA_DIR} {_MARKY_MD_DIR+_MARKY_DATA_DIR}
-	./marky.py --base="{inbase}" $(if $(all_quiet),--quiet,)
+	./marky.py --base="{inbase}" $(if $(all_quiet),--quiet,) $(if $(all_auxcmd),--auxcmd,)
 
 .PHONY: build/{inbase}
 build/{inbase}: {_MARKY_BUILD_DIR+inbase}.md
@@ -1158,6 +1157,7 @@ tex/{inbase}: {_MARKY_BUILD_DIR+inbase}.tex
 
 {fmt}/{inbase}.{fmt}: {_MARKY_BUILD_DIR+inbase}.{fmt}.md {_MARKY_MD_DIR+inbase}.md
 	mkdir -p "{fmt}/{outdir}"
+	ln -snf ../{_MARKY_DATA_DIR} {fmt}/{_MARKY_DATA_DIR}
 	./pandoc-run {fmt} {_MARKY_BUILD_DIR+inbase}.{fmt}.md {fmt}/{inbase}.{fmt}
 
 .PHONY: {fmt}/{inbase}
@@ -1227,6 +1227,7 @@ _MARKY_PASTE_CODE = list()
 _MARKY_PASTE_TEXT = 0
 _MARKY_BUILD_PYTHON = None
 _MARKY_COMMAND_LIST = list()
+_MARKY_AUXCMD = False
 
 ########################################################################
 
@@ -1244,11 +1245,13 @@ if __name__ == "__main__":
 	parser.add_argument("--pack", action='store_true', help="pack files (" + ", ".join(_MARKY_PACK_FILES) + ") into marky.py.pack source")
 	parser.add_argument("--scan", action='store_true', help="create build/*.make from md/*.md")
 	parser.add_argument("--quiet", action='store_true', help="do not show Markdown output")
+	parser.add_argument("--auxcmd", action='store_true', help="run aux commands")
 
 	# ~ args, uargs = parser.parse_known_args()
 	args = parser.parse_args()
 
 	sys.path.append("/".join(sys.argv[0].split("/")[0:-1]))
+	_MARKY_AUXCMD = args.auxcmd
 
 ########################################################################
 
