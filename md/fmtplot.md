@@ -705,9 +705,3 @@ For `pdf` no output is generated.
 	___(legout.script())
 	___(choice.script())
 	?>
-
----
-
-*Thanks for reading, please try* `fmtplot`.
-
----

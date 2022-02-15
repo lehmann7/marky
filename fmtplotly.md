@@ -69,7 +69,7 @@ ___(P("figid", fig, caption="Put the figure caption text here ..."))
 
 ![Put the figure caption text here ...](data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8z/C/HgAGgwJ/lK3Q6wAAAABJRU5ErkJggg==){#fig:figid}
 
-<div id='fmtplotly:figid'> <div id="7276737c-e460-44c8-b974-dfe5250b5f84" class="plotly-graph-div" style="height:100%; width:100%;"></div> </div>
+<div id='fmtplotly:figid'> <div id="dbfc576d-b69d-421a-942e-1c07dfea2411" class="plotly-graph-div" style="height:100%; width:100%;"></div> </div>
 
 
 # Subplots Example
@@ -77,7 +77,7 @@ ___(P("figid", fig, caption="Put the figure caption text here ..."))
 
 ![hello](data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8z/C/HgAGgwJ/lK3Q6wAAAABJRU5ErkJggg==){#fig:plotgrid}
 
-<div id='fmtplotly:plotgrid'> <div id="c69047d4-5fd9-4331-8e17-7cee4787d202" class="plotly-graph-div" style="height:500px; width:100%;"></div> </div>
+<div id='fmtplotly:plotgrid'> <div id="53f60843-1116-4d56-8676-35aa6f7c3e87" class="plotly-graph-div" style="height:500px; width:100%;"></div> </div>
 
 
 This is a reference to *@fig:plotgrid, which was created using the following code.
@@ -124,7 +124,7 @@ ___(P("plotgrid", fig, caption="hello", height=P.width))
 
 ![hello](data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8z/C/HgAGgwJ/lK3Q6wAAAABJRU5ErkJggg==){#fig:quiver}
 
-<div id='fmtplotly:quiver'> <div id="2d9fa55b-cb7e-4626-824c-8a4b0769dc68" class="plotly-graph-div" style="height:100%; width:100%;"></div> </div>
+<div id='fmtplotly:quiver'> <div id="f792a112-5421-4630-b91b-627b69271a01" class="plotly-graph-div" style="height:100%; width:100%;"></div> </div>
 
 
 This is a reference to *@fig:quiver, which was created using the following code.
@@ -144,7 +144,7 @@ ___(P("quiver", fig, caption="hello"))
 
 ![hello](data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8z/C/HgAGgwJ/lK3Q6wAAAABJRU5ErkJggg==){#fig:barandline}
 
-<div id='fmtplotly:barandline'> <div id="6d2a7bcd-f013-48b8-8779-277446326eb3" class="plotly-graph-div" style="height:100%; width:100%;"></div> </div>
+<div id='fmtplotly:barandline'> <div id="d431765e-42dd-40e1-826c-c9151aa4e9bf" class="plotly-graph-div" style="height:100%; width:100%;"></div> </div>
 
 
 This is a reference to *@fig:barandline, which was created using the following code.
@@ -163,7 +163,7 @@ ___(P("barandline", fig, caption="hello"))
 
 ![hello](data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8z/C/HgAGgwJ/lK3Q6wAAAABJRU5ErkJggg==){#fig:iris}
 
-<div id='fmtplotly:iris'> <div id="6e0cc2a2-54f4-449a-bada-d475ce40122b" class="plotly-graph-div" style="height:100%; width:100%;"></div> </div>
+<div id='fmtplotly:iris'> <div id="df04eab6-ecca-41eb-b833-1368792f375f" class="plotly-graph-div" style="height:100%; width:100%;"></div> </div>
 
 
 This is a reference to *@fig:iris, which was created using the following code.
@@ -189,7 +189,7 @@ ___(P("iris", fig, caption="hello"))
 
 ![hello](data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8z/C/HgAGgwJ/lK3Q6wAAAABJRU5ErkJggg==){#fig:refline}
 
-<div id='fmtplotly:refline'> <div id="ecd9b560-3810-4d7b-874a-5af4541f92a4" class="plotly-graph-div" style="height:100%; width:100%;"></div> </div>
+<div id='fmtplotly:refline'> <div id="88c93c22-8e4c-4b11-a271-02eae9834687" class="plotly-graph-div" style="height:100%; width:100%;"></div> </div>
 
 
 # Bars and Points Example
@@ -197,7 +197,7 @@ ___(P("iris", fig, caption="hello"))
 
 ![hello](data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8z/C/HgAGgwJ/lK3Q6wAAAABJRU5ErkJggg==){#fig:barpoint}
 
-<div id='fmtplotly:barpoint'> <div id="6799dfb2-420a-470e-87cc-a14d966efe12" class="plotly-graph-div" style="height:100%; width:100%;"></div> </div>
+<div id='fmtplotly:barpoint'> <div id="134a7f9d-4320-4c5f-a993-d9823cf5549d" class="plotly-graph-div" style="height:100%; width:100%;"></div> </div>
 
 
 This is a reference to *@fig:barpoint, which was created using the following code.
@@ -223,7 +223,7 @@ ___(P("refline", fig, caption="hello"))
 
 ![hello](data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8z/C/HgAGgwJ/lK3Q6wAAAABJRU5ErkJggg==){#fig:scattertrace}
 
-<div id='fmtplotly:scattertrace'> <div id="379144dd-24b7-4969-ac10-26869f46a8dc" class="plotly-graph-div" style="height:100%; width:100%;"></div> </div>
+<div id='fmtplotly:scattertrace'> <div id="36da10e0-5c22-45bc-8f36-d620412c7c94" class="plotly-graph-div" style="height:100%; width:100%;"></div> </div>
 
 
 This is a reference to *@fig:scattertrace, which was created using the following code.
@@ -251,7 +251,7 @@ ___(P("barpoint", fig, caption="hello"))
 
 ![hello](data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8z/C/HgAGgwJ/lK3Q6wAAAABJRU5ErkJggg==){#fig:bubble1}
 
-<div id='fmtplotly:bubble1'> <div id="c19cf811-5a74-4b62-88ab-b99558ccd510" class="plotly-graph-div" style="height:100%; width:100%;"></div> </div>
+<div id='fmtplotly:bubble1'> <div id="ecc22a47-49ab-4965-9895-e2dcbe599057" class="plotly-graph-div" style="height:100%; width:100%;"></div> </div>
 
 
 This is a reference to *@fig:bubble1, which was created using the following code.
@@ -272,7 +272,7 @@ ___(P("scattertrace", fig, caption="hello"))
 
 ![hello](data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8z/C/HgAGgwJ/lK3Q6wAAAABJRU5ErkJggg==){#fig:bubble2}
 
-<div id='fmtplotly:bubble2'> <div id="e0aaefb3-f977-4ced-b505-ecccb7c54ef5" class="plotly-graph-div" style="height:100%; width:100%;"></div> </div>
+<div id='fmtplotly:bubble2'> <div id="3cd8f683-6e45-4bac-b4d1-2a96d5bc7332" class="plotly-graph-div" style="height:100%; width:100%;"></div> </div>
 
 
 This is a reference to *@fig:bubble2, which was created using the following code.
@@ -292,7 +292,7 @@ ___(P("bubble1", fig, caption="hello"))
 
 ![hello](data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8z/C/HgAGgwJ/lK3Q6wAAAABJRU5ErkJggg==){#fig:bubble3}
 
-<div id='fmtplotly:bubble3'> <div id="cd6d7e30-dde9-4100-a25b-2411f2706dea" class="plotly-graph-div" style="height:100%; width:100%;"></div> </div>
+<div id='fmtplotly:bubble3'> <div id="5c72e363-39cc-40ed-85e6-42504313728e" class="plotly-graph-div" style="height:100%; width:100%;"></div> </div>
 
 
 This is a reference to *@fig:bubble3, which was created using the following code.
@@ -317,7 +317,7 @@ ___(P("bubble2", fig, caption="hello"))
 
 ![hello](data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8z/C/HgAGgwJ/lK3Q6wAAAABJRU5ErkJggg==){#fig:bubble4}
 
-<div id='fmtplotly:bubble4'> <div id="4036f215-769e-448a-b110-904261e1b144" class="plotly-graph-div" style="height:100%; width:100%;"></div> </div>
+<div id='fmtplotly:bubble4'> <div id="a6c586bd-0793-40fe-b6ef-1e2d9d93f48c" class="plotly-graph-div" style="height:100%; width:100%;"></div> </div>
 
 
 This is a reference to *@fig:bubble4, which was created using the following code.
@@ -344,7 +344,7 @@ ___(P("bubble3", fig, caption="hello"))
 
 ![hello](data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8z/C/HgAGgwJ/lK3Q6wAAAABJRU5ErkJggg==){#fig:sankey}
 
-<div id='fmtplotly:sankey'> <div id="1bf29d0b-9d52-4cf3-97d9-de9f7aa84f59" class="plotly-graph-div" style="height:100%; width:100%;"></div> </div>
+<div id='fmtplotly:sankey'> <div id="83328da0-84e0-45d6-b4d2-b324070e49b8" class="plotly-graph-div" style="height:100%; width:100%;"></div> </div>
 
 
 This is a reference to *@fig:sankey, which was created using the following code.
@@ -369,7 +369,7 @@ ___(P("bubble4", fig, caption="hello"))
 
 ![hello](data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8z/C/HgAGgwJ/lK3Q6wAAAABJRU5ErkJggg==){#fig:piechart}
 
-<div id='fmtplotly:piechart'> <div id="22861a71-1349-4085-aa1b-bdaa9bf21ce6" class="plotly-graph-div" style="height:100%; width:100%;"></div> </div>
+<div id='fmtplotly:piechart'> <div id="7a37b5af-bc4d-432a-92f8-fe79e449b3a9" class="plotly-graph-div" style="height:100%; width:100%;"></div> </div>
 
 
 This is a reference to *@fig:piechart, which was created using the following code.
@@ -387,7 +387,7 @@ ___(P("piechart", fig, caption="hello"))
 
 ![hello](data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8z/C/HgAGgwJ/lK3Q6wAAAABJRU5ErkJggg==){#fig:piecrot}
 
-<div id='fmtplotly:piecrot'> <div id="6b7d43ba-349d-415b-bba4-c0ab265de1ca" class="plotly-graph-div" style="height:100%; width:100%;"></div> </div>
+<div id='fmtplotly:piecrot'> <div id="ad9fc1ba-9679-465d-b61f-9407e4f953bf" class="plotly-graph-div" style="height:100%; width:100%;"></div> </div>
 
 
 This is a reference to *@fig:piecrot, which was created using the following code.
@@ -407,7 +407,7 @@ ___(P("piecrot", fig, caption="hello"))
 
 ![hello](data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8z/C/HgAGgwJ/lK3Q6wAAAABJRU5ErkJggg==){#fig:piehole}
 
-<div id='fmtplotly:piehole'> <div id="101fbe00-8524-4593-b54d-875ce7f78de0" class="plotly-graph-div" style="height:100%; width:100%;"></div> </div>
+<div id='fmtplotly:piehole'> <div id="67a9a4c2-4ad7-459a-995f-4543e1c4912b" class="plotly-graph-div" style="height:100%; width:100%;"></div> </div>
 
 
 This is a reference to *@fig:piehole, which was created using the following code.
@@ -425,7 +425,7 @@ ___(P("piehole", fig, caption="hello"))
 
 ![hello](data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8z/C/HgAGgwJ/lK3Q6wAAAABJRU5ErkJggg==){#fig:barxrot}
 
-<div id='fmtplotly:barxrot'> <div id="6d8dd90a-fe64-4fbd-9519-15b8fa5fb4cd" class="plotly-graph-div" style="height:100%; width:100%;"></div> </div>
+<div id='fmtplotly:barxrot'> <div id="ceb6a022-9ff6-4721-a26a-de9238fd0ab5" class="plotly-graph-div" style="height:100%; width:100%;"></div> </div>
 
 
 This is a reference to *@fig:barxrot, which was created using the following code.
@@ -457,7 +457,7 @@ ___(P("barxrot", fig, caption="hello"))
 
 ![hello](data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8z/C/HgAGgwJ/lK3Q6wAAAABJRU5ErkJggg==){#fig:linetext}
 
-<div id='fmtplotly:linetext'> <div id="d7a9d313-cd4e-4a80-bd93-fd862e0fd190" class="plotly-graph-div" style="height:100%; width:100%;"></div> </div>
+<div id='fmtplotly:linetext'> <div id="8ae8694c-9b55-47da-bc48-73e297d4c32d" class="plotly-graph-div" style="height:100%; width:100%;"></div> </div>
 
 
 This is a reference to *@fig:linetext, which was created using the following code.
@@ -475,7 +475,7 @@ ___(P("linetext", fig, caption="hello"))
 
 ![hello](data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8z/C/HgAGgwJ/lK3Q6wAAAABJRU5ErkJggg==){#fig:linemini}
 
-<div id='fmtplotly:linemini'> <div id="d76c6824-8414-4bc2-a435-b6697846eb4c" class="plotly-graph-div" style="height:200px; width:200px;"></div> </div>
+<div id='fmtplotly:linemini'> <div id="867f023e-b85f-4672-ad79-773cb676381a" class="plotly-graph-div" style="height:200px; width:200px;"></div> </div>
 
 
 This is a reference to *@fig:linemini, which was created using the following code.
@@ -500,7 +500,7 @@ ___(P("linemini", fig, caption="hello"))
 
 ![hello](data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8z/C/HgAGgwJ/lK3Q6wAAAABJRU5ErkJggg==){#fig:linenp}
 
-<div id='fmtplotly:linenp'> <div id="7d1648a5-549c-4078-9ac4-e39269b4c4c4" class="plotly-graph-div" style="height:100%; width:100%;"></div> </div>
+<div id='fmtplotly:linenp'> <div id="23d869da-359a-4f09-8ab9-5384effb5951" class="plotly-graph-div" style="height:100%; width:100%;"></div> </div>
 
 
 This is a reference to *@fig:linenp, which was created using the following code.
@@ -517,7 +517,7 @@ ___(P("linenp", fig, caption="hello"))
 
 ![hello](data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8z/C/HgAGgwJ/lK3Q6wAAAABJRU5ErkJggg==){#fig:linesnp}
 
-<div id='fmtplotly:linesnp'> <div id="1ab72623-9375-419b-a85d-2fa8c8c8ff96" class="plotly-graph-div" style="height:100%; width:100%;"></div> </div>
+<div id='fmtplotly:linesnp'> <div id="9631ddfa-7327-4ce6-aee1-a2ca4c58dfc0" class="plotly-graph-div" style="height:100%; width:100%;"></div> </div>
 
 
 This is a reference to *@fig:linesnp, which was created using the following code.
@@ -546,7 +546,7 @@ ___(P("linesnp", fig, caption="hello"))
 
 ![hello](data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8z/C/HgAGgwJ/lK3Q6wAAAABJRU5ErkJggg==){#fig:linestyle}
 
-<div id='fmtplotly:linestyle'> <div id="f4954411-7691-4896-a96f-7233c673834b" class="plotly-graph-div" style="height:100%; width:100%;"></div> </div>
+<div id='fmtplotly:linestyle'> <div id="c70ffc15-8576-4a4f-a8e7-cb95d20763a7" class="plotly-graph-div" style="height:100%; width:100%;"></div> </div>
 
 
 This is a reference to *@fig:linestyle, which was created using the following code.
@@ -587,7 +587,7 @@ ___(P("linestyle", fig, caption="hello"))
 
 ![hello](data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8z/C/HgAGgwJ/lK3Q6wAAAABJRU5ErkJggg==){#fig:linesmooth}
 
-<div id='fmtplotly:linesmooth'> <div id="a2e5bb1a-3ecb-4bc8-88d7-f4b92b7af45f" class="plotly-graph-div" style="height:100%; width:100%;"></div> </div>
+<div id='fmtplotly:linesmooth'> <div id="019f5d1c-a490-401d-b28f-cbe394711177" class="plotly-graph-div" style="height:100%; width:100%;"></div> </div>
 
 
 This is a reference to *@fig:linesmooth, which was created using the following code.
@@ -621,7 +621,7 @@ ___(P("linesmooth", fig, caption="hello"))
 
 ![hello](data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8z/C/HgAGgwJ/lK3Q6wAAAABJRU5ErkJggg==){#fig:linesadv}
 
-<div id='fmtplotly:linesadv'> <div id="55d52329-ec83-43c1-baa5-e9681e7e8565" class="plotly-graph-div" style="height:100%; width:100%;"></div> </div>
+<div id='fmtplotly:linesadv'> <div id="0a05dba2-1013-42b7-ba77-8c60dcfd1d48" class="plotly-graph-div" style="height:100%; width:100%;"></div> </div>
 
 
 This is a reference to *@fig:linesadv, which was created using the following code.

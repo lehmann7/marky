@@ -552,9 +552,3 @@ ___(choice.script())
 
 </script>
 
-
----
-
-*Thanks for reading, please try* `fmtplot`.
-
----
